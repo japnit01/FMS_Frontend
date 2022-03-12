@@ -1,8 +1,12 @@
-import React from 'react'
+import React from 'react';
+
+import Form from './Form';
 
 function MyFest() {
   return (
-    <div>MyFest</div>
+    <>
+    <Form></Form>
+    </>
   )
 }
 
