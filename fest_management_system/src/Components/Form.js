@@ -28,7 +28,7 @@ function Form() {
             <CustomTextField label={"Description"} id={"desc"} type={"text"} width={"100%"}></CustomTextField>
             <CustomTextField label={"Start Date"} date={true} id={"stime"} type={"time"} width={"50%"}></CustomTextField>
             <CustomTextField label={"End Date"} date={true} id={"etime"} type={"time"} width={"50%"}></CustomTextField>
-            <CustomTextField label={"Venue"} id={"venue"} type={"text"}></CustomTextField>
+            <CustomTextField label={"Venue"} id={"venue"} type={"text"} width={"100%"}></CustomTextField>
             <CustomTextField label={"Fee"} id={"fee"} type={"number"}></CustomTextField>
           </DialogContent>
           <DialogActions>
