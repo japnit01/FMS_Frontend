@@ -11,40 +11,12 @@ function SignUp() {
   const host = "http://localhost:5000"
 
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("")
-  const [college, setCollege] = useState("");
-  const [age, setAge] = useState("0");
-  const [password, setPassword] = useState("");
-  const [retypepass, setRetypePass] = useState("");
+  const [user,setuser] = useState({name:"",email:"",age:"",password:""});
 
-  // const onChange = (e) =>{
-  //   setnote({...note,[e.target.name]:e.target.value})
-  // }
-
-  let handleNameChange = (e)=> {
-    setName(e.target.name);
-  }
-
-  let handleEmailChange = (e)=> {
-    setEmail(e.target.email);
-  }
-
-  let handleCollegeChange = (e)=> {
-    setCollege(e.target.college);
-  }
-
-  let handleAgeChange = (e)=> {
-    setAge(e.target.age);
-  }
-
-  let handlePasswordChange = (e)=> {
-    setPassword(e.target.password);
-  }
-
-  let handleRetypePassChange = (e)=> {
-    setRetypePass(e.target.retypepass);
-  }
+  const onChange = (e) =>{
+    setuser({...user,[e.target.name]:e.target.value})
+    console.log(user)
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -70,18 +42,21 @@ function SignUp() {
     //     body: JSON.stringify(jsonData),
     // };
 
-    console.log(name,email,age,password)
+    // console.log(user.name,user.email,user.age,user.password)
+    let jsonData = {name:user.name,email:user.email,age:user.age,password:user.password};
+    console.log(jsonData);
+
     const url = `${host}/api/auth/signup`
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({name,email,age,password})
+      body: JSON.stringify(jsonData)
     });
     const newuser = await response.json();
     console.log(newuser)
-    // setnotes(notes.concat(note))
+    // setusers(users.concat(user))
   
 
     setOpen(false);
@@ -96,12 +71,12 @@ function SignUp() {
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle>SIGNUP</DialogTitle>
           <DialogContent>
-            <CustomTextField label={"Name"} id={"name"} type={"text"} width={"100%"} onChange={handleNameChange} ></CustomTextField>
-            <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} onChange={handleEmailChange}></CustomTextField>
-            <CustomTextField label={"College"} id={"college"} type={"text"} width={"100%"} onChange={handleCollegeChange}></CustomTextField>
-            <CustomTextField label={"Age"} id={"age"} type={"number"} width={"50%"} onChange={handleAgeChange}></CustomTextField>
-            <CustomTextField label={"Create Password"} id={"password"} type={"password"} width={"100%"} onChange={handlePasswordChange}></CustomTextField>
-            <CustomTextField label={"Confirm Password"} id={"confirm-pass"} type={"password"} width={"100%"} onChange={handleRetypePassChange}></CustomTextField>
+            <CustomTextField label={"Name"} id={"name"} type={"text"} width={"100%"} changefunc={onChange} value={user.name} name={"name"}></CustomTextField>
+            <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} changefunc={onChange} value={user.email} name={"email"}></CustomTextField>
+            <CustomTextField label={"College"} id={"college"} type={"text"} width={"100%"}></CustomTextField>
+            <CustomTextField label={"Age"} id={"age"} type={"number"} width={"50%"} changefunc={onChange} value={user.age} name={"age"}></CustomTextField>
+            <CustomTextField label={"Create Password"} id={"password"} type={"password"} width={"100%"} changefunc ={onChange} value={user.password} name={"password"}></CustomTextField>
+            <CustomTextField label={"Confirm Password"} id={"confirm-pass"} type={"password"} width={"100%"}></CustomTextField>
           </DialogContent>
           <DialogActions>
             <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
