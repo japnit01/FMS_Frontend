@@ -8,13 +8,19 @@ import CustomTextField from './CustomTextField';
 
 function SignUp() {
 
+  const host = "http://localhost:5000"
+
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("")
   const [college, setCollege] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState("0");
   const [password, setPassword] = useState("");
   const [retypepass, setRetypePass] = useState("");
+
+  // const onChange = (e) =>{
+  //   setnote({...note,[e.target.name]:e.target.value})
+  // }
 
   let handleNameChange = (e)=> {
     setName(e.target.name);
@@ -48,26 +54,40 @@ function SignUp() {
     setOpen(false);
   };
 
-  const createAccountAndClose = ()=> {
-    let jsonData = {
-      name,
-      email,
-      college,
-      age,
-      password,
-      retypepass
-    }
+  const createAccountAndClose = async()=> {
+    // let jsonData = {
+    //   name,
+    //   email,
+    //   college,
+    //   age,
+    //   password,
+    //   retypepass
+    // }
 
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonData
-    };
+    // const requestOptions = {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(jsonData),
+    // };
+
+    console.log(name,email,age,password)
+    const url = `${host}/api/auth/signup`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({name,email,age,password})
+    });
+    const newuser = await response.json();
+    console.log(newuser)
+    // setnotes(notes.concat(note))
+  
 
     setOpen(false);
 
-    fetch('http://localhost:5000/api/auth/signup', requestOptions)
-        .then(response => response.json());
+    // fetch('http://localhost:5000/api/auth/signup', requestOptions)
+    //     .then(response => response.json());
   };
 
   return (
