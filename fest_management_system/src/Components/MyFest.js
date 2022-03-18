@@ -12,7 +12,7 @@ function MyFest() {
     setFests(temp);
   }
 
-  const fetchFests = ()=> {                          
+  const fetchFests = async()=> {                          
   
     let url = '/api/fests/fetchfests'
   //   $.ajax({
@@ -25,13 +25,14 @@ function MyFest() {
   //   })
 
     const response = await fetch(url, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(jsonData)
+      // body: JSON.stringify(jsonData)
     });
-    const newuser = await response.json();
+    const newfest = await response.json();
+    setFests(newfest);
   }
 
   return (

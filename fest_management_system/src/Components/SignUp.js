@@ -45,8 +45,8 @@ function SignUp() {
 
     if(newuser.success)
     {
-        localStorage.setItem('token',json.token)
-        history("/")
+        localStorage.setItem('token',newuser.token)
+        window.history("/")
     }
     else
     {
