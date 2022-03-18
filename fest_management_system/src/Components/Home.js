@@ -12,15 +12,11 @@ function Home() {
         <Link to="/myfestivals">My Festivals</Link>
       </div>
       <div>
-        <Link to="/login">Login</Link>
+        <Link to="/api/auth/login">Login</Link>
       </div>
       <div>
-        <Link to="/signup">Sign Up</Link>
+        <Link to="/api/auth/signup">Sign Up</Link>
       </div>
-      
-      {/* <div>
-        <Link to="/add-competition">Add Competition</Link>
-      </div> */}
     </>
   );
 }

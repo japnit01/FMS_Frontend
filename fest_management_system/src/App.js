@@ -19,9 +19,9 @@ function App() {
     <Routes>
       <Route exact path="/" element={<Home />}/>
       <Route exact path="/myfestivals" element={<MyFest />} />
-      <Route exact path="/login" element={<Login />} />
-      <Route exact path="/signup" element={<SignUp />} />
-      <Route exact path="/add-competition" element={<Competition />} />
+      <Route exact path="/api/auth/login" element={<Login />} />
+      <Route exact path="/api/auth/signup" element={<SignUp />} />
+      <Route exact path="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions" element={<Competition />} />
     </Routes>
   </BrowserRouter>
     </>

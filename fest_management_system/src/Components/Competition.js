@@ -23,7 +23,7 @@ const Competition = () => {
 
     
 
-    const url = `${host}/api/competitions/add-competition`
+    const url = `${host}/api/competitions/6234851442854e82f4eb1c2b/add-competition`
     setOpen(false);
 
     const response = await fetch(url, {

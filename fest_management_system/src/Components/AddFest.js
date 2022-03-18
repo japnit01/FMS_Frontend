@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
 
-function AddFest() {
+function AddFest(props) {
   const [open, setOpen] = useState(false);
   let [fest,setFest] = useState({title:"",desc:"",sdate:"",edate:"",venue:"",fee:""});
   let host = 'http://localhost:5000'
@@ -19,7 +19,9 @@ function AddFest() {
   const handleCreateFest = async()=> {
     let jsonData = {title:fest.title,desc:fest.desc,sdate:fest.sdate,edate:fest.edate,venue:fest.venue,fee:fest.fee};
     console.log(jsonData);
+    setOpen(false);
 
+    // props.handleFests();
 
     const url = `${host}/api/fests/addfest`
     const response = await fetch(url, {
@@ -30,7 +32,6 @@ function AddFest() {
       body: JSON.stringify(jsonData)
     });
     const newfest = await response.json();
-    setOpen(false);
     console.log(newfest)
   }
 
