@@ -17,6 +17,12 @@ function Home() {
       <div>
         <Link to="/api/auth/signup">Sign Up</Link>
       </div>
+      <div>
+        <Link to="/form">Form</Link>
+      </div>
+      <div>
+        <Link to="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions">Get Competitions</Link>
+      </div>
     </>
   );
 }
