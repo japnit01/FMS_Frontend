@@ -9,15 +9,17 @@ import CustomTextField from "./CustomTextField";
 function Login() {
   const host = "http://localhost:5000";
   const [open, setOpen] = useState(false);
-  const [user, setuser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({email:"",password:""});
 
   const onChange = (e) => {
-    setuser({ ...user, [e.target.name]: e.target.value });
-    console.log(user);
-  };
+    setUser({...user,[e.target.name]:e.target.value});
+  }
 
-  const handleLogin = async() => {
-    let jsonData = { email: user.email, password: user.password };
+  const handleLogin = async()=> {
+    let jsonData = {
+      email:user.email,
+      password:user.password
+    }
 
     const url = `${host}/api/auth/login`;
     const response = await fetch(url, {

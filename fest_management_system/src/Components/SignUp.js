@@ -27,9 +27,11 @@ function SignUp() {
   };
 
   const createAccountAndClose = async()=> {
-
+    
     let jsonData = {name:user.name,email:user.email,age:user.age,password:user.password};
     console.log(jsonData);
+
+    // setOpen(false);
 
     const url = `${host}/api/auth/signup`
     const response = await fetch(url, {
@@ -47,6 +49,7 @@ function SignUp() {
 
   return (
     <>
+
       <CustomButton name={"Signup"} clickfunc={handleClickOpen}></CustomButton>
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle>SIGNUP</DialogTitle>
