@@ -42,6 +42,17 @@ function SignUp() {
       body: JSON.stringify(jsonData)
     });
     const newuser = await response.json();
+
+    if(newuser.success)
+    {
+        localStorage.setItem('token',json.token)
+        history("/")
+    }
+    else
+    {
+        alert("Invalid Credentials")
+    }
+
     console.log(newuser)
 
     setOpen(false);

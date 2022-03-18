@@ -13,7 +13,8 @@ function MyFest() {
   }
 
   const fetchFests = ()=> {                          
-    
+  
+    let url = '/api/fests/fetchfests'
   //   $.ajax({
   //     url: '/api/fests/fetchfests',
   //     method: 'GET',
@@ -22,6 +23,15 @@ function MyFest() {
   //       setFests(response)
   //     }
   //   })
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonData)
+    });
+    const newuser = await response.json();
   }
 
   return (

@@ -32,6 +32,16 @@ function Login() {
     const newuser = await response.json();
     console.log(newuser);
 
+    if(newuser.success)
+    {
+        localStorage.setItem('token',json.token)
+        history("/")
+    }
+    else
+    {
+        alert("Invalid Credentials")
+    }
+
     setOpen(false);
   };
 
