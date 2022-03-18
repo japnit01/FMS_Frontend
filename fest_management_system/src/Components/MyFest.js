@@ -1,49 +1,46 @@
-import {React,useState} from 'react';
-// import AddFest from './Components/AddFest';
+import {React,useEffect,useState} from 'react';
 import { Link} from "react-router-dom";
 
 function MyFest() {
+  const host = "http://localhost:5000"
+  let [fests,setFests] = useState({});
 
-  let [fests,setFests] = useState([]);
+  // const handleFests = (fest) => {
+  //   let temp = fests;
+  //   temp.push(fest);
+  //   setFests(temp);
+  // }
 
-  const handleFests = (fest) => {
-    let temp = fests;
-    temp.push(fest);
-    setFests(temp);
-  }
-
-  const fetchFests = async()=> {                          
-  
-    let url = '/api/fests/fetchfests'
-  //   $.ajax({
-  //     url: '/api/fests/fetchfests',
-  //     method: 'GET',
-  //     success: (response) => {
-  //       console.log(response);
-  //       setFests(response)
-  //     }
-  //   })
-
+  const fetchFests = async()=> {
+    const url = `${host}/api/fests/fetchfest`;
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      },
-      // body: JSON.stringify(jsonData)
+        "Content-Type": "application/json",
+        'token': localStorage.getItem('token')
+      }
     });
-    const newfest = await response.json();
-    setFests(newfest);
+    const userfests = await response.json();
+    console.log(userfests);
+
+    setFests(userfests);
   }
+
+  useEffect(() => {
+    if(localStorage.getItem('token'))
+        fetchFests();
+
+    //eslint-disable-next-line
+  })
+
+  
 
   return (
     <>
-      {/* <AddFest handleFests={handleFests}/> */}
-
-      {fests.forEach(fest => {
-        <Link to="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions">
+      {fests}
+      {/* {fests.forEach(fest => {
           <ul>
               <li>
-              {/* :"",desc:"",sdate:"",edate:"",venue:"",fee:"" */}
                 {fest.title}
               </li>
               <li>
@@ -62,8 +59,7 @@ function MyFest() {
                 {fest.fee}
               </li>
           </ul>
-       </Link>
-      })}
+      })} */}
     </>
   )
 }

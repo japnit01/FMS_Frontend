@@ -4,7 +4,7 @@ import Login from './Components/Login';
 import SignUp from './Components/SignUp';
 import MyFest from './Components/MyFest';
 import Home from './Components/Home';
-import Competition from './Components/Competition';
+import Competition from './Components/AddCompetition';
 import {
   BrowserRouter,
   Routes,
