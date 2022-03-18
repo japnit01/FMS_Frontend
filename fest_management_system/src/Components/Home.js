@@ -17,6 +17,10 @@ function Home() {
       <div>
         <Link to="/signup">Sign Up</Link>
       </div>
+      
+      {/* <div>
+        <Link to="/add-competition">Add Competition</Link>
+      </div> */}
     </>
   );
 }

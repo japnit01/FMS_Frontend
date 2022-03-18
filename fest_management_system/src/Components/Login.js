@@ -8,21 +8,17 @@ import CustomTextField from './CustomTextField';
 
 function Login() {
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({email:"",password:""});
+  let host = 'http://localhost:5000'
 
-  let handleEmailChange = (e)=> {
-    setEmail(e.target.email);
-  }
-  
-  let handlePasswordChange = (e)=> {
-      setPassword(e.target.password);
+  const onChange = (e) => {
+    setUser({...user,[e.target.name]:e.target.value});
   }
 
-  const handleLogin = ()=> {
+  const handleLogin = async()=> {
     let jsonData = {
-      email,
-      password
+      email:user.email,
+      password:user.password
     }
 
     const requestOptions = {
@@ -31,10 +27,14 @@ function Login() {
         body: jsonData
     };
 
+    let url = `${host}/api/auth/login`;
+
     setOpen(false);
 
-    fetch('http://localhost:5000/api/auth/login', requestOptions)
-        .then(response => response.json());
+    let response = await fetch(url,requestOptions);
+    let newuser = await response.json();
+    console.log(newuser);
+  
   };
 
   const handleClickOpen = () => {
@@ -51,8 +51,8 @@ function Login() {
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle>LOGIN</DialogTitle>
           <DialogContent>
-            <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} onChange={handleEmailChange}></CustomTextField>
-            <CustomTextField label={"Password"} id={"password"} type={"password"} width={"100%"} onChange={handlePasswordChange}></CustomTextField>
+          <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} changefunc={onChange} value={user.email} name={"email"}></CustomTextField>
+          <CustomTextField label={"Password"} id={"password"} type={"password"} width={"100%"} changefunc ={onChange} value={user.password} name={"password"}></CustomTextField>
           </DialogContent>
           <DialogActions>
             <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
