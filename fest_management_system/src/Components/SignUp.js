@@ -5,9 +5,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
-
+  let history = useNavigate();
   const host = "http://localhost:5000"
 
   const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ function SignUp() {
     if(newuser.success)
     {
         localStorage.setItem('token',newuser.token)
-        window.history("/")
+        history("/")
     }
     else
     {

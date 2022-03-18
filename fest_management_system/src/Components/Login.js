@@ -5,8 +5,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  let history = useNavigate();
   const host = "http://localhost:5000";
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({email:"",password:""});
@@ -35,7 +37,7 @@ function Login() {
     if(newuser.success)
     {
         localStorage.setItem('token',newuser.token)
-        window.history("/")
+        history("/")
     }
     else
     {

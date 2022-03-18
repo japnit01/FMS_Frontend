@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
 
-const Competition = () => {
+const AddCompetition = () => {
 
   const [open, setOpen] = useState(false);
   let [competition,setCompetition] = useState({comp_type: "",comp_name: "",startTime: "",endTime: "",description: "",date: "",venue: "",fee: ""});
@@ -51,7 +51,7 @@ const Competition = () => {
         <div>
             <CustomButton name={"Create New Competition"} clickfunc={handleClickOpen}></CustomButton>
             <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>New Fest !!!</DialogTitle>
+            <DialogTitle>New Competition !!!</DialogTitle>
             <DialogContent>
                 <CustomTextField label={"Type"} id={"type"} type={"text"} width={"100%"} changefunc={onChange} value={competition.comp_type} name={"comp_type"}></CustomTextField>
                 <CustomTextField label={"Title"} id={"title"} type={"text"} width={"100%"} changefunc={onChange} value={competition.comp_name} name={"comp_name"}></CustomTextField>
@@ -72,4 +72,4 @@ const Competition = () => {
   )
 }
 
-export default Competition
+export default AddCompetition
