@@ -1,40 +1,36 @@
-import {React,useState} from 'react'
+import { React, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomButton from './CustomButton';
-import CustomTextField from './CustomTextField';
+import CustomButton from "./CustomButton";
+import CustomTextField from "./CustomTextField";
 
 function Login() {
+  const host = "http://localhost:5000";
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setuser] = useState({ email: "", password: "" });
 
-  let handleEmailChange = (e)=> {
-    setEmail(e.target.email);
-  }
-  
-  let handlePasswordChange = (e)=> {
-      setPassword(e.target.password);
-  }
+  const onChange = (e) => {
+    setuser({ ...user, [e.target.name]: e.target.value });
+    console.log(user);
+  };
 
-  const handleLogin = ()=> {
-    let jsonData = {
-      email,
-      password
-    }
+  const handleLogin = async() => {
+    let jsonData = { email: user.email, password: user.password };
 
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonData
-    };
+    const url = `${host}/api/auth/login`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonData),
+    });
+    const newuser = await response.json();
+    console.log(newuser);
 
     setOpen(false);
-
-    fetch('http://localhost:5000/api/auth/login', requestOptions)
-        .then(response => response.json());
   };
 
   const handleClickOpen = () => {
@@ -49,18 +45,34 @@ function Login() {
     <>
       <CustomButton name={"Login"} clickfunc={handleClickOpen}></CustomButton>
       <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>LOGIN</DialogTitle>
-          <DialogContent>
-            <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} onChange={handleEmailChange}></CustomTextField>
-            <CustomTextField label={"Password"} id={"password"} type={"password"} width={"100%"} onChange={handlePasswordChange}></CustomTextField>
-          </DialogContent>
-          <DialogActions>
-            <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
-            <CustomButton name={"Login"} clickfunc={handleLogin}></CustomButton>
-          </DialogActions>
+        <DialogTitle>LOGIN</DialogTitle>
+        <DialogContent>
+          <CustomTextField
+            label={"Email"}
+            id={"email"}
+            type={"email"}
+            width={"100%"}
+            changefunc={onChange}
+            value={user.email}
+            name={"email"}
+          ></CustomTextField>
+          <CustomTextField
+            label={"Create Password"}
+            id={"password"}
+            type={"password"}
+            width={"100%"}
+            changefunc={onChange}
+            value={user.password}
+            name={"password"}
+          ></CustomTextField>
+        </DialogContent>
+        <DialogActions>
+          <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
+          <CustomButton name={"Login"} clickfunc={handleLogin}></CustomButton>
+        </DialogActions>
       </Dialog>
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;

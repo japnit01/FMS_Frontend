@@ -27,22 +27,7 @@ function SignUp() {
   };
 
   const createAccountAndClose = async()=> {
-    // let jsonData = {
-    //   name,
-    //   email,
-    //   college,
-    //   age,
-    //   password,
-    //   retypepass
-    // }
 
-    // const requestOptions = {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(jsonData),
-    // };
-
-    // console.log(user.name,user.email,user.age,user.password)
     let jsonData = {name:user.name,email:user.email,age:user.age,password:user.password};
     console.log(jsonData);
 
@@ -56,13 +41,8 @@ function SignUp() {
     });
     const newuser = await response.json();
     console.log(newuser)
-    // setusers(users.concat(user))
-  
 
     setOpen(false);
-
-    // fetch('http://localhost:5000/api/auth/signup', requestOptions)
-    //     .then(response => response.json());
   };
 
   return (

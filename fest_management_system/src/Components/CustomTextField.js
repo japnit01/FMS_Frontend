@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from '@mui/material/InputAdornment';
 
 function CustomTextField(props) {
-    const {label,id,type,width,date,changefunc,value,name} = props;
+    const {label,id,type,width,date,changefunc,value,name,mr,ml} = props;
   return (
       <>
       <TextField
@@ -11,7 +11,7 @@ function CustomTextField(props) {
               id={id}
               label={label}
               type={type}
-              sx={{width:{width}}}
+              sx={{width:{width}, mr:{mr}, ml:{ml}}}
               variant="filled"
               value={value}
               name={name}
