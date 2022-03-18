@@ -39,6 +39,9 @@ function MyFest() {
                 {fest.name}
               </li>
               <li>
+                {fest.organisation}
+              </li>
+              <li>
                 {fest.desc}
               </li>
               <li>
