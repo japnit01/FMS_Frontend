@@ -14,49 +14,54 @@ function MyFest() {
       }
     });
     const userfests = await response.json();
-    // console.log(userfests);
-    const copyfests = JSON.parse(JSON.stringify(userfests));
-    console.log(fests)
-    setFests(copyfests)
-      console.log(fests)
+    return userfests
   }
 
   useEffect(() => {
+    console.log("here")
     if(localStorage.getItem('token'))
-        fetchFests();
-
-    //eslint-disable-next-line
-  },[fests])
-
-  
+    {
+          let mounted = true;
+          fetchFests()
+            .then(userfests => {
+            if(mounted) {
+              const copyfests = JSON.parse(JSON.stringify(userfests));
+              console.log(copyfests)
+              setFests(copyfests);
+            }
+          })
+        return () => mounted = false;
+    }
+  },[])
 
   return (
     <>
-      {/* {fests} */}
-      {fests.forEach(fest => {
-          <ul>
-              <li>
-                {fest.name}
-              </li>
-              <li>
-                {fest.organisation}
-              </li>
-              <li>
-                {fest.desc}
-              </li>
-              <li>
-                {fest.sdate}
-              </li>
-              <li>
-                {fest.edate}
-              </li>
-              <li>
-                {fest.venue}
-              </li>
-              <li>
-                {fest.fee}
-              </li>
-          </ul>
+      {fests.map((fest) => {
+        return(
+          <ul key={fest._id}>
+          <li>
+            {fest.name}
+          </li>
+          <li>
+            {fest.organisation}
+          </li>
+          {/* <li>
+            {fest.desc}
+          </li>
+          <li>
+            {fest.sdate}
+          </li>
+          <li>
+            {fest.edate}
+          </li>
+          <li>
+            {fest.venue}
+          </li>
+          <li>
+            {fest.fee}
+          </li> */}
+      </ul>
+        )
       })}
     </>
   )
