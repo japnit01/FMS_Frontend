@@ -17,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Link, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import LoginIcon from '@mui/icons-material/Login';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -211,7 +212,8 @@ function Navbar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
+            
+             {localStorage.getItem('token') ? <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -219,9 +221,8 @@ function Navbar() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            ><AccountCircle /></IconButton> : <Link to='/api/auth/login'><IconButton><LoginIcon /></IconButton></Link>}
+            
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
