@@ -63,6 +63,7 @@ function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const host = "http://localhost:5000";
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -76,6 +77,34 @@ function Navbar() {
   };
 
   const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleLogoutAndClose = async()=> {
+
+    let url = `${host}/api/auth/logout`;
+
+    let response = await fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const userlogout = await response.json();
+    console.log(userlogout);
+
+    if(userlogout.success)
+    {
+        localStorage.clear();
+        navigate("/")
+    }
+    else
+    {
+        alert("Unable to logout")
+    }
+
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -103,6 +132,8 @@ function Navbar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogoutAndClose}>Logout</MenuItem>
+
     </Menu>
   );
 

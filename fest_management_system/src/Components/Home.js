@@ -23,6 +23,9 @@ function Home() {
       <div>
         <Link to="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions">Get Competitions</Link>
       </div>
+      <div>
+        <Link to="/api/fests/addfest">Add Fest</Link>
+      </div>
     </>
   );
 }

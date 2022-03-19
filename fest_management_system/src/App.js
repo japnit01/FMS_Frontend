@@ -5,6 +5,7 @@ import SignUp from './Components/SignUp';
 import MyFest from './Components/MyFest';
 import Home from './Components/Home';
 import Competition from './Components/AddCompetition';
+import AddFest from './Components/AddFest'
 import {
   BrowserRouter,
   Routes,
@@ -22,6 +23,8 @@ function App() {
       <Route exact path="/api/auth/login" element={<Login />} />
       <Route exact path="/api/auth/signup" element={<SignUp />} />
       <Route exact path="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions" element={<Competition />} />
+      <Route exact path="/api/competitions/6234851442854e82f4eb1c2b/getCompetitions" element={<Competition />} />
+      <Route exact path="/api/fests/addfest" element={<AddFest />} />
     </Routes>
   </BrowserRouter>
     </>

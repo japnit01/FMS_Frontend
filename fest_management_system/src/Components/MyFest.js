@@ -3,6 +3,7 @@ import {React,useEffect,useState} from 'react';
 function MyFest() {
   const host = "http://localhost:5000"
   let [fests,setFests] = useState([]);
+  
 
   const fetchFests = async()=> {
     const url = `${host}/api/fests/fetchfest`;
@@ -16,6 +17,7 @@ function MyFest() {
     const userfests = await response.json();
     return userfests
   }
+
 
   useEffect(() => {
     console.log("here")
