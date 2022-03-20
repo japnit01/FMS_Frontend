@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 function Login() {
   let history = useNavigate();
@@ -57,7 +57,7 @@ function Login() {
 
   return (
     <>
-      <CustomButton name={"Login"} clickfunc={handleClickOpen}></CustomButton>
+    <CustomButton name={"Login"} clickfunc={handleClickOpen}></CustomButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>LOGIN</DialogTitle>
         <DialogContent>

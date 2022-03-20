@@ -1,4 +1,5 @@
 import {React,useEffect,useState} from 'react';
+import FestForm from './FestForm';
 
 function MyFest() {
   const host = "http://localhost:5000"
@@ -38,6 +39,7 @@ function MyFest() {
 
   return (
     <>
+      <FestForm></FestForm>
       {fests.map((fest) => {
         return(
           <ul key={fest._id}>

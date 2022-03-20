@@ -9,7 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   let history = useNavigate();
-  const host = "http://localhost:5000"
 
   const [open, setOpen] = useState(false);
   const [user,setuser] = useState({name:"",email:"",age:"",password:""});
@@ -30,39 +29,14 @@ function SignUp() {
   const createAccountAndClose = async()=> {
     
     let jsonData = {name:user.name,email:user.email,age:user.age,password:user.password};
-    console.log(jsonData);
 
-    // setOpen(false);
-
-    const url = `${host}/api/auth/signup`
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(jsonData)
-    });
-    const newuser = await response.json();
-
-    if(newuser.success)
-    {
-        localStorage.setItem('token',newuser.token)
-        history("/")
-    }
-    else
-    {
-        alert("Invalid Credentials")
-    }
-
-    console.log(newuser)
 
     setOpen(false);
   };
 
   return (
     <>
-
-      <CustomButton name={"Signup"} clickfunc={handleClickOpen}></CustomButton>
+          <CustomButton name={"Signup"} clickfunc={handleClickOpen}></CustomButton>
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle>SIGNUP</DialogTitle>
           <DialogContent>

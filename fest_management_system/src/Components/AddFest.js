@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
-import Select from 'react-select';
+// import Select from 'react-select';
 
 function AddFest(props) {
   const [open, setOpen] = useState(false);

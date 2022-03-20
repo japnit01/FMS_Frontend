@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
 
-function Form() {
+function FestForm() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -42,4 +42,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default FestForm;
