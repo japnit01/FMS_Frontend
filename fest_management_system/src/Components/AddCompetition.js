@@ -23,13 +23,14 @@ const AddCompetition = () => {
 
     
 
-    const url = `${host}/api/competitions/6234851442854e82f4eb1c2b/add-competition`
+    const url = `${host}/api/competitions/623b104455073b062a330835/add-competition`
     setOpen(false);
 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'token': localStorage.getItem('token')
       },
       body: JSON.stringify(jsonData)
     });

@@ -34,7 +34,8 @@ function AddFest(props) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'token': localStorage.getItem('token')
       },
       body: JSON.stringify(jsonData)
     });
@@ -80,15 +81,17 @@ function AddFest(props) {
               <option value="Choose Organisation" >Choose Organisation</option>
               {organisations.map(organisation => {
                 <option key={organisation} value={organisation}>{organisation}</option>
-                {console.log(organisation)}
+                // {console.log(organisation)}
               })}
             </select>
             {/* <CustomTextField label={"Organisation"} id={"organisation"} type={"text"} width={"100%"} changefunc={onChange} value={fest.organisation} name={"organisation"} ></CustomTextField> */}
             <CustomTextField label={"Description"} id={"desc"} type={"text"} width={"100%"} changefunc={onChange} value={fest.desc} name={"desc"}></CustomTextField>
             <CustomTextField label={"Start Date"} date={true} id={"stime"} type={"time"} width={"50%"} changefunc={onChange} value={fest.sdate} name={"sdate"}></CustomTextField>
             <CustomTextField label={"End Date"} date={true} id={"etime"} type={"time"} width={"50%"} changefunc={onChange} value={fest.edate} name={"edate"}></CustomTextField>
-            <CustomTextField label={"Venue"} id={"venue"} type={"text"} width={"100%"} changefunc={onChange} value={fest.venue} name={"venue"}></CustomTextField>
-            <CustomTextField label={"Fee"} id={"fee"} type={"number"} changefunc={onChange} value={fest.fee} name={"fee"}></CustomTextField>
+            {/* <CustomTextField label={"Venue"} id={"venue"} type={"text"} width={"100%"} changefunc={onChange} value={fest.venue} name={"venue"}></CustomTextField>
+            <CustomTextField label={"Fee"} id={"fee"} type={"number"} changefunc={onChange} value={fest.fee} name={"fee"}></CustomTextField> */}
+            <CustomTextField label={"City"} id={"city"} type={"text"} width={"50%"} changefunc={onChange} value={fest.city} name={"city"}></CustomTextField>
+            <CustomTextField label={"State"} id={"state"} type={"text"} width={"50%"} changefunc={onChange} value={fest.state} name={"state"} ></CustomTextField>
           </DialogContent>
           <DialogActions>
           <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
