@@ -1,14 +1,16 @@
-import {React, useState} from 'react'
+import {React, useState,useContext} from 'react'
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+import authContext from '../Context/auth/authContext';
 
 function SignUp() {
-  let history = useNavigate();
+  const context = useContext(authContext);
+  const {signupuser} = context;
 
   const [open, setOpen] = useState(false);
   const [user,setuser] = useState({name:"",email:"",age:"",password:""});
@@ -26,10 +28,9 @@ function SignUp() {
     setOpen(false);
   };
 
-  const createAccountAndClose = async()=> {
-    
+  const createAccountAndClose = ()=> {
     let jsonData = {name:user.name,email:user.email,age:user.age,password:user.password};
-
+     signupuser(jsonData);
 
     setOpen(false);
   };

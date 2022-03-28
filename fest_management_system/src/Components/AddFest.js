@@ -1,106 +1,211 @@
-import {React,useEffect,useState} from "react";
+import React, { useContext, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomButton from './CustomButton';
-import CustomTextField from './CustomTextField';
-// import Select from 'react-select';
+import CustomTextField from "./CustomTextField";
+import Button from "@mui/material/Button";
+import universities from './universities'
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import festContext from "../Context/fest/festContext"
 
 function AddFest(props) {
-  const [open, setOpen] = useState(false);
-  let [fest,setFest] = useState({title:"",desc:"",sdate:"",edate:"",venue:"",fee:"",organisation:""});
-  // let [selectedOption,setSelectedOption] = useState("");
-  let [organisations,setOrganisations] = useState([]);
-  let host = 'http://localhost:5000'
+	const context = useContext(festContext);
+	const {CreateFest,UpdateFest} = context;
+	const { openbname, formname, formdata} = props;
 
-  const onChange = (e) => {
-    setFest({...fest,[e.target.name]:e.target.value});
-    console.log(fest)
-  }
+	const [open, setOpen] = useState(false);
+	const [fest, setFest] = useState({
+		name: "",
+		description: "",
+		startdate: "",
+		enddate: "",
+		state: "",
+		city: "",
+		organisation: "",
+	});
 
-  useEffect(()=> {
-    handleOrganisations();
-  },[]);
-  
-  const handleCreateFest = async()=> {
-    let jsonData = {title:fest.title,desc:fest.desc,sdate:fest.sdate,edate:fest.edate,venue:fest.venue,fee:fest.fee,organisation:fest.organisation};
-    console.log(jsonData);
-    setOpen(false);
+	const [org, setorg] = React.useState({label:''});
 
-    // props.handleFests();
+	const handleChange = (e,value) => {
+		if(value)
+			setorg({label : value.label});
+	};
 
-    const url = `${host}/api/fests/addfest`
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'token': localStorage.getItem('token')
-      },
-      body: JSON.stringify(jsonData)
-    });
-    const newfest = await response.json();
-    console.log(newfest)
-  }
+	const onChange = (e) => {
+		setFest({ ...fest, [e.target.name]: e.target.value });
+	};
 
-  const handleClickOpen = () => {
-    // handleOrganisations();
-    setOpen(true);
-  };
+	const handleUpdateFest = async (selfest) => {
+		let jsonData = {
+			name: fest.name,
+			description: fest.description,
+			startdate: fest.startdate,
+			enddate: fest.enddate,
+			state: fest.state,
+			city: fest.city,
+			organisation: org.label,
+		};
+		UpdateFest(selfest._id,jsonData);
+		setOpen(false);
+	};
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleCreateFest = async () => {
+		let jsonData = {
+			name: fest.name,
+			description: fest.description,
+			startdate: fest.startdate,
+			enddate: fest.enddate,
+			state: fest.state,
+			city: fest.city,
+			organisation: org.label,
+		};
+		CreateFest(jsonData);
+		setOpen(false);
+	};
 
-  const handleOrganisations = async(e) => {
+	const handleClickOpenFill = () => {
+		const sdate = new Date(formdata.startdate)
+		const edate = new Date(formdata.enddate)
 
-    let response = await fetch('http://universities.hipolabs.com/search?country=india',{
-      method: 'GET',
-      // query: {
-      //   country: india,
-      // }
-    });
-    let orgList = await response.json();
-    // console.log(orgList);
-    orgList = (orgList.map(org => org.name));
-    // console.log(orgList);
-    orgList.sort();
-    setOrganisations(orgList);
-  }
+		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + sdate.getDate();
+		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + edate.getDate();
+		
+		setFest({
+			name: formdata.name,
+			description: formdata.description,
+			startdate: startdate,
+			enddate: enddate,
+			state: formdata.state,
+			city: formdata.city,
+		});
 
+		setorg({label:formdata.organisation});
+		setOpen(true);
+	};
+	
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-  return (
-    <>
-      <div>
-        <CustomButton name={"Create New Fest"} clickfunc={handleClickOpen}></CustomButton>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>New Fest !!!</DialogTitle>
-          <DialogContent>
-            <CustomTextField label={"Title"} id={"title"} type={"text"} width={"100%"} changefunc={onChange} value={fest.title} name={"title"} ></CustomTextField>
-            <select onChange={onChange}>
-              <option value="Choose Organisation" >Choose Organisation</option>
-              {organisations.map(organisation => {
-                <option key={organisation} value={organisation}>{organisation}</option>
-                // {console.log(organisation)}
-              })}
-            </select>
-            {/* <CustomTextField label={"Organisation"} id={"organisation"} type={"text"} width={"100%"} changefunc={onChange} value={fest.organisation} name={"organisation"} ></CustomTextField> */}
-            <CustomTextField label={"Description"} id={"desc"} type={"text"} width={"100%"} changefunc={onChange} value={fest.desc} name={"desc"}></CustomTextField>
-            <CustomTextField label={"Start Date"} date={true} id={"stime"} type={"time"} width={"50%"} changefunc={onChange} value={fest.sdate} name={"sdate"}></CustomTextField>
-            <CustomTextField label={"End Date"} date={true} id={"etime"} type={"time"} width={"50%"} changefunc={onChange} value={fest.edate} name={"edate"}></CustomTextField>
-            {/* <CustomTextField label={"Venue"} id={"venue"} type={"text"} width={"100%"} changefunc={onChange} value={fest.venue} name={"venue"}></CustomTextField>
-            <CustomTextField label={"Fee"} id={"fee"} type={"number"} changefunc={onChange} value={fest.fee} name={"fee"}></CustomTextField> */}
-            <CustomTextField label={"City"} id={"city"} type={"text"} width={"50%"} changefunc={onChange} value={fest.city} name={"city"}></CustomTextField>
-            <CustomTextField label={"State"} id={"state"} type={"text"} width={"50%"} changefunc={onChange} value={fest.state} name={"state"} ></CustomTextField>
-          </DialogContent>
-          <DialogActions>
-          <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
-          <CustomButton name={"Create"} clickfunc={handleCreateFest}></CustomButton>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </>
-  );
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	return (
+		<>
+			<div>
+				{openbname === "Add Fest" ? (
+					<Button onClick={handleClickOpen} size="small">
+						{openbname}
+					</Button>
+				) : (
+					<Button onClick={handleClickOpenFill} size="small">
+						{openbname}
+					</Button>
+				)}
+				<Dialog open={open} onClose={handleClose}>
+					<DialogTitle>{formname}</DialogTitle>
+					<DialogContent>
+
+						<CustomTextField
+							label={"Title"}
+							id={"name"}
+							type={"text"}
+							width={"100%"}
+							changefunc={onChange}
+							value={fest.name}
+							name={"name"}
+						></CustomTextField>
+						
+						<Autocomplete
+							id="combo-box-demo"
+							getOptionLabel={(option) => option.label}
+							options={universities}
+							onChange={(e,value) => {handleChange(e,value)}}
+							sx={{ width: 300 }}
+							renderOption={(props, option) => (
+								<Box component="li" {...props} key={option.id}>
+									{option.label}
+								</Box>
+							)}
+							renderInput={(params) => <TextField {...params} label="Organsation" />}
+						/>
+
+						<CustomTextField
+							label={"Description"}
+							id={"description"}
+							type={"text"}
+							width={"100%"}
+							changefunc={onChange}
+							value={fest.description}
+							name={"description"}
+						></CustomTextField>
+
+						<CustomTextField
+							label={"Start Date"}
+							date={true}
+							id={"startdate"}
+							type={"date"}
+							width={"50%"}
+							changefunc={onChange}
+							value={fest.startdate}
+							name={"startdate"}
+						></CustomTextField>
+
+						<CustomTextField
+							label={"End Date"}
+							date={true}
+							id={"enddate"}
+							type={"date"}
+							width={"50%"}
+							changefunc={onChange}
+							value={fest.enddate}
+							name={"enddate"}
+						></CustomTextField>
+
+						<CustomTextField
+							label={"State"}
+							id={"state"}
+							type={"text"}
+							changefunc={onChange}
+							value={fest.state}
+							name={"state"}
+						></CustomTextField>
+
+						<CustomTextField
+							label={"City"}
+							id={"city"}
+							type={"text"}
+							width={"50%"}
+							changefunc={onChange}
+							value={fest.city}
+							name={"city"}
+						></CustomTextField>
+					</DialogContent>
+
+					<DialogActions>
+					<Button onClick={handleClose} size="small">
+						Cancel
+					</Button>
+				{openbname === "Add Fest" ? (
+					<Button onClick={handleCreateFest} size="small">
+						Create
+					</Button>
+				) : (
+					<Button onClick = {() => handleUpdateFest(formdata)} size="small">
+						Update
+					</Button>
+				)}
+					</DialogActions>
+
+				</Dialog>
+			</div>
+
+		</>
+	);
 }
 
 export default AddFest;

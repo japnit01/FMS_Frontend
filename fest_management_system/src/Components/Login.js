@@ -1,15 +1,16 @@
-import { React, useState } from "react";
+import { React, useState,useContext } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
-import {useNavigate } from "react-router-dom";
+import authContext from "../Context/auth/authContext"
 
 function Login() {
-  let history = useNavigate();
-  const host = "http://localhost:5000";
+   const context = useContext(authContext);
+  const {loginuser} = context;
+
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({email:"",password:""});
 
@@ -22,28 +23,7 @@ function Login() {
       email:user.email,
       password:user.password
     }
-
-    const url = `${host}/api/auth/login`;
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(jsonData),
-    });
-    const newuser = await response.json();
-    console.log(newuser);
-
-    if(newuser.success)
-    {
-        localStorage.setItem('token',newuser.token)
-        history("/")
-    }
-    else
-    {
-        alert("Invalid Credentials")
-    }
-
+    loginuser(jsonData)
     setOpen(false);
   };
 

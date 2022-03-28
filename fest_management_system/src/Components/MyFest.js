@@ -1,75 +1,81 @@
-import {React,useEffect,useState} from 'react';
-// import FestForm from './FestForm';
-import AddFest from './AddFest'
+import  React,{useEffect, useState,useContext} from "react";
+import AddFest from "./AddFest";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+import festContext from '../Context/fest/festContext'
 
 function MyFest() {
-  const host = "http://localhost:5000"
-  let [fests,setFests] = useState([]);
-  
+  const context = useContext(festContext);
+	const {FetchFests,DeleteFest} = context;
 
-  const fetchFests = async()=> {
-    const url = `${host}/api/fests/fetchfest`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'token': localStorage.getItem('token')
-      }
-    });
-    const userfests = await response.json();
-    return userfests
-  }
+  let [fests, setFests] = useState([]);
 
+  // const handledeletefest = async (festid) => {
+       
+  // };
 
   useEffect(() => {
-    console.log("here")
-    if(localStorage.getItem('token'))
-    {
-          let mounted = true;
-          fetchFests()
-            .then(userfests => {
-            if(mounted) {
-              const copyfests = JSON.parse(JSON.stringify(userfests));
-              console.log(copyfests)
-              setFests(copyfests);
-            }
-          })
-        return () => mounted = false;
+    if (localStorage.getItem("token")) {
+      let mounted = true;
+      FetchFests().then((userfests) => {
+        if (mounted) {
+          const copyfests = JSON.parse(JSON.stringify(userfests));
+          console.log(copyfests);
+          setFests(copyfests);
+        }
+      });
+      return () => (mounted = false);
     }
-  },[])
+  }, []);
 
   return (
     <>
-      <AddFest />
-      {fests.map((fest) => {
-        return(
-          <ul key={fest._id}>
-          <li>
-            {fest.name}
-          </li>
-          <li>
-            {fest.organisation}
-          </li>
-          {/* <li>
-            {fest.desc}
-          </li>
-          <li>
-            {fest.sdate}
-          </li>
-          <li>
-            {fest.edate}
-          </li>
-          <li>
-            {fest.venue}
-          </li>
-          <li>
-            {fest.fee}
-          </li> */}
-      </ul>
-        )
-      })}
+
+        <AddFest openbname={"Add Fest"} formname={"New Fest !!!"}></AddFest>
+        {fests.map((fest) => (
+          <Card key={fest._id} sx={{ maxWidth: 345 }}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {fest.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Organised By:- {fest.organisation}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {fest.description}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {fest.startdate}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {fest.enddate}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {fest.state}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {fest.city}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button onClick={() => DeleteFest(fest._id)} size="small">
+                Delete
+              </Button>
+              <AddFest
+                openbname={"Edit"}
+                formname={"Edit Fest"}
+                formdata={fest}
+              ></AddFest>
+            </CardActions>
+          </Card>
+        ))}
+
     </>
-  )
+  );
 }
 
 export default MyFest;
