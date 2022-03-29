@@ -10,27 +10,24 @@ import festContext from '../Context/fest/festContext'
 
 function MyFest() {
   const context = useContext(festContext);
-	const {FetchFests,DeleteFest} = context;
-
+	const {FetchFests,DeleteFest,update,setupdate} = context;
   let [fests, setFests] = useState([]);
-
-  // const handledeletefest = async (festid) => {
-       
-  // };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      let mounted = true;
+      if(update)
+      {
       FetchFests().then((userfests) => {
-        if (mounted) {
           const copyfests = JSON.parse(JSON.stringify(userfests));
           console.log(copyfests);
           setFests(copyfests);
-        }
+          // console.log(fests)
       });
-      return () => (mounted = false);
+      return () => (setupdate(false));
     }
-  }, []);
+
+    }
+  }, [update,fests]);
 
   return (
     <>

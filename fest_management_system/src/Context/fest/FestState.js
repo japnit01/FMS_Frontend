@@ -1,7 +1,10 @@
+import {useState} from "react";
 import festContext from "./festContext";
 
 const FestState = (props) => {
   const host = "http://localhost:5000";
+  // let [fests, setFests] = useState([]);
+  const [update,setupdate] = useState(true);
 
   const CreateFest = async (jsonData) => {
     const url = `${host}/api/fests/addfest`;
@@ -15,6 +18,7 @@ const FestState = (props) => {
     });
     const newfest = await response.json();
     console.log(newfest);
+    setupdate(true);
   };
 
   const FetchFests = async () => {
@@ -43,6 +47,7 @@ const FestState = (props) => {
     });
     const updatedfest = await response.json();
     console.log(updatedfest);
+    setupdate(true);
   };
 
   const DeleteFest = async (festid) => {
@@ -57,10 +62,11 @@ const FestState = (props) => {
     });
     const deletedfest = await response.json();
     console.log(deletedfest);
+    setupdate(true);
   }
 
   return (
-    <festContext.Provider value={{ CreateFest, FetchFests, UpdateFest, DeleteFest }}>
+    <festContext.Provider value={{ CreateFest, FetchFests, UpdateFest, DeleteFest,update,setupdate }}>
       {props.children}
     </festContext.Provider>
   );

@@ -27,7 +27,7 @@ function AddFest(props) {
 		organisation: "",
 	});
 
-	const [org, setorg] = React.useState({label:''});
+	const [org, setorg] = React.useState({label:'Select Organisation'});
 
 	const handleChange = (e,value) => {
 		if(value)
@@ -39,6 +39,7 @@ function AddFest(props) {
 	};
 
 	const handleUpdateFest = async (selfest) => {
+		
 		let jsonData = {
 			name: fest.name,
 			description: fest.description,
@@ -70,8 +71,8 @@ function AddFest(props) {
 		const sdate = new Date(formdata.startdate)
 		const edate = new Date(formdata.enddate)
 
-		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + sdate.getDate();
-		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + edate.getDate();
+		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + (sdate.getDate() + 1) : (sdate.getDate() + 1));
+		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + (edate.getDate() < 9 ? "0" + (edate.getDate() + 1) : (edate.getDate() + 1));
 		
 		setFest({
 			name: formdata.name,
@@ -85,7 +86,8 @@ function AddFest(props) {
 		setorg({label:formdata.organisation});
 		setOpen(true);
 	};
-	
+
+
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -93,6 +95,7 @@ function AddFest(props) {
 	const handleClose = () => {
 		setOpen(false);
 	};
+
 
 	return (
 		<>
@@ -122,6 +125,7 @@ function AddFest(props) {
 						
 						<Autocomplete
 							id="combo-box-demo"
+							value={org}
 							getOptionLabel={(option) => option.label}
 							options={universities}
 							onChange={(e,value) => {handleChange(e,value)}}
