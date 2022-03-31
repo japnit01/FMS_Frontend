@@ -6,6 +6,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
 import TextField from "@mui/material/TextField";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Stack from '@mui/material/Stack';
+import TimePicker from '@mui/lab/TimePicker';
 
 const AddEvent = () => {
 
@@ -65,8 +69,19 @@ const AddEvent = () => {
 							// value={fest.startdate}
 							name={"startdate"}
 						></CustomTextField>
-            <CustomTextField label={"Start Time"} id={"stime"} type={"time"} width={"100%"} changefunc={onChange} value={competition.stime} name={"startTime"}></CustomTextField>
-            <CustomTextField label={"End Time"} id={"etime"} type={"time"} width={"100%"} changefunc={onChange} value={competition.etime} name={"endTime"}></CustomTextField>
+            {/* onChange={handleChange} */}
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+              <TimePicker label={"Start Time"} name={"startTime"} onChange={onChange} value={competition.stime} renderInput={(params) => <TextField {...params} id={"stime"} width={"100%"} />} />
+              </Stack>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+              <TimePicker label={"End Time"} name={"endTime"} onChange={onChange} value={competition.etime} renderInput={(params) => <TextField {...params} id={"etime"} width={"100%"} />} />
+              </Stack>
+            </LocalizationProvider>
+            {/* <CustomTextField label={"Start Time"} id={"stime"} type={"time"} width={"100%"} changefunc={onChange} value={competition.stime} name={"startTime"}></CustomTextField> */}
+            {/* <CustomTextField label={"End Time"} id={"etime"} type={"time"} width={"100%"} changefunc={onChange} value={competition.etime} name={"endTime"}></CustomTextField> */}
             <CustomTextField label={"Description"} id={"desc"} type={"text"} width={"100%"} changefunc={onChange} value={competition.desc} name={"description"}></CustomTextField>
             <CustomTextField id={"date"} type={"date"} width={"100%"} changefunc={onChange} value={competition.date} name={"date"}></CustomTextField>
             <CustomTextField label={"Venue"} id={"venue"} type={"text"} width={"100%"} changefunc={onChange} value={competition.venue} name={"venue"}></CustomTextField>
