@@ -3,7 +3,6 @@ import festContext from "./festContext";
 
 const FestState = (props) => {
   const host = "http://localhost:5000";
-  // let [fests, setFests] = useState([]);
   const [update,setupdate] = useState(true);
 
   const CreateFest = async (jsonData) => {
