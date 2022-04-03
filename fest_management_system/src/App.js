@@ -23,6 +23,7 @@ function App() {
             <BrowserRouter>
               <Navbar />
               <Routes>
+                <Route path="*" element={<Home />} /> // page-not-found route
                 <Route index path="/home" element={<Home />} />
                 <Route exact path="/c/myfests" element={<MyFest />} />
                 <Route exact path="/login" element={<Login />} />
