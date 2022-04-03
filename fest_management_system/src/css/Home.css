@@ -1,8 +1,3 @@
-@font-face {
-    font-family: 'Cerea';
-    src: local('Cerea'), url(../../public/Fonts/ceraprosv/CeraProBold.otf) format('truetype');
-  }
-
 .backgroundcontainer::before{
     content:"";
     height: 100%;
