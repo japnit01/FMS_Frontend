@@ -7,14 +7,20 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import eventContext from '../Context/event/eventContext'
-import { useNavigate,useParams} from "react-router-dom";
+import visitorContext from '../Context/visitor/visitorContext'
+import { useNavigate, useParams} from "react-router-dom";
 
 function Event() {
   const context = useContext(eventContext);
   const { FetchEvents, DeleteEvent, update, setupdate } = context;
+
+  const context1 = useContext(visitorContext);
+  const {addtoschedule} = context1;
+ 
   const navigate = useNavigate();
+  let { festname, typeofuser } = useParams();
   const [events, setevents] = useState([]);
-  let {festname} = useParams();
+
 
   useEffect(() => {
     setupdate(true)
@@ -29,13 +35,15 @@ function Event() {
         });
         return () => (setupdate(false));
       }
-
     }
   }, [update, events]);
 
+
   return (
     <>
-      <AddEvent openbname={"Add Event"} formname={"New Event !!!"}></AddEvent>
+      {typeofuser == 'c' &&
+        <AddEvent openbname={"Add Event"} formname={"New Event !!!"}></AddEvent>
+      }
       {events.map((event) => (
         <Card key={event._id} sx={{ maxWidth: 345 }} >
           <CardActionArea>
@@ -66,15 +74,34 @@ function Event() {
               </Typography>
             </CardContent>
           </CardActionArea>
+
           <CardActions>
-            <Button onClick={() => DeleteEvent(festname,event._id)} size="small">
-              Delete
-            </Button>
-            <AddEvent
-              openbname={"Edit"}
-              formname={"Edit Event"}
-              formdata={event}
-            ></AddEvent>
+            {typeofuser == 'c' &&
+              (
+                <>
+                  <Button onClick={() => DeleteEvent(festname, event._id)} size="small">
+                    Delete
+                  </Button>
+                  <AddEvent
+                    openbname={"Edit"}
+                    formname={"Edit Event"}
+                    formdata={event}
+                  >
+                  </AddEvent>
+                </>
+              )}
+
+            {typeofuser == 'u' &&
+              (
+                <>
+                  <Button onClick={()=>addtoschedule(festname,event._id,false)} size="small">
+                    Schedule
+                  </Button>
+                  <Button onClick={()=>addtoschedule(festname,event._id,true)} size="small">
+                    Register
+                  </Button>
+                </>
+              )}
           </CardActions>
         </Card>
       ))}

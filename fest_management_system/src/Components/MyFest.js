@@ -37,7 +37,7 @@ function MyFest() {
       <AddFest openbname={"Add Fest"} formname={"New Fest !!!"}></AddFest>
       {fests.map((fest) => (
         <Card key={fest._id} sx={{ maxWidth: 345 }} >
-          <CardActionArea  onClick={() => navigate(`/fest/${fest.name}-${fest._id}`)}> 
+          <CardActionArea onClick={() => navigate(`/c/fest/${fest.name}-${fest._id}`)}> 
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {fest.name}
@@ -62,7 +62,7 @@ function MyFest() {
               </Typography>
             </CardContent>
           </CardActionArea>
-          {/* </ButtonBase> */}
+
           <CardActions>
             <Button onClick={() => DeleteFest(fest._id)} size="small">
               Delete

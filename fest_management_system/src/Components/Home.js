@@ -7,13 +7,13 @@ function Home() {
     <>
       <div>Home</div>
       <div>
-        <Link to="/myfestivals">My Festivals</Link>
+        <Link to="/c/myfests">Coordinator</Link>
       </div>
       <div>
-        <Link to="/fest/Engifest-6241584679182e2d27071c73">Get Competitions</Link>
+        <Link to="/u/fests">Visitor</Link>
       </div>
       <div>
-        <Link to="/api/fests/addfest">Add Fest</Link>
+        <Link to="/u/schedule">Schedule</Link>
       </div>
     </>
   );
