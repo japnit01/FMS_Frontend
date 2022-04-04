@@ -71,8 +71,8 @@ function AddFest(props) {
 		const sdate = new Date(formdata.startdate)
 		const edate = new Date(formdata.enddate)
 
-		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + (sdate.getDate() + 1) : (sdate.getDate() + 1));
-		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + (edate.getDate() < 9 ? "0" + (edate.getDate() + 1) : (edate.getDate() + 1));
+		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + sdate.getDate() : sdate.getDate());
+		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
 		
 		setFest({
 			name: formdata.name,

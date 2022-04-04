@@ -1,0 +1,39 @@
+.backgroundcontainer::before{
+    content:"";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-image: url("../../public/home/3.jpg");
+    background-position:40% 90%;
+    opacity: 0.60;
+}
+
+.createfesttext{
+    position: relative;
+    color:white;
+    font-family: 'Cerea', sans-serif;
+    padding: 10% 15% 10% 15%;
+    text-align: center;
+}
+
+.createfestbutton{
+    width: 20vw;
+    height: 8vh;
+    text-transform: unset !important;
+    margin-top:4% !important;
+    border-radius: 100px !important;
+    font-size: 18px !important;
+    font-weight:550 !important;
+    background-color:#007afc !important;
+    padding: 1% 0 1% 0;
+}
+
+/* #007afc */
+.createfest{
+    height:120vh;
+}
+
+.application{
+    background-color: #121212;
+    min-height:100vh;
+}

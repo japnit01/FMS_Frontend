@@ -3,11 +3,12 @@ import eventContext from "./eventContext";
 
 const EventState = (props) => {
   const host = "http://localhost:5000";
-  // let [fests, setFests] = useState([]);
   const [update,setupdate] = useState(true);
 
-  const CreateFest = async (jsonData) => {
-    const url = `${host}/api/fests/addfest`;
+  const CreateEvent = async (jsonData,festname) => {
+    const festid = festname.split("-")[1];
+
+    const url = `${host}/api/events/${festid}/add-event`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -21,8 +22,10 @@ const EventState = (props) => {
     setupdate(true);
   };
 
-  const FetchEvents = async (festid) => {
-    const url = `${host}/api/events/${festid}/getevents`;
+  const FetchEvents = async (festname) => {
+    const festid = festname.split("-")[1];
+
+    const url = `${host}/api/events/${festid}/fetchevents`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -30,13 +33,14 @@ const EventState = (props) => {
         token: localStorage.getItem("token"),
       },
     });
-    const userfests = await response.json();
-    return userfests;
+    const allevents = await response.json();
+    console.log(allevents)
+    return allevents;
   };
 
-  const UpdateFest = async (festid, jsonData) => {
-
-    const url = `${host}/api/fests/updatefest/${festid}`;
+  const UpdateEvent = async (festname,eventid,jsonData) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/${festid}/update-event/${eventid}`;
     const response = await fetch(url, {
       method: "PUT",
       headers: {
@@ -50,9 +54,10 @@ const EventState = (props) => {
     setupdate(true);
   };
 
-  const DeleteFest = async (festid) => {
-
-    const url = `${host}/api/fests/deletefest/${festid}`;
+  const DeleteEvent = async (festname,eventid) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/${festid}/delete-event/${eventid}`;
+    
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
@@ -66,7 +71,7 @@ const EventState = (props) => {
   }
 
   return (
-    <eventContext.Provider value={{ CreateFest, FetchEvents, UpdateFest, DeleteFest,update,setupdate }}>
+    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent,update,setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
