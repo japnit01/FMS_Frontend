@@ -21,8 +21,8 @@ const EventState = (props) => {
     setupdate(true);
   };
 
-  const FetchFests = async () => {
-    const url = `${host}/api/fests/fetchfest`;
+  const FetchEvents = async (festid) => {
+    const url = `${host}/api/events/${festid}/getevents`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -66,7 +66,7 @@ const EventState = (props) => {
   }
 
   return (
-    <eventContext.Provider value={{ CreateFest, FetchFests, UpdateFest, DeleteFest,update,setupdate }}>
+    <eventContext.Provider value={{ CreateFest, FetchEvents, UpdateFest, DeleteFest,update,setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
