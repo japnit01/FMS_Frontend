@@ -5,7 +5,7 @@
     position: absolute;
     background-image: url("../../public/home/3.jpg");
     background-position:40% 90%;
-    opacity: 0.60;
+    opacity: 0.50;
 }
 
 .createfesttext{
@@ -16,19 +16,27 @@
     text-align: center;
 }
 
+.createfest h1{
+    opacity: 0.87;
+}
+
+.createfest h5
+{
+    opacity: 0.70;
+}
+
 .createfestbutton{
-    width: 20vw;
+    width: 28%;
     height: 8vh;
     text-transform: unset !important;
     margin-top:4% !important;
     border-radius: 100px !important;
     font-size: 18px !important;
     font-weight:550 !important;
-    background-color:#007afc !important;
+    background-color:#BB86FC !important;
     padding: 1% 0 1% 0;
 }
 
-/* #007afc */
 .createfest{
     height:120vh;
 }

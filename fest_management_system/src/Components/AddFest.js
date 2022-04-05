@@ -3,13 +3,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomTextField from "./CustomTextField";
 import Button from "@mui/material/Button";
 import universities from './universities'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import festContext from "../Context/fest/festContext"
+import InputAdornment from '@mui/material/InputAdornment';
 
 function AddFest(props) {
 	const context = useContext(festContext);
@@ -113,15 +113,17 @@ function AddFest(props) {
 					<DialogTitle>{formname}</DialogTitle>
 					<DialogContent>
 
-						<CustomTextField
-							label={"Title"}
-							id={"name"}
-							type={"text"}
-							width={"100%"}
-							changefunc={onChange}
+						<TextField
+							label="Title"
+							id="name"
+							type="text"
+							sx={{width:"100%"}}
+							onChange={onChange}
 							value={fest.name}
-							name={"name"}
-						></CustomTextField>
+							name="name"
+							margin="dense"
+							variant="filled"
+						></TextField>
 						
 						<Autocomplete
 							id="combo-box-demo"
@@ -129,7 +131,8 @@ function AddFest(props) {
 							getOptionLabel={(option) => option.label}
 							options={universities}
 							onChange={(e,value) => {handleChange(e,value)}}
-							sx={{ width: 300 }}
+							sx={{ width: '100%',paddingTop:'2%' }}
+							
 							renderOption={(props, option) => (
 								<Box component="li" {...props} key={option.id}>
 									{option.label}
@@ -138,56 +141,67 @@ function AddFest(props) {
 							renderInput={(params) => <TextField {...params} label="Organsation" />}
 						/>
 
-						<CustomTextField
-							label={"Description"}
-							id={"description"}
-							type={"text"}
-							width={"100%"}
-							changefunc={onChange}
+						<TextField
+							label="Description"
+							id="description"
+							type="text"
+							sx={{width:"100%"}}
+							onChange={onChange}
 							value={fest.description}
-							name={"description"}
-						></CustomTextField>
+							name="description"
+							margin="dense"
+							variant="filled"
+						></TextField>
 
-						<CustomTextField
-							label={"Start Date"}
-							date={true}
-							id={"startdate"}
-							type={"date"}
-							width={"50%"}
-							changefunc={onChange}
+						<TextField
+							label="Start Date"
+							id="startdate"
+							type="date"
+							sx={{width:"50%"}}
+							onChange={onChange}
 							value={fest.startdate}
-							name={"startdate"}
-						></CustomTextField>
+							name="startdate"
+							margin="dense"
+							variant="filled"
+							InputProps = {{startAdornment:(<InputAdornment position="start"></InputAdornment>)}}
+						></TextField>
 
-						<CustomTextField
-							label={"End Date"}
-							date={true}
+						<TextField
+							label="End Date"
 							id={"enddate"}
 							type={"date"}
-							width={"50%"}
-							changefunc={onChange}
+							sx={{width:"50%"}}
+							onChange={onChange}
 							value={fest.enddate}
-							name={"enddate"}
-						></CustomTextField>
+							name="enddate"
+							margin="dense"
+							variant="filled"
+							InputProps = {{startAdornment:(<InputAdornment position="start"></InputAdornment>)}}
+						></TextField>
 
-						<CustomTextField
-							label={"State"}
-							id={"state"}
-							type={"text"}
-							changefunc={onChange}
+						<TextField
+							label="State"
+							id="state"
+							type="text"
+							sx={{width:"50%"}}
+							onChange={onChange}
 							value={fest.state}
-							name={"state"}
-						></CustomTextField>
+							name="state"
+							margin="dense"
+							variant="filled"
+						></TextField>
 
-						<CustomTextField
-							label={"City"}
-							id={"city"}
-							type={"text"}
-							width={"50%"}
-							changefunc={onChange}
+						<TextField
+							label="City"
+							id="city"
+							type="text"
+							sx={{width:"50%"}}
+							onChange={onChange}
 							value={fest.city}
-							name={"city"}
-						></CustomTextField>
+							name="city"
+							margin="dense"
+							variant="filled"
+						></TextField>
 					</DialogContent>
 
 					<DialogActions>

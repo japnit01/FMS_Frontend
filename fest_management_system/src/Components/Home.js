@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "../css/Home.css";
 import Container from '@mui/material/Container';
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
 
 function Home() {
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="application">
@@ -20,7 +20,7 @@ function Home() {
                 <Typography variant="h5" align="center" sx={{ marginTop: '1%' }}>
                   Making your event more extraordinary
                 </Typography>
-                <Button variant="contained" className="createfestbutton"> Start creating your fest </Button>
+                <Button variant="contained" className="createfestbutton" onClick={()=>navigate('/c/myfests')}> Start creating your fest </Button>
               </div>
             </div>
           </section>

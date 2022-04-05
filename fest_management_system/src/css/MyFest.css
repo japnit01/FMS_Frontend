@@ -1,0 +1,16 @@
+.myfest {
+    background-color: #121212;
+    min-height: 100vh;
+    padding-top: 3%;
+}
+
+#festcard{
+    background-color: rgba(18, 18, 18,-1) !important;
+    margin: auto;
+    border-radius: 15px;  
+}
+
+.festcardcontent h5,p
+{
+    color: white !important;
+}
