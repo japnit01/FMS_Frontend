@@ -38,7 +38,7 @@ const AddEvent = (props) => {
   }
 
   const handleUpdateEvent = async (selevent) => {
-		
+
     let jsonData = {
       type: event.type,
       name: event.name,
@@ -50,9 +50,9 @@ const AddEvent = (props) => {
       fee: event.fee
     };
 
-		UpdateEvent(festname,selevent._id,jsonData);
-		setOpen(false);
-	};
+    UpdateEvent(festname, selevent._id, jsonData);
+    setOpen(false);
+  };
 
 
   const handleCreateEvent = async () => {
@@ -67,7 +67,7 @@ const AddEvent = (props) => {
       fee: event.fee
     };
 
-    CreateEvent(jsonData,festname);
+    CreateEvent(jsonData, festname);
     setOpen(false);
   }
 
@@ -82,16 +82,16 @@ const AddEvent = (props) => {
   const handleClickOpenFill = () => {
     const sdate = new Date(formdata.startdate)
     let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + (sdate.getDate()) : (sdate.getDate()));
-    
+
     setevent({
-    	name: formdata.name,
-    	description: formdata.description,
-    	startdate: startdate,
+      name: formdata.name,
+      description: formdata.description,
+      startdate: startdate,
       startTime: formdata.starttime,
-    	endTime: formdata.endtime,
-    	venue: formdata.venue,
+      endTime: formdata.endtime,
+      venue: formdata.venue,
       type: formdata.type,
-    	fee: formdata.fee,
+      fee: formdata.fee,
     });
 
     setstartTime(formdata.startTime)
@@ -110,128 +110,126 @@ const AddEvent = (props) => {
 
   return (
     <>
-      <div>
-        {openbname === "Add Event" ? (
-          <Button onClick={handleClickOpen} size="small">
-            {openbname}
+      {openbname === "Add Event" ? (
+        <Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
+          {openbname}
+        </Button>
+      ) : (
+        <Button sx={{ color: '#BB86FC' }} onClick={handleClickOpenFill} size="small">
+          {openbname}
+        </Button>
+      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New Event !!!</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Title"
+            id="title"
+            type="text"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.name}
+            name="name"
+            margin="dense"
+            variant="filled">
+          </TextField>
+
+          <TextField
+            label="Type"
+            id="type"
+            type="text"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.type}
+            name="type"
+            margin="dense"
+            variant="filled">
+          </TextField>
+
+          <TextField
+            label="Start Date"
+            id="startdate"
+            type="date"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.startdate}
+            name="startdate"
+            margin="dense"
+            InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
+          ></TextField>
+
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              label="Start Time"
+              name="startTime"
+              value={startTime}
+              onChange={handlestartTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+
+            <TimePicker
+              label="End Time"
+              name="endTime"
+              onChange={handleendTime}
+              value={endTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+
+          <TextField
+            label="Description"
+            id="desc"
+            type="text"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.description}
+            name="description"
+            margin="dense"
+          >
+          </TextField>
+
+          <TextField
+            label="Venue"
+            id="venue"
+            type="text"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.venue}
+            name="venue"
+            margin="dense"
+          >
+          </TextField>
+
+          <TextField
+            label="Fee"
+            id="fee"
+            type="number"
+            sx={{ width: "100%" }}
+            onChange={onChange}
+            value={event.fee}
+            name="fee"
+            margin="dense"
+          >
+          </TextField>
+
+        </DialogContent>
+
+        <DialogActions>
+          <Button name="Cancel" onClick={handleClose}></Button>
+          <Button onClick={handleClose} size="small">
+            Cancel
           </Button>
-        ) : (
-          <Button onClick={handleClickOpenFill} size="small">
-            {openbname}
-          </Button>
-        )}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>New Event !!!</DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Title"
-              id="title"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.name}
-              name="name"
-              margin="dense"
-              variant="filled">
-            </TextField>
-
-            <TextField
-              label="Type"
-              id="type"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.type}
-              name="type"
-              margin="dense"
-              variant="filled">
-            </TextField>
-
-            <TextField
-              label="Start Date"
-              id="startdate"
-              type="date"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.startdate}
-              name="startdate"
-              margin="dense"
-              InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-            ></TextField>
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <TimePicker
-                label="Start Time"
-                name="startTime"
-                value={startTime}
-                onChange={handlestartTime}
-                renderInput={(params) => <TextField {...params} />}
-              />
-
-              <TimePicker
-                label="End Time"
-                name="endTime"
-                onChange={handleendTime}
-                value={endTime}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-
-            <TextField
-              label="Description"
-              id="desc"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.description}
-              name="description"
-              margin="dense"
-            >
-            </TextField>
-
-            <TextField
-              label="Venue"
-              id="venue"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.venue}
-              name="venue"
-              margin="dense"
-            >
-            </TextField>
-
-            <TextField
-              label="Fee"
-              id="fee"
-              type="number"
-              sx={{ width: "100%" }}
-              onChange={onChange}
-              value={event.fee}
-              name="fee"
-              margin="dense"
-            >
-            </TextField>
-
-          </DialogContent>
-
-          <DialogActions>
-            <Button name="Cancel" onClick={handleClose}></Button>
-            <Button onClick={handleClose} size="small">
-              Cancel
+          {openbname === "Add Event" ? (
+            <Button onClick={handleCreateEvent} size="small">
+              Create
             </Button>
-            {openbname === "Add Event" ? (
-              <Button onClick={handleCreateEvent} size="small">
-                Create
-              </Button>
-            ) : (
-              <Button onClick={() => handleUpdateEvent(formdata)} size="small">
-                Update
-              </Button>
-            )}
-          </DialogActions>
-        </Dialog>
-      </div>
+          ) : (
+            <Button onClick={() => handleUpdateEvent(formdata)} size="small">
+              Update
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

@@ -1,32 +1,32 @@
-.myfest {
+.myevent {
     background-color: #121212;
     min-height: 100vh;
     padding-top: 3%;
 }
 
-#festcard{
+#eventcard{
     margin: auto;
     border-radius: 15px;
     overflow: visible !important;
 }
 
-#festcard div{ 
+#eventcard div{ 
     background-color: rgba(18,18,18,0.90) !important;
  }
 
- .festcardcontent{
+ .eventcardcontent{
      border-radius: 15px 15px 0 0;
  }
 
-.festcardcontent h5,p{
+.eventcardcontent h5,p{
     color: white !important;
 }
 
-.festcardcontent p{
+.eventcardcontent p{
     margin-top: 2%;
     opacity: 0.70;
 }
 
-.festcardcontent h5{
+.eventcardcontent h5{
     opacity: 0.87;
 }

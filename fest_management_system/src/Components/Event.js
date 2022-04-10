@@ -8,15 +8,19 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import eventContext from '../Context/event/eventContext'
 import visitorContext from '../Context/visitor/visitorContext'
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import '../css/Event.css'
+import Grid from '@mui/material/Grid';
+import CardMedia from '@mui/material/CardMedia';
+
 
 function Event() {
   const context = useContext(eventContext);
   const { FetchEvents, DeleteEvent, update, setupdate } = context;
 
   const context1 = useContext(visitorContext);
-  const {addtoschedule} = context1;
- 
+  const { addtoschedule } = context1;
+
   const navigate = useNavigate();
   let { festname, typeofuser } = useParams();
   const [events, setevents] = useState([]);
@@ -41,71 +45,77 @@ function Event() {
 
   return (
     <>
-      {typeofuser == 'c' &&
-        <AddEvent openbname={"Add Event"} formname={"New Event !!!"}></AddEvent>
-      }
-      {events.map((event) => (
-        <Card key={event._id} sx={{ maxWidth: 345 }} >
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {event.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.description}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.type}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.startdate}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.startTime}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.endTime}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.venue}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {event.fee}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+      <div className="myevent">
+        <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+        {events.map((event) => (
+          <Grid key={event._id} item xs={4}>
+            <Card id="eventcard" sx={{ maxWidth: 345 }} >
+              <CardActionArea className="eventcardcontent">
+                <CardContent>
+                  <Typography gutterBottom variant="h5">
+                    {event.name}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.description}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.type}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.startdate}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.startTime}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.endTime}
+                  </Typography>
+                  <Typography variant="body2">
+                    {event.venue}
+                  </Typography>
+                  <Typography variant="body2" >
+                    {event.fee}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
 
-          <CardActions>
-            {typeofuser == 'c' &&
-              (
-                <>
-                  <Button onClick={() => DeleteEvent(festname, event._id)} size="small">
-                    Delete
-                  </Button>
-                  <AddEvent
-                    openbname={"Edit"}
-                    formname={"Edit Event"}
-                    formdata={event}
-                  >
-                  </AddEvent>
-                </>
-              )}
+              <CardActions>
+                {typeofuser === 'c' &&
+                  (
+                    <>
+                      <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteEvent(festname, event._id)} size="small">
+                        Delete
+                      </Button>
+                      <AddEvent
+                        openbname={"Edit"}
+                        formname={"Edit Event"}
+                        formdata={event}
+                      >
+                      </AddEvent>
+                    </>
+                  )}
 
-            {typeofuser == 'u' &&
-              (
-                <>
-                  <Button onClick={()=>addtoschedule(festname,event._id,false)} size="small">
-                    Schedule
-                  </Button>
-                  <Button onClick={()=>addtoschedule(festname,event._id,true)} size="small">
-                    Register
-                  </Button>
-                </>
-              )}
-          </CardActions>
-        </Card>
-      ))}
+                {typeofuser === 'u' &&
+                  (
+                    <>
+                      <Button onClick={() => addtoschedule(festname, event._id, false)} size="small">
+                        Schedule
+                      </Button>
+                      <Button onClick={() => addtoschedule(festname, event._id, true)} size="small">
+                        Register
+                      </Button>
+                    </>
+                  )}
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
 
+      {typeofuser === 'c' &&
+          <AddEvent openbname={"Add Event"} formname={"New Event !!!"}></AddEvent>
+        }
+    </div>
     </>
   )
 }

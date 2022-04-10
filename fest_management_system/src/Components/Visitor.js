@@ -1,11 +1,10 @@
 import React,{ useEffect, useState, useContext} from 'react'
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import visitorContext from "../Context/visitor/visitorContext"
 
 function Visitor() {
@@ -63,7 +62,7 @@ function Visitor() {
                     </CardActionArea>
                 </Card>
             ))}
-
+                      <Link to="/u/schedule">Schedule</Link>
         </>
     )
 }

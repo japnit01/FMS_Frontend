@@ -1,4 +1,4 @@
-import React,{ useEffect, useState, useContext} from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,12 +7,15 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import visitorContext from "../Context/visitor/visitorContext"
 import { useNavigate } from "react-router-dom";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 
 function Scheduler() {
     const context = useContext(visitorContext);
     const { fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context;
     const navigate = useNavigate();
-    const [events, setevents] = useState([]);
+    const [schedule, setschedule] = useState([]);
 
     useEffect(() => {
         setupdate(true)
@@ -23,56 +26,28 @@ function Scheduler() {
             if (update) {
                 fetchScheduledEvents().then((scheduledevents) => {
                     const copyevents = JSON.parse(JSON.stringify(scheduledevents));
-                    setevents(copyevents);
+                    setschedule(copyevents);
                     console.log(copyevents);
                 });
                 return () => (setupdate(false));
             }
 
         }
-    }, [update, events]);
+    }, [update, schedule]);
+
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     return (
-        <>
-            {events.map((event) => (
-                <Card key={event._id} sx={{ maxWidth: 345 }} >
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {event.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.description}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.type}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.startdate}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.startTime}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.endTime}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.venue}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.fee}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button onClick={()=>{DeleteScheduledEvent(event._id)}} size="small">
-                            Unregister
-                        </Button>
-                    </CardActions>
-                </Card>
+        <>       
+            {schedule.map((fest,searchedevents)=>(
+                <div>{fest}</div>
             ))}
         </>
-    )
+    ) 
 }
 
 export default Scheduler

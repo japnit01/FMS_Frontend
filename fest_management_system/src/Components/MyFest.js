@@ -10,6 +10,8 @@ import festContext from '../Context/fest/festContext'
 import { useNavigate } from "react-router-dom";
 import '../css/MyFest.css'
 import Grid from '@mui/material/Grid';
+import CardMedia from '@mui/material/CardMedia';
+
 
 function MyFest() {
   const context = useContext(festContext);
@@ -36,40 +38,42 @@ function MyFest() {
 
   return (
     <>
-      <div class="myfest">
-        <Grid container rowSpacing={3} spacing={1} sx={{ position:'relative'}}>
+      <div className="myfest">
+        <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
           {fests.map((fest) => (
             <Grid item xs={4}>
 
-              <Card id="festcard" key={fest._id} raised	 sx={{ maxWidth: 345 }} >
-                <CardActionArea onClick={() => navigate(`/c/fest/${fest.name}-${fest._id}`)}>
-                  <CardContent className="festcardcontent">
+              <Card id="festcard" key={fest._id} sx={{ maxWidth: 345 }} >
+                <CardActionArea className="festcardcontent" onClick={() => navigate(`/c/fest/${fest.name}-${fest._id}`)}>
+                  <CardMedia
+                    component="img"
+                    height="100%"
+                    image="/festprofile/1.jpg"
+                    alt="green iguana"
+                  />
+
+                  <CardContent>
                     <Typography variant="h5">
                       {fest.name}
                     </Typography>
                     <Typography variant="body2">
-                      Organised By:- {fest.organisation}
-                    </Typography>
-                    <Typography variant="body2" >
-                      {fest.description}
+                      {fest.organisation}
                     </Typography>
                     <Typography variant="body2">
-                      {fest.startdate}
+                      {`${new Date(fest.startdate).getDate()}-${new Date(fest.startdate).getMonth()}-${new Date(fest.startdate).getFullYear()}`}
                     </Typography>
                     <Typography variant="body2">
-                      {fest.enddate}
+                    {`${new Date(fest.enddate).getDate()}-${new Date(fest.enddate).getMonth()}-${new Date(fest.enddate).getFullYear()}`}
                     </Typography>
                     <Typography variant="body2">
-                      {fest.state}
-                    </Typography>
-                    <Typography variant="body2">
-                      {fest.city}
+                      {`${fest.state},${fest.city}`}
                     </Typography>
                   </CardContent>
+
                 </CardActionArea>
 
                 <CardActions>
-                  <Button onClick={() => DeleteFest(fest._id)} size="small">
+                  <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteFest(fest._id)} size="small">
                     Delete
                   </Button>
                   <AddFest

@@ -10,6 +10,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import festContext from "../Context/fest/festContext"
 import InputAdornment from '@mui/material/InputAdornment';
+import '../css/AddFest.css';
 
 function AddFest(props) {
 	const context = useContext(festContext);
@@ -99,13 +100,12 @@ function AddFest(props) {
 
 	return (
 		<>
-			<div>
 				{openbname === "Add Fest" ? (
-					<Button onClick={handleClickOpen} size="small">
+					<Button sx={{color:'#BB86FC'}} onClick={handleClickOpen} size="small">
 						{openbname}
 					</Button>
 				) : (
-					<Button onClick={handleClickOpenFill} size="small">
+					<Button sx={{color:'#BB86FC'}} id="editbtn" onClick={handleClickOpenFill} size="small">
 						{openbname}
 					</Button>
 				)}
@@ -220,7 +220,7 @@ function AddFest(props) {
 					</DialogActions>
 
 				</Dialog>
-			</div>
+			 
 
 		</>
 	);

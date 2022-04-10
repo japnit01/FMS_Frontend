@@ -34,7 +34,8 @@ const VisitorState = (props) =>{
     const addtoschedule = async (festname,eventid,register) =>{
       const festid = festname.split("-")[1];
       let url;
-      if(register)
+    
+      if(!register)
       {
         url = `${host}/api/schedule/addToSchedule/${festid}/${eventid}`;
       }
