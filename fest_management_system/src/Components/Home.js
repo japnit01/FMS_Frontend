@@ -25,9 +25,7 @@ function Home() {
             </div>
           </section>
         </Container>
-        <div>
-          <Link to="/c/myfests">Coordinator</Link>
-        </div>
+        
         <div>
           <Link to="/u/fests">Visitor</Link>
         </div>

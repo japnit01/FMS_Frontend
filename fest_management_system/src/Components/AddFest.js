@@ -14,8 +14,8 @@ import '../css/AddFest.css';
 
 function AddFest(props) {
 	const context = useContext(festContext);
-	const {CreateFest,UpdateFest} = context;
-	const { openbname, formname, formdata} = props;
+	const { CreateFest, UpdateFest } = context;
+	const { openbname, formname, formdata } = props;
 
 	const [open, setOpen] = useState(false);
 	const [fest, setFest] = useState({
@@ -28,11 +28,11 @@ function AddFest(props) {
 		organisation: "",
 	});
 
-	const [org, setorg] = React.useState({label:'Select Organisation'});
+	const [org, setorg] = React.useState({ label: 'Select Organisation' });
 
-	const handleChange = (e,value) => {
-		if(value)
-			setorg({label : value.label});
+	const handleChange = (e, value) => {
+		if (value)
+			setorg({ label: value.label });
 	};
 
 	const onChange = (e) => {
@@ -40,7 +40,7 @@ function AddFest(props) {
 	};
 
 	const handleUpdateFest = async (selfest) => {
-		
+
 		let jsonData = {
 			name: fest.name,
 			description: fest.description,
@@ -50,7 +50,7 @@ function AddFest(props) {
 			city: fest.city,
 			organisation: org.label,
 		};
-		UpdateFest(selfest._id,jsonData);
+		UpdateFest(selfest._id, jsonData);
 		setOpen(false);
 	};
 
@@ -74,7 +74,7 @@ function AddFest(props) {
 
 		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + sdate.getDate() : sdate.getDate());
 		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
-		
+
 		setFest({
 			name: formdata.name,
 			description: formdata.description,
@@ -84,7 +84,7 @@ function AddFest(props) {
 			city: formdata.city,
 		});
 
-		setorg({label:formdata.organisation});
+		setorg({ label: formdata.organisation });
 		setOpen(true);
 	};
 
@@ -97,130 +97,129 @@ function AddFest(props) {
 		setOpen(false);
 	};
 
-
 	return (
 		<>
-				{openbname === "Add Fest" ? (
-					<Button sx={{color:'#BB86FC'}} onClick={handleClickOpen} size="small">
-						{openbname}
-					</Button>
-				) : (
-					<Button sx={{color:'#BB86FC'}} id="editbtn" onClick={handleClickOpenFill} size="small">
-						{openbname}
-					</Button>
-				)}
-				<Dialog open={open} onClose={handleClose}>
-					<DialogTitle>{formname}</DialogTitle>
-					<DialogContent>
+			{openbname === "Add Fest" ? (
+				<Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
+					{openbname}
+				</Button>
+			) : (
+				<Button sx={{ color: '#BB86FC' }} id="editbtn" onClick={handleClickOpenFill} size="small">
+					{openbname}
+				</Button>
+			)}
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle className="container">{formname}</DialogTitle>
+				<DialogContent>
 
-						<TextField
-							label="Title"
-							id="name"
-							type="text"
-							sx={{width:"100%"}}
-							onChange={onChange}
-							value={fest.name}
-							name="name"
-							margin="dense"
-							variant="filled"
-						></TextField>
-						
-						<Autocomplete
-							id="combo-box-demo"
-							value={org}
-							getOptionLabel={(option) => option.label}
-							options={universities}
-							onChange={(e,value) => {handleChange(e,value)}}
-							sx={{ width: '100%',paddingTop:'2%' }}
-							
-							renderOption={(props, option) => (
-								<Box component="li" {...props} key={option.id}>
-									{option.label}
-								</Box>
-							)}
-							renderInput={(params) => <TextField {...params} label="Organsation" />}
-						/>
+					<TextField
+						label="Title"
+						id="name"
+						type="text"
+						sx={{ width: "100%" }}
+						onChange={onChange}
+						value={fest.name}
+						name="name"
+						margin="dense"
+						variant="filled"
+					></TextField>
 
-						<TextField
-							label="Description"
-							id="description"
-							type="text"
-							sx={{width:"100%"}}
-							onChange={onChange}
-							value={fest.description}
-							name="description"
-							margin="dense"
-							variant="filled"
-						></TextField>
+					<Autocomplete
+						id="combo-box-demo"
+						value={org}
+						getOptionLabel={(option) => option.label}
+						options={universities}
+						onChange={(e, value) => { handleChange(e, value) }}
+						sx={{ width: '100%', paddingTop: '2%' }}
 
-						<TextField
-							label="Start Date"
-							id="startdate"
-							type="date"
-							sx={{width:"50%"}}
-							onChange={onChange}
-							value={fest.startdate}
-							name="startdate"
-							margin="dense"
-							variant="filled"
-							InputProps = {{startAdornment:(<InputAdornment position="start"></InputAdornment>)}}
-						></TextField>
+						renderOption={(props, option) => (
+							<Box component="li" {...props} key={option.id}>
+								{option.label}
+							</Box>
+						)}
+						renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+					/>
 
-						<TextField
-							label="End Date"
-							id={"enddate"}
-							type={"date"}
-							sx={{width:"50%"}}
-							onChange={onChange}
-							value={fest.enddate}
-							name="enddate"
-							margin="dense"
-							variant="filled"
-							InputProps = {{startAdornment:(<InputAdornment position="start"></InputAdornment>)}}
-						></TextField>
+					<TextField
+						label="Description"
+						id="description"
+						type="text"
+						sx={{ width: "100%" }}
+						onChange={onChange}
+						value={fest.description}
+						name="description"
+						margin="dense"
+						variant="filled"
+					></TextField>
 
-						<TextField
-							label="State"
-							id="state"
-							type="text"
-							sx={{width:"50%"}}
-							onChange={onChange}
-							value={fest.state}
-							name="state"
-							margin="dense"
-							variant="filled"
-						></TextField>
+					<TextField
+						label="Start Date"
+						id="startdate"
+						type="date"
+						sx={{ width: "50%" }}
+						onChange={onChange}
+						value={fest.startdate}
+						name="startdate"
+						margin="dense"
+						variant="filled"
+						InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
+					></TextField>
 
-						<TextField
-							label="City"
-							id="city"
-							type="text"
-							sx={{width:"50%"}}
-							onChange={onChange}
-							value={fest.city}
-							name="city"
-							margin="dense"
-							variant="filled"
-						></TextField>
-					</DialogContent>
+					<TextField
+						label="End Date"
+						id={"enddate"}
+						type={"date"}
+						sx={{ width: "50%" }}
+						onChange={onChange}
+						value={fest.enddate}
+						name="enddate"
+						margin="dense"
+						variant="filled"
+						InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
+					></TextField>
 
-					<DialogActions>
+					<TextField
+						label="State"
+						id="state"
+						type="text"
+						sx={{ width: "50%" }}
+						onChange={onChange}
+						value={fest.state}
+						name="state"
+						margin="dense"
+						variant="filled"
+					></TextField>
+
+					<TextField
+						label="City"
+						id="city"
+						type="text"
+						sx={{ width: "50%" }}
+						onChange={onChange}
+						value={fest.city}
+						name="city"
+						margin="dense"
+						variant="filled"
+					></TextField>
+				</DialogContent>
+
+				<DialogActions>
 					<Button onClick={handleClose} size="small">
 						Cancel
 					</Button>
-				{openbname === "Add Fest" ? (
-					<Button onClick={handleCreateFest} size="small">
-						Create
-					</Button>
-				) : (
-					<Button onClick = {() => handleUpdateFest(formdata)} size="small">
-						Update
-					</Button>
-				)}
-					</DialogActions>
+					{openbname === "Add Fest" ? (
+						<Button onClick={handleCreateFest} size="small">
+							Create
+						</Button>
+					) : (
+						<Button onClick={() => handleUpdateFest(formdata)} size="small">
+							Update
+						</Button>
+					)}
+				</DialogActions>
 
-				</Dialog>
-			 
+			</Dialog>
+
 
 		</>
 	);

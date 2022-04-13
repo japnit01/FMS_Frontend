@@ -9,31 +9,44 @@ import Scheduler from "./Components/Scheduler";
 import FestState from "./Context/fest/FestState";
 import AuthState from "./Context/auth/AuthState"
 import EventState from "./Context/event/EventState"
-import Visitor from './Components/Visitor'; 
+import Visitor from './Components/Visitor';
 import VisitorState from "./Context/visitor/VisitorState";
+import Dual from "./Components/Dual";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  
+
   return (
     <>
       <AuthState>
         <FestState>
           <EventState>
             <VisitorState>
-            <BrowserRouter>
-              <Navbar />
-              <Routes>
-                <Route path="*" element={<Home />} /> // page-not-found route
-                <Route index path="/home" element={<Home />} />
-                <Route exact path="/c/myfests" element={<MyFest />} />
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/signup" element={<SignUp />} />
-                <Route path="/:typeofuser/fest/:festname" element={<Event />} />
-                <Route exact path="/u/fests" element={<Visitor />}/>
-                <Route exact path="/u/schedule" element={<Scheduler/>}/>
-              </Routes>
-            </BrowserRouter>
+              <BrowserRouter>
+                <Navbar />
+                <Routes>
+                  <Route path="/" />
+                  <Route index element={<Home />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<SignUp />} />
+                  <Route path="c">
+                    <Route index path="myfests" element={<MyFest />} />
+                    <Route path="fest">
+                      <Route path=":festname" element={<Event />} />
+                      <Route path=":festname/:eventid" element={<Dual />} />
+                    </Route>
+
+
+                  </Route>
+                  <Route path="u">
+                    <Route index path="fests" element={<Visitor />} />
+                    <Route path="schedule" element={<Scheduler />} />
+                    <Route path="fest/:festname" element={<Event />} />
+                  </Route>
+
+
+                </Routes>
+              </BrowserRouter>
             </VisitorState>
           </EventState>
         </FestState>

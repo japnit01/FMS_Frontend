@@ -11,7 +11,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import eventContext from '../Context/event/eventContext';
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD
 import Select from 'react-select';
+=======
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+>>>>>>> 973e28458b3022594029b879523ecaa286d2770f
 
 const AddEvent = (props) => {
   const context = useContext(eventContext);
@@ -141,6 +148,7 @@ const AddEvent = (props) => {
             variant="filled">
           </TextField>
 
+<<<<<<< HEAD
           {/* <TextField
             label="Type"
             id="type"
@@ -153,6 +161,24 @@ const AddEvent = (props) => {
             variant="filled">
           </TextField> */}
           <Select options={options}/>
+=======
+          <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+					<InputLabel id="demo-simple-select-filled-label">Type</InputLabel>
+					<Select
+						labelId="demo-simple-select-filled-label"
+            name="type"
+						value={event.type}
+						onChange={onChange}
+					>
+						<MenuItem value="">
+							<em>None</em>
+						</MenuItem>
+						<MenuItem value="Dual">Dual</MenuItem>
+						<MenuItem value="Single">Single</MenuItem>
+						<MenuItem value="Concert">Concert</MenuItem>
+					</Select>
+          </FormControl>
+>>>>>>> 973e28458b3022594029b879523ecaa286d2770f
 
           <TextField
             label="Start Date"

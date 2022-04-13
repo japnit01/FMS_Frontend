@@ -1,70 +1,76 @@
-import React,{ useEffect, useState, useContext} from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from '@mui/material';
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import visitorContext from "../Context/visitor/visitorContext"
+import Grid from '@mui/material/Grid';
 
 function Visitor() {
     const context = useContext(visitorContext);
-    const {fetchAllFests,update, setupdate } = context;
+    const { fetchAllFests, update, setupdate } = context;
     const [fests, setFests] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         setupdate(true)
-      },[]);
+    }, []);
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-          if (update) {
-            fetchAllFests().then((allfests) => {
-              const copyallfests = JSON.parse(JSON.stringify(allfests));
-              setFests(copyallfests);
-            });
-            return () => (setupdate(false));
-          }
-    
+            if (update) {
+                fetchAllFests().then((allfests) => {
+                    const copyallfests = JSON.parse(JSON.stringify(allfests));
+                    setFests(copyallfests);
+                });
+                return () => (setupdate(false));
+            }
+
         }
-      }, [update, fests]);
+    }, [update, fests]);
 
     return (
         <>
-            <Button onClick={()=>navigate('/u/schedule')} size="small"> Schedule </Button>
-            {fests.map((fest) => (
-                <Card key={fest._id} sx={{ maxWidth: 345 }} >
-                    <CardActionArea  onClick={() => navigate(`/u/fest/${fest.name}-${fest._id}`)}>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {fest.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Organised By:- {fest.organisation}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {fest.description}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {fest.startdate}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {fest.enddate}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {fest.state}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {fest.city}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            ))}
-                      <Link to="/u/schedule">Schedule</Link>
-        </>
-    )
+            <div className="myfest">
+                <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+                    {fests.map((fest) => (
+                        <Grid key={fest._id} item xs={4}>
+                        <Card id="festcard" sx={{ maxWidth: 345 }} >
+                            <CardActionArea className="festcardcontent" onClick={() => navigate(`/u/fest/${fest.name}-${fest._id}`)}>
+                                <CardContent>
+                                    <Typography variant="h5">
+                                        {fest.name}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.organisation}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.description}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.startdate}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.enddate}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.state}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {fest.city}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                        </Grid>
+                    ))}
+                    </Grid>
+                    </div>
+                    <Button onClick={() => navigate('/u/schedule')} size="small"> Schedule </Button>
+                </>
+                )
 }
 
-export default Visitor
+                export default Visitor

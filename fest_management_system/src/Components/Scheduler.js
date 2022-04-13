@@ -57,7 +57,7 @@ function Scheduler() {
 
             <Select options={options} />
         </>
-    ) 
+    )
 }
 
 export default Scheduler
