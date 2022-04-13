@@ -112,12 +112,6 @@ const AddEvent = (props) => {
     setOpen(false);
   };
 
-  const options = [
-    { value: 'duals', label: 'Duals' },
-    { value: 'solo', label: 'Solo' },
-    { value: 'concert', label: 'Concert' }
-  ]
-
   return (
     <>
       {openbname === "Add Event" ? (

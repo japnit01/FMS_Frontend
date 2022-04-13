@@ -109,8 +109,8 @@ function AddFest(props) {
 				</Button>
 			)}
 			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle className="container">{formname}</DialogTitle>
-				<DialogContent>
+				<DialogTitle className="containertitle">{formname}</DialogTitle>
+				<DialogContent className="containercontent">
 
 					<TextField
 						label="Title"
@@ -203,16 +203,16 @@ function AddFest(props) {
 					></TextField>
 				</DialogContent>
 
-				<DialogActions>
-					<Button onClick={handleClose} size="small">
+				<DialogActions className="containerbutton">
+					<Button sx={{ color: '#BB86FC' }} onClick={handleClose} size="small">
 						Cancel
 					</Button>
 					{openbname === "Add Fest" ? (
-						<Button onClick={handleCreateFest} size="small">
+						<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
 							Create
 						</Button>
 					) : (
-						<Button onClick={() => handleUpdateFest(formdata)} size="small">
+						<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest(formdata)} size="small">
 							Update
 						</Button>
 					)}

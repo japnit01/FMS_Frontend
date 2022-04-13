@@ -1,3 +1,14 @@
-.container{
+.containertitle{
     background-color: #121212;
+    color: white !important;
+}
+
+.containercontent{
+    background-color: #121212;
+    color: white
+}
+
+.containerbutton{
+    background-color: #121212;
+    color:white;
 }

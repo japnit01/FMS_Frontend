@@ -60,7 +60,7 @@ const Dual = () => {
         </>
       ))}
 
-      <Button size="small"> Next Match </Button>
+      {/* <Button size="small"> Next Match </Button> */}
     </>
   )
 }
