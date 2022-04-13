@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import eventContext from '../Context/event/eventContext'
 import visitorContext from '../Context/visitor/visitorContext'
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,useLocation } from "react-router-dom";
 import '../css/Event.css'
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
@@ -22,7 +22,9 @@ function Event() {
   const { addtoschedule } = context1;
 
   const navigate = useNavigate();
-  let { festname, typeofuser } = useParams();
+  let location = useLocation();
+  const typeofuser = location.pathname[1];
+  let { festname} = useParams();
   const [events, setevents] = useState([]);
 
 
@@ -50,7 +52,7 @@ function Event() {
         {events.map((event) => (
           <Grid key={event._id} item xs={4}>
             <Card id="eventcard" sx={{ maxWidth: 345 }} >
-              <CardActionArea className="eventcardcontent">
+              <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${event._id}`)}> 
                 <CardContent>
                   <Typography gutterBottom variant="h5">
                     {event.name}

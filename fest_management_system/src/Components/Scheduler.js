@@ -42,12 +42,10 @@ function Scheduler() {
     };
 
     return (
-        <>       
-            {schedule.map((fest,searchedevents)=>(
-                <div>{fest}</div>
-            ))}
+        <>
+                    
         </>
-    ) 
+    )
 }
 
 export default Scheduler

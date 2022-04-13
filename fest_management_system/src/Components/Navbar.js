@@ -145,7 +145,7 @@ function Navbar() {
             <MenuIcon />
           </IconButton>
 
-          <IconButton onClick={() => navigate("/home")}>
+          <IconButton onClick={() => navigate("/")}>
             <HomeIcon sx={{ color: "white" }}></HomeIcon>
           </IconButton>
 

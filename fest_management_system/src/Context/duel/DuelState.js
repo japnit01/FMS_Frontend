@@ -21,19 +21,6 @@ const DuelState = (props) => {
   //   setupdate(true);
   // };
 
-  const FetchDuel = async ({festid,eventid}) => {
-    const url = `${host}/api/events/${festid}/${eventid}/event-status`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-    });
-    const userduels = await response.json();
-    return userduels;
-  };
-
   // const UpdateFest = async (festid, jsonData) => {
 
   //   const url = `${host}/api/fests/updatefest/${festid}`;

@@ -12,8 +12,11 @@ import '../css/MyFest.css'
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
 
-
 function MyFest() {
+
+  var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
   const context = useContext(festContext);
   const { FetchFests, DeleteFest, update, setupdate } = context;
   const navigate = useNavigate();
@@ -28,6 +31,10 @@ function MyFest() {
       if (update) {
         FetchFests().then((userfests) => {
           const copyfests = JSON.parse(JSON.stringify(userfests));
+          copyfests.map((fest)=>{
+            fest.startdate = new Date(fest.startdate);
+            fest.enddate = new Date(fest.enddate);
+          })
           setFests(copyfests);
         });
         return () => (setupdate(false));
@@ -41,11 +48,12 @@ function MyFest() {
       <div className="myfest">
         <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
           {fests.map((fest) => (
-            <Grid item xs={4}>
+            <Grid key={fest._id} item xs={4}>
 
-              <Card id="festcard" key={fest._id} sx={{ maxWidth: 345 }} >
+              <Card id="festcard" sx={{ maxWidth: 345 }} >
                 <CardActionArea className="festcardcontent" onClick={() => navigate(`/c/fest/${fest.name}-${fest._id}`)}>
                   <CardMedia
+                    className="festcardmedia"
                     component="img"
                     height="100%"
                     image="/festprofile/1.jpg"
@@ -60,10 +68,7 @@ function MyFest() {
                       {fest.organisation}
                     </Typography>
                     <Typography variant="body2">
-                      {`${new Date(fest.startdate).getDate()}-${new Date(fest.startdate).getMonth()}-${new Date(fest.startdate).getFullYear()}`}
-                    </Typography>
-                    <Typography variant="body2">
-                    {`${new Date(fest.enddate).getDate()}-${new Date(fest.enddate).getMonth()}-${new Date(fest.enddate).getFullYear()}`}
+                      {`${fest.startdate.getDate()} ${mS[fest.startdate.getMonth()-1]} ${(fest.startdate.getFullYear()) % 100} - ${fest.enddate.getDate()} ${mS[fest.enddate.getMonth()-1]} ${(fest.enddate.getFullYear()) % 100}`}
                     </Typography>
                     <Typography variant="body2">
                       {`${fest.state},${fest.city}`}
