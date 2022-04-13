@@ -9,13 +9,14 @@ import visitorContext from "../Context/visitor/visitorContext"
 import { useNavigate } from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import Select from 'react-select'
 
 function Scheduler() {
     const context = useContext(visitorContext);
     const { fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
+    const [options, setOptions] = useState([{value: '',label: ''}]);
 
     useEffect(() => {
         setupdate(true)
@@ -27,6 +28,13 @@ function Scheduler() {
                 fetchScheduledEvents().then((scheduledevents) => {
                     const copyevents = JSON.parse(JSON.stringify(scheduledevents));
                     setschedule(copyevents);
+
+                    let filters = [];
+                    schedule.map(({fest,searchedevents}) => {
+                        filters.push({value: fest.name, label: fest.name});
+                    });
+                    setOptions(filters);
+
                     console.log(copyevents);
                 });
                 return () => (setupdate(false));
@@ -43,9 +51,11 @@ function Scheduler() {
 
     return (
         <>       
-            {schedule.map((fest,searchedevents)=>(
+            {/* {schedule.map((fest,searchedevents)=>(
                 <div>{fest}</div>
-            ))}
+            ))} */}
+
+            <Select options={options} />
         </>
     ) 
 }

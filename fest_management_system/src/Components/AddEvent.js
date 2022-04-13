@@ -11,6 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import eventContext from '../Context/event/eventContext';
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
+import Select from 'react-select';
 
 const AddEvent = (props) => {
   const context = useContext(eventContext);
@@ -108,6 +109,12 @@ const AddEvent = (props) => {
     setOpen(false);
   };
 
+  const options = [
+    { value: 'duals', label: 'Duals' },
+    { value: 'solo', label: 'Solo' },
+    { value: 'concert', label: 'Concert' }
+  ]
+
   return (
     <>
       {openbname === "Add Event" ? (
@@ -134,7 +141,7 @@ const AddEvent = (props) => {
             variant="filled">
           </TextField>
 
-          <TextField
+          {/* <TextField
             label="Type"
             id="type"
             type="text"
@@ -144,7 +151,8 @@ const AddEvent = (props) => {
             name="type"
             margin="dense"
             variant="filled">
-          </TextField>
+          </TextField> */}
+          <Select options={options}/>
 
           <TextField
             label="Start Date"

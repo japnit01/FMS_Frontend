@@ -25,7 +25,6 @@ function Event() {
   let { festname, typeofuser } = useParams();
   const [events, setevents] = useState([]);
 
-
   useEffect(() => {
     setupdate(true)
   }, []);
