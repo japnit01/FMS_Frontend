@@ -5,10 +5,11 @@ import {Card, CardContent, Grid, Button, Typography, TextField} from '@mui/mater
 
 const Dual = () => {
   const context = useContext(eventContext);
-  const { FetchDual, update, setupdate } = context;
+  const { FetchDual, NextMatch, update, setupdate } = context;
   const [currentRound, setCurrentRound] = useState([]);
   const [player1, setplayer1] = useState([]);
   const [player2, setplayer2] = useState([]);
+  const [Round,setRound] = useState(-1);
   let { festname, eventid } = useParams();
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const Dual = () => {
         copydual.duals[0][1].score = 0;
         setplayer1(copydual.duals[0][0])
         setplayer2(copydual.duals[0][1])
+        setRound(copydual.roundNo)
       });
       return () => (setupdate(false));
     }
@@ -27,21 +29,23 @@ const Dual = () => {
 
   const onChangeP1 = (e) => {
 		setplayer1({ ...player1, [e.target.name]: e.target.value });
-    console.log(player1);
 	};
 
   const onChangeP2 = (e) => {
 		setplayer2({ ...player2, [e.target.name]: e.target.value });
-    console.log(player2);
 	};
   
   const nextMatch = () =>{
+    let jsonData = {
+			comp1: player1._id,
+      comp2: player2._id,
+      score1: player1.score1,
+      score2: player2.score2,
+      round: Round
+		};
 
+    NextMatch(festname, eventid,jsonData)
   }
-
-  useEffect(() =>{ 
-    console.log(player1,player2);
-  })
 
   return (
     <>
@@ -73,7 +77,7 @@ const Dual = () => {
           }
           </Grid> 
           
-        <Button size="small"> Next Match </Button>
+        <Button size="small" onClick={nextMatch}> Next Match </Button>
     </>
   )
 }

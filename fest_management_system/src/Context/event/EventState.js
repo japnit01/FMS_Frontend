@@ -79,12 +79,27 @@ const EventState = (props) => {
       },
     });
     let userduals = await response.json();
-    console.log(userduals.duals[0]);
+    // console.log(userduals.duals[0]);
     return userduals;
   };
 
+  const NextMatch = async (festname, eventid,jsonData) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/duals/${festid}/${eventid}/nextMatch`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+      body: JSON.stringify(jsonData),
+    });
+    let match = await response.json();
+    console.log(match);
+  };
+
   return (
-    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, update, setupdate }}>
+    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
