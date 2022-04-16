@@ -12,6 +12,7 @@ import EventState from "./Context/event/EventState"
 import Visitor from './Components/Visitor';
 import VisitorState from "./Context/visitor/VisitorState";
 import Dual from "./Components/Dual";
+import Solo from "./Components/Solo";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -32,8 +33,10 @@ function App() {
                   <Route path="c">
                     <Route index path="myfests" element={<MyFest />} />
                     <Route path="fest">
-                      <Route path=":festname" element={<Event />} />
-                      <Route path=":festname/:eventid" element={<Dual />} />
+                      <Route path=":festname"
+                       element={<Event />} />
+                      <Route path=":festname/duals/:eventid" element={<Dual />} />
+                      <Route path=":festname/solo/:eventid" element={<Solo />} />
                     </Route>
 
 
