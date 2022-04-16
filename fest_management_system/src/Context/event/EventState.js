@@ -100,7 +100,6 @@ const EventState = (props) => {
 
   const FetchCompetitors = async(festname, eventid) => {
     const festid = festname.split("-")[1];
-
     const url = `${host}/api/events/solo/${festid}/${eventid}/event-status`;
     const response = await fetch(url, {
       method: "GET",

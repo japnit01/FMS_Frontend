@@ -12,33 +12,25 @@ import IconButton from '@mui/material/IconButton';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
- 
+import Grid from '@mui/material/Grid';
+
 function Solo() {
 
   let context = useContext(eventContext);
   let { FetchCompetitors, update, setupdate } = context;
   let [competitors, setCompetitors] = useState([]);
-  let {festname, eventid} = useParams();
-  let {cardStyle, setCardStyle} = useState({maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)'});
-
-  useEffect(() => {
-    setupdate(true)
-  }, []);
+  let { festname, eventid } = useParams();
+  let { cardStyle, setCardStyle } = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-        if (update) {
-            FetchCompetitors(festname,eventid).then((comps) => {
-                const copycompetitors = JSON.parse(JSON.stringify(comps));
-                setCompetitors(copycompetitors.compList);
-
-                // console.log(copycompetitors);
-            });
-            return () => (setupdate(false));
-        }
-
+      FetchCompetitors(festname, eventid).then((comps) => {
+        const copycompetitors = JSON.parse(JSON.stringify(comps));
+        setCompetitors(copycompetitors.compList);
+      });
+      return () => (setupdate(false));
     }
-  }, [update, competitors]);
+  }, []);
 
   const breakName = (name) => {
 
@@ -46,63 +38,52 @@ function Solo() {
     let firstName = "";
     let lastName = "";
 
-    if(index === -1) {
+    if (index === -1) {
       firstName = name;
     } else {
-      firstName = name.slice(0,index);
-      lastName = name.slice(index+1,name.length);
+      firstName = name.slice(0, index);
+      lastName = name.slice(index + 1, name.length);
     }
 
-    return {firstName,lastName};
+    return { firstName, lastName };
   }
 
   const handleSelected = (e) => {
-    if(e.target.id === "vote") {
-      setCardStyle({maxWidth: 260, height: 'auto', border: '6px solid green', filter: 'brightness(110%)'});
-    } else { 
-      setCardStyle({maxWidth: 240, height: 'auto', border: '2px solid black', filter: 'brightness(80%)'});
+    if (e.target.id === "vote") {
+      setCardStyle({ maxWidth: 260, height: 'auto', border: '6px solid green', filter: 'brightness(110%)' });
+    } else {
+      setCardStyle({ maxWidth: 240, height: 'auto', border: '2px solid black', filter: 'brightness(80%)' });
     }
   }
 
   return (
     <>
-      {console.log('competitors on frontend',competitors)}
-      {competitors.map((competitor) => {
-        <div>{competitor.name}</div>
-        // console.log('competitor: ',competitor)
-        // console.log('competitor name : ',competitor.name)
-        let {firstName, lastName} =  breakName(competitor.name);
-
-        <Card sx={ cardStyle }>
-          <CardActionArea>
-            {/* <CardMedia
-              component="img"
-              height="140"
-              image={"https://ui-avatars.com/api/?name=" + firstName + (lastName !== "") ? "+" + lastName : ""}
-              alt="green iguana"
-            /> */}
-            {/* <Avatar sx={{ bgcolor: deepOrange[500] }} variant="square">
-              {firstName[0]}{(lastName !== "") ? lastName[0] : ""}
-            </Avatar> */}
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {competitor.name.toUpperCase()}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {competitor.college}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="vote" id='vote' onClick={handleSelected}>
-                  <CheckIcon />
-                </IconButton>
-                <IconButton aria-label="clear" id='clear' onClick={handleSelected}>
-                  <ClearIcon />
-                </IconButton>
-            </CardActions>
-          </CardActionArea>
-        </Card>
-      })}
+      <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+        {competitors.map((competitor) => (
+          <Grid key={competitor._id} item xs={4}>
+            <Card sx={cardStyle}>
+              <CardActionArea>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {competitor.name.toUpperCase()}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {competitor.college}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <IconButton aria-label="vote" id='vote' onClick={handleSelected}>
+                    <CheckIcon />
+                  </IconButton>
+                  <IconButton aria-label="clear" id='clear' onClick={handleSelected}>
+                    <ClearIcon />
+                  </IconButton>
+                </CardActions>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </>
   )
 }

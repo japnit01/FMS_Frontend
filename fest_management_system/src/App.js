@@ -33,8 +33,7 @@ function App() {
                   <Route path="c">
                     <Route index path="myfests" element={<MyFest />} />
                     <Route path="fest">
-                      <Route path=":festname"
-                       element={<Event />} />
+                      <Route path=":festname" element={<Event />} />
                       <Route path=":festname/duals/:eventid" element={<Dual />} />
                       <Route path=":festname/solo/:eventid" element={<Solo />} />
                     </Route>
