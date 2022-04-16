@@ -51,7 +51,7 @@ function Event() {
         {events.map((event) => (
           <Grid key={event._id} item xs={4}>
             <Card id="eventcard" sx={{ maxWidth: 345 }} >
-              <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${event._id}`)}> 
+              <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${(event.type === 'Dual' ? 'duals' : 'solo')}/${event._id}`)}> 
                 <CardContent>
                   <Typography gutterBottom variant="h5">
                     {event.name}

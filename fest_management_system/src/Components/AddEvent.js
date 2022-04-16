@@ -150,7 +150,7 @@ const AddEvent = (props) => {
 							<em>None</em>
 						</MenuItem>
 						<MenuItem value="Dual">Dual</MenuItem>
-						<MenuItem value="Single">Single</MenuItem>
+						<MenuItem value="Solo">Solo</MenuItem>
 						<MenuItem value="Concert">Concert</MenuItem>
 					</Select>
           </FormControl>

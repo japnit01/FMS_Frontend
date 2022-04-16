@@ -98,8 +98,23 @@ const EventState = (props) => {
     console.log(match);
   };
 
+  const FetchCompetitors = async(festname, eventid) => {
+    const festid = festname.split("-")[1];
+
+    const url = `${host}/api/events/solo/${festid}/${eventid}/event-status`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    });
+    const allcompetitors = await response.json();
+    return allcompetitors;
+  };
+
   return (
-    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, update, setupdate }}>
+    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
