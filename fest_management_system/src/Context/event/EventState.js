@@ -33,6 +33,7 @@ const EventState = (props) => {
       },
     });
     const allevents = await response.json();
+    console.log(allevents)
     return allevents;
   };
 
@@ -78,8 +79,7 @@ const EventState = (props) => {
       },
     });
     let userduals = await response.json();
-    console.log(userduals.duals);
-    // userduals = JSON.stringify(userduals)
+    console.log(userduals.duals[0]);
     return userduals;
   };
 
