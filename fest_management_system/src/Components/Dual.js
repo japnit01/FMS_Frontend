@@ -16,6 +16,7 @@ const Dual = () => {
     if (localStorage.getItem("token")) {
       FetchDual(festname, eventid).then((festdual) => {
         const copydual = JSON.parse(JSON.stringify(festdual));
+        console.log('copydual: ',copydual)
         setCurrentRound(copydual);
         copydual.duals[0][0].score = 0;
         copydual.duals[0][1].score = 0;
