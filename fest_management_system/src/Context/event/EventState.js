@@ -1,5 +1,6 @@
 import { useState } from "react";
 import eventContext from "./eventContext";
+import { useNavigate } from 'react-router-dom'
 
 const EventState = (props) => {
   const host = "http://localhost:5000";
@@ -85,6 +86,8 @@ const EventState = (props) => {
 
   const NextMatch = async (festname, eventid,jsonData) => {
     const festid = festname.split("-")[1];
+    const navigate = useNavigate();
+
     const url = `${host}/api/events/duals/${festid}/${eventid}/nextMatch`;
     const response = await fetch(url, {
       method: "POST",
@@ -96,6 +99,9 @@ const EventState = (props) => {
     });
     let match = await response.json();
     console.log(match);
+
+    let redirectUrl = `${host}/api/events/duals/${festid}/${eventid}/event-status`;
+    navigate(redirectUrl)
   };
 
   const FetchCompetitors = async(festname, eventid) => {
