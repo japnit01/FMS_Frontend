@@ -80,7 +80,7 @@ const EventState = (props) => {
       },
     });
     let userduals = await response.json();
-    // console.log(userduals.duals[0]);
+    console.log(userduals.duals[0]);
     return userduals;
   };
 
