@@ -99,128 +99,126 @@ function AddFest(props) {
 
 	return (
 		<>
-			{openbname === "Add Fest" ? (
-				<Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
-					{openbname}
-				</Button>
-			) : (
-				<Button sx={{ color: '#BB86FC' }} id="editbtn" onClick={handleClickOpenFill} size="small">
-					{openbname}
-				</Button>
-			)}
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle className="containertitle">{formname}</DialogTitle>
-				<DialogContent className="containercontent">
-
-					<TextField
-						label="Title"
-						id="name"
-						type="text"
-						sx={{ width: "100%" }}
-						onChange={onChange}
-						value={fest.name}
-						name="name"
-						margin="dense"
-						variant="filled"
-					></TextField>
-
-					<Autocomplete
-						id="combo-box-demo"
-						value={org}
-						getOptionLabel={(option) => option.label}
-						options={universities}
-						onChange={(e, value) => { handleChange(e, value) }}
-						sx={{ width: '100%', paddingTop: '2%' }}
-
-						renderOption={(props, option) => (
-							<Box component="li" {...props} key={option.id}>
-								{option.label}
-							</Box>
-						)}
-						renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
-					/>
-
-					<TextField
-						label="Description"
-						id="description"
-						type="text"
-						sx={{ width: "100%" }}
-						onChange={onChange}
-						value={fest.description}
-						name="description"
-						margin="dense"
-						variant="filled"
-					></TextField>
-
-					<TextField
-						label="Start Date"
-						id="startdate"
-						type="date"
-						sx={{ width: "50%" }}
-						onChange={onChange}
-						value={fest.startdate}
-						name="startdate"
-						margin="dense"
-						variant="filled"
-						InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-					></TextField>
-
-					<TextField
-						label="End Date"
-						id={"enddate"}
-						type={"date"}
-						sx={{ width: "50%" }}
-						onChange={onChange}
-						value={fest.enddate}
-						name="enddate"
-						margin="dense"
-						variant="filled"
-						InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-					></TextField>
-
-					<TextField
-						label="State"
-						id="state"
-						type="text"
-						sx={{ width: "50%" }}
-						onChange={onChange}
-						value={fest.state}
-						name="state"
-						margin="dense"
-						variant="filled"
-					></TextField>
-
-					<TextField
-						label="City"
-						id="city"
-						type="text"
-						sx={{ width: "50%" }}
-						onChange={onChange}
-						value={fest.city}
-						name="city"
-						margin="dense"
-						variant="filled"
-					></TextField>
-				</DialogContent>
-
-				<DialogActions className="containerbutton">
-					<Button sx={{ color: '#BB86FC' }} onClick={handleClose} size="small">
-						Cancel
+				{openbname === "Add Fest" ? (
+					<Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
+						{openbname}
 					</Button>
-					{openbname === "Add Fest" ? (
-						<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
-							Create
+				) : (
+					<Button sx={{ color: '#BB86FC' }} id="editbtn" onClick={handleClickOpenFill} size="small">
+						{openbname}
+					</Button>
+				)}
+				<Dialog open={open} onClose={handleClose}>
+					<DialogTitle className="containertitle">{formname}</DialogTitle>
+					<DialogContent className="containercontent">
+
+						<TextField
+							label="Title"
+							id="name"
+							type="text"
+							sx={{ width: "100%" }}
+							onChange={onChange}
+							value={fest.name}
+							name="name"
+							margin="dense"
+							variant="filled"
+						></TextField>
+
+						<Autocomplete
+							id="combo-box-demo"
+							value={org}
+							getOptionLabel={(option) => option.label}
+							options={universities}
+							onChange={(e, value) => { handleChange(e, value) }}
+							sx={{ width: '100%', paddingTop: '2%' }}
+
+							renderOption={(props, option) => (
+								<Box component="li" {...props} key={option.id}>
+									{option.label}
+								</Box>
+							)}
+							renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+						/>
+
+						<TextField
+							label="Description"
+							id="description"
+							type="text"
+							sx={{ width: "100%" }}
+							onChange={onChange}
+							value={fest.description}
+							name="description"
+							margin="dense"
+							variant="filled"
+						></TextField>
+
+						<TextField
+							label="Start Date"
+							id="startdate"
+							type="date"
+							sx={{ width: "50%" }}
+							onChange={onChange}
+							value={fest.startdate}
+							name="startdate"
+							margin="dense"
+							variant="filled"
+							InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
+						></TextField>
+
+						<TextField
+							label="End Date"
+							id={"enddate"}
+							type={"date"}
+							sx={{ width: "50%" }}
+							onChange={onChange}
+							value={fest.enddate}
+							name="enddate"
+							margin="dense"
+							variant="filled"
+							InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
+						></TextField>
+
+						<TextField
+							label="State"
+							id="state"
+							type="text"
+							sx={{ width: "50%" }}
+							onChange={onChange}
+							value={fest.state}
+							name="state"
+							margin="dense"
+							variant="filled"
+						></TextField>
+
+						<TextField
+							label="City"
+							id="city"
+							type="text"
+							sx={{ width: "50%" }}
+							onChange={onChange}
+							value={fest.city}
+							name="city"
+							margin="dense"
+							variant="filled"
+						></TextField>
+					</DialogContent>
+
+					<DialogActions className="containerbutton">
+						<Button sx={{ color: '#BB86FC' }} onClick={handleClose} size="small">
+							Cancel
 						</Button>
-					) : (
-						<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest(formdata)} size="small">
-							Update
-						</Button>
-					)}
-				</DialogActions>
+						{openbname === "Add Fest" ? (
+							<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
+								Create
+							</Button>
+						) : (
+							<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest(formdata)} size="small">
+								Update
+							</Button>
+						)}
+					</DialogActions>
 
-			</Dialog>
-
-
+				</Dialog>
 		</>
 	);
 }
