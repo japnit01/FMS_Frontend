@@ -86,6 +86,11 @@ function Solo() {
 
   const handleVoting = async() => {
 
+    if(localStorage.getItem("voting")) {
+      setDisabled(true);
+      return ;
+    }
+
     const festid = festname.split("-")[1];
     let url = `${host}/api/events/solo/${festid}/${eventid}/voting`;
     let jsonData = {selectedCandidates}
@@ -106,7 +111,7 @@ function Solo() {
       return ;
     }
 
-    setDisabled(true)
+    localStorage.setItem('voting',true);
 
     console.log(votedList);
     return votedList;

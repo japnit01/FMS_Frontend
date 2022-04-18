@@ -6,7 +6,7 @@ import { Card, CardContent, Grid, Button, Typography, TextField } from '@mui/mat
 const Dual = () => {
   const context = useContext(eventContext);
   const { FetchDual, NextMatch, update, setupdate } = context;
-  const [currentRound, setCurrentRound] = useState([]);
+  const [currentRound, setCurrentRound] = useState({});
   const [player1, setplayer1] = useState([]);
   const [player2, setplayer2] = useState([]);
   const [Round, setRound] = useState(-1);
@@ -19,6 +19,7 @@ const Dual = () => {
         const copydual = JSON.parse(JSON.stringify(festdual));
         console.log('copydual: ',copydual)
         setCurrentRound(copydual);
+        console.log(currentRound)
         copydual.duals[0][0].score = 0;
         copydual.duals[0][1].score = 0;
         setmatchno(0);
