@@ -37,7 +37,6 @@ function App() {
                       <Route path=":festname" element={<Event />} />
                       <Route path=":festname/duals/:eventid" element={<Dual />} />
                       <Route path=":festname/solo/:eventid" element={<Solo />} />
-                      {/* <Route path=":festname/:eventid/finish">{<Finish />}</Route> */}
                     </Route>
 
 

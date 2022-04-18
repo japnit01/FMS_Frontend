@@ -79,7 +79,7 @@ const EventState = (props) => {
       },
     });
     let userduals = await response.json();
-    console.log(userduals.duals[0]);
+    console.log(userduals);
     return userduals;
   };
 
@@ -98,6 +98,21 @@ const EventState = (props) => {
     console.log(match);
   };
 
+  const NextRound = async (festname, eventid) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/duals/${festid}/${eventid}/nextRound`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    });
+    let userduals = await response.json();
+    console.log(userduals);
+    return userduals;
+  };
+
   const FetchCompetitors = async(festname, eventid) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/solo/${festid}/${eventid}/event-status`;
@@ -113,7 +128,7 @@ const EventState = (props) => {
   };
 
   return (
-    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
