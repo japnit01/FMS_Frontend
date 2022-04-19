@@ -1,20 +1,10 @@
 import React, { useState, useContext } from 'react'
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
+import {Dialog, DialogContent, DialogActions, DialogTitle, TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment} from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
-import InputAdornment from '@mui/material/InputAdornment';
 import eventContext from '../Context/event/eventContext';
-import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 const AddEvent = (props) => {
   const context = useContext(eventContext);
@@ -159,11 +149,12 @@ const AddEvent = (props) => {
             label="Start Date"
             id="startdate"
             type="date"
-            sx={{ width: "100%" }}
+            sx={{ width: "35%" }}
             onChange={onChange}
             value={event.startdate}
             name="startdate"
             margin="dense"
+            variant="filled"
             InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
           ></TextField>
 
@@ -194,6 +185,7 @@ const AddEvent = (props) => {
             value={event.description}
             name="description"
             margin="dense"
+            variant="filled"
           >
           </TextField>
 
@@ -206,6 +198,7 @@ const AddEvent = (props) => {
             value={event.venue}
             name="venue"
             margin="dense"
+            variant="filled"
           >
           </TextField>
 
@@ -218,6 +211,7 @@ const AddEvent = (props) => {
             value={event.fee}
             name="fee"
             margin="dense"
+            variant="filled"
           >
           </TextField>
 

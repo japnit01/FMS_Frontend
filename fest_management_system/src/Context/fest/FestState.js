@@ -4,6 +4,16 @@ import festContext from "./festContext";
 const FestState = (props) => {
   const host = "http://localhost:5000";
   const [update,setupdate] = useState(true);
+  const [fest, setFest] = useState({
+    id:"",
+		name: "",
+		description: "",
+		startdate: "",
+		enddate: "",
+		state: "",
+		city: "",
+		organisation: "",
+	});
 
   const CreateFest = async (jsonData) => {
     const url = `${host}/api/fests/addfest`;
@@ -65,7 +75,7 @@ const FestState = (props) => {
   }
 
   return (
-    <festContext.Provider value={{ CreateFest, FetchFests, UpdateFest, DeleteFest,update,setupdate }}>
+    <festContext.Provider value={{ CreateFest, FetchFests, UpdateFest, DeleteFest,update,setupdate,fest,setFest }}>
       {props.children}
     </festContext.Provider>
   );

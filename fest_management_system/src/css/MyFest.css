@@ -2,6 +2,7 @@
     background-color: #121212;
     min-height: 100vh;
     padding-top: 3%;
+    padding-bottom:4%;
 }
 
 #festcard{
@@ -10,17 +11,9 @@
     overflow: visible !important;
 }
 
-#festcard div{ 
-    background-color: rgba(18,18,18,0.90) !important;
- }
-
- .festcardcontent{
+.festcardcontent{
      border-radius: 15px 15px 0 0;
  }
-
-.festcardcontent h5,p{
-    color: white !important;
-}
 
 .festcardcontent p{
     margin-top: 2%;

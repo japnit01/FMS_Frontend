@@ -10,17 +10,10 @@
     overflow: visible !important;
 }
 
-#eventcard div{ 
-    background-color: rgba(18,18,18,0.90) !important;
- }
-
  .eventcardcontent{
      border-radius: 15px 15px 0 0;
  }
 
-.eventcardcontent h5,p{
-    color: white !important;
-}
 
 .eventcardcontent p{
     margin-top: 2%;

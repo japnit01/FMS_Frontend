@@ -1,34 +1,53 @@
-import React, { useContext, useState } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import React, { useContext, useState,useEffect } from "react";
+import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import universities from './universities'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import festContext from "../Context/fest/festContext"
-import InputAdornment from '@mui/material/InputAdornment';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import '../css/AddFest.css';
+import { useNavigate,useParams } from "react-router-dom";
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-function AddFest(props) {
+
+function AddFest() {
 	const context = useContext(festContext);
-	const { CreateFest, UpdateFest } = context;
-	const { openbname, formname, formdata } = props;
+	const { CreateFest, UpdateFest,fest,setFest, update, setupdate } = context;
+	let { festevent} = useParams();
+	const navigate = useNavigate();
 
-	const [open, setOpen] = useState(false);
-	const [fest, setFest] = useState({
-		name: "",
-		description: "",
-		startdate: "",
-		enddate: "",
-		state: "",
-		city: "",
-		organisation: "",
-	});
+	const [org, setorg] = useState({ label: 'Select Organisation' });
+	const [startDate, setstartDate] = useState();
+	const [endDate, setendDate] = useState();
 
-	const [org, setorg] = React.useState({ label: 'Select Organisation' });
+	const handleClickOpenFill = () => {
+		console.log(fest)
+		const sdate = new Date(fest.startdate)
+		const edate = new Date(fest.enddate)
+
+		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth()) : (sdate.getMonth())) + "-" + (sdate.getDate() < 9 ? "0" + sdate.getDate() : sdate.getDate());
+		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() ) : (edate.getMonth())) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
+		console.log(startdate,enddate)
+		setorg({ label: fest.organisation });
+		setstartDate(startdate);
+		setendDate(enddate)
+	};
+
+	useEffect(() => {
+		setupdate(true)
+	  }, []);
+
+	useEffect(() => {
+		  if (update && festevent === "editfest") {
+			//   console.log("here")
+			handleClickOpenFill()
+			return () => (setupdate(false));
+		  }
+	  }, [update]);
+	
 
 	const handleChange = (e, value) => {
 		if (value)
@@ -39,186 +58,154 @@ function AddFest(props) {
 		setFest({ ...fest, [e.target.name]: e.target.value });
 	};
 
-	const handleUpdateFest = async (selfest) => {
-
+	const handleUpdateFest = async () => {
 		let jsonData = {
 			name: fest.name,
 			description: fest.description,
-			startdate: fest.startdate,
-			enddate: fest.enddate,
+			startdate: startDate,
+			enddate: endDate,
 			state: fest.state,
 			city: fest.city,
 			organisation: org.label,
 		};
-		UpdateFest(selfest._id, jsonData);
-		setOpen(false);
+		UpdateFest(fest.id, jsonData);
+		navigate('/c/myfests')
 	};
 
 	const handleCreateFest = async () => {
 		let jsonData = {
 			name: fest.name,
 			description: fest.description,
-			startdate: fest.startdate,
-			enddate: fest.enddate,
+			startdate: startDate,
+			enddate: endDate,
 			state: fest.state,
 			city: fest.city,
 			organisation: org.label,
 		};
 		CreateFest(jsonData);
-		setOpen(false);
-	};
-
-	const handleClickOpenFill = () => {
-		const sdate = new Date(formdata.startdate)
-		const edate = new Date(formdata.enddate)
-
-		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + sdate.getDate() : sdate.getDate());
-		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() + 1) : (edate.getMonth() + 1)) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
-
-		setFest({
-			name: formdata.name,
-			description: formdata.description,
-			startdate: startdate,
-			enddate: enddate,
-			state: formdata.state,
-			city: formdata.city,
-		});
-
-		setorg({ label: formdata.organisation });
-		setOpen(true);
-	};
-
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
+		navigate('/c/myfests')
 	};
 
 	return (
 		<>
-				{openbname === "Add Fest" ? (
-					<Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
-						{openbname}
-					</Button>
-				) : (
-					<Button sx={{ color: '#BB86FC' }} id="editbtn" onClick={handleClickOpenFill} size="small">
-						{openbname}
-					</Button>
-				)}
-				<Dialog open={open} onClose={handleClose}>
-					<DialogTitle className="containertitle">{formname}</DialogTitle>
-					<DialogContent className="containercontent">
+			<div className="addfestcontainer">
+				<Container>
+					<TextField
+						label="Title"
+						className="addfestinput"
+						type="text"
+						sx={{ width: "100%" }}
+						onChange={onChange}
+						value={fest.name}
+						name="name"
+						margin="dense"
+						variant="filled"
+						autoComplete="off"
+					></TextField>
 
-						<TextField
-							label="Title"
-							id="name"
-							type="text"
-							sx={{ width: "100%" }}
-							onChange={onChange}
-							value={fest.name}
-							name="name"
-							margin="dense"
-							variant="filled"
-						></TextField>
+					<Autocomplete
+						value={org}
+						className="addfestinput"
+						getOptionLabel={(option) => option.label}
+						options={universities}
+						onChange={(e, value) => { handleChange(e, value) }}
+						sx={{ width: '100%', paddingTop: '2%' }}
 
-						<Autocomplete
-							id="combo-box-demo"
-							value={org}
-							getOptionLabel={(option) => option.label}
-							options={universities}
-							onChange={(e, value) => { handleChange(e, value) }}
-							sx={{ width: '100%', paddingTop: '2%' }}
+						renderOption={(props, option) => (
+							<Box component="li" {...props} key={option.id}>
+								{option.label}
+							</Box>
+						)}
+						renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+					/>
 
-							renderOption={(props, option) => (
-								<Box component="li" {...props} key={option.id}>
-									{option.label}
-								</Box>
-							)}
-							renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+					<TextField
+						label="Description"
+						id="description"
+						type="text"
+						sx={{ width: "100%", mb: "3%" }}
+						onChange={onChange}
+						value={fest.description}
+						name="description"
+						margin="dense"
+						variant="filled"
+						autoComplete="off"
+					></TextField>
+
+
+					<LocalizationProvider dateAdapter={AdapterDateFns}>
+						<DesktopDatePicker
+							label="Responsive"
+							showTodayButton
+							openTo="year"
+							className="datefield"
+							views={['year', 'month', 'day']}
+							value={startDate}
+							sx={{ width: "35%" }}
+							name="startdate"
+							onChange={(newValue) => {
+								setstartDate(newValue);
+							}}
+							renderInput={(params) => <TextField {...params} />}
 						/>
 
-						<TextField
-							label="Description"
-							id="description"
-							type="text"
-							sx={{ width: "100%" }}
-							onChange={onChange}
-							value={fest.description}
-							name="description"
-							margin="dense"
-							variant="filled"
-						></TextField>
-
-						<TextField
-							label="Start Date"
-							id="startdate"
-							type="date"
-							sx={{ width: "50%" }}
-							onChange={onChange}
-							value={fest.startdate}
+						<DesktopDatePicker
+							label="Responsive"
+							showTodayButton
+							openTo="year"
+							className="datefield"
+							views={['year', 'month', 'day']}
+							value={endDate}
+							sx={{ width: "35%" }}
 							name="startdate"
-							margin="dense"
-							variant="filled"
-							InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-						></TextField>
+							onChange={(newValue) => {
+								setendDate(newValue);
+							}}
+							renderInput={(params) => <TextField {...params} />}
+						/>
+					</LocalizationProvider>
 
-						<TextField
-							label="End Date"
-							id={"enddate"}
-							type={"date"}
-							sx={{ width: "50%" }}
-							onChange={onChange}
-							value={fest.enddate}
-							name="enddate"
-							margin="dense"
-							variant="filled"
-							InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-						></TextField>
+					<TextField
+						label="State"
+						id="state"
+						type="text"
+						sx={{ width: "40%" }}
+						onChange={onChange}
+						value={fest.state}
+						name="state"
+						margin="dense"
+						variant="filled"
+						autoComplete="off"
+					></TextField>
 
-						<TextField
-							label="State"
-							id="state"
-							type="text"
-							sx={{ width: "50%" }}
-							onChange={onChange}
-							value={fest.state}
-							name="state"
-							margin="dense"
-							variant="filled"
-						></TextField>
+					<TextField
+						label="City"
+						id="city"
+						type="text"
+						sx={{ width: "40%" }}
+						onChange={onChange}
+						value={fest.city}
+						name="city"
+						margin="dense"
+						variant="filled"
+						autoComplete="off"
+					></TextField>
+				</Container>
 
-						<TextField
-							label="City"
-							id="city"
-							type="text"
-							sx={{ width: "50%" }}
-							onChange={onChange}
-							value={fest.city}
-							name="city"
-							margin="dense"
-							variant="filled"
-						></TextField>
-					</DialogContent>
+				<Button sx={{ color: '#BB86FC' }} onClick={()=>{navigate('/c/myfests')}} size="small">
+					Cancel
+				</Button>
 
-					<DialogActions className="containerbutton">
-						<Button sx={{ color: '#BB86FC' }} onClick={handleClose} size="small">
-							Cancel
-						</Button>
-						{openbname === "Add Fest" ? (
-							<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
-								Create
-							</Button>
-						) : (
-							<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest(formdata)} size="small">
-								Update
-							</Button>
-						)}
-					</DialogActions>
-
-				</Dialog>
+				{festevent === "createfest" ? (
+					<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
+						Create
+					</Button>
+				) : (
+					<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest()} size="small">
+						Update
+					</Button>
+				)}
+			</div>
 		</>
 	);
 }

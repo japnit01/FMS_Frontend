@@ -27,7 +27,7 @@ const Dual = () => {
 
   useEffect(()=>{
     if(matchno >= 0) {
-      console.log(currentRound)
+
       setplayer1({id:currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score:0});
       setplayer2({id:currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score:0});
     }
@@ -49,7 +49,6 @@ const Dual = () => {
       score2: player2.score,
       round: Round
     };
-
     NextMatch(festname, eventid, jsonData)
     console.log('jsonData',jsonData)
     setmatchno(matchno + 1);
@@ -93,7 +92,7 @@ const Dual = () => {
       </Grid>
 
       {currentRound.duals &&
-        <Button size="small" onClick={() => matchno === (currentRound.duals.length - 1) ? nextRound: nextMatch}>{matchno === (currentRound.duals.length - 1) ? "Next Round": "Next Match"}</Button>
+        <Button size="small" onClick={() => matchno === (currentRound.duals.length - 1) ? nextRound(): nextMatch()}>{matchno === (currentRound.duals.length - 1) ? "Next Round": "Next Match"}</Button>
       }
     </>
   )
