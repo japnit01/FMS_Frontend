@@ -51,6 +51,7 @@ const Dual = () => {
     };
 
     NextMatch(festname, eventid, jsonData)
+    console.log('jsonData',jsonData)
     setmatchno(matchno + 1);
   }
 

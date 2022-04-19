@@ -86,7 +86,7 @@ const EventState = (props) => {
 
   const NextMatch = async (festname, eventid,jsonData) => {
     const festid = festname.split("-")[1];
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const url = `${host}/api/events/duals/${festid}/${eventid}/nextMatch`;
     const response = await fetch(url, {
@@ -100,8 +100,8 @@ const EventState = (props) => {
     let match = await response.json();
     console.log(match);
 
-    let redirectUrl = `${host}/api/events/duals/${festid}/${eventid}/event-status`;
-    navigate(redirectUrl)
+    // let redirectUrl = `${host}/api/events/duals/${festid}/${eventid}/event-status`;
+    // navigate(redirectUrl)
   };
 
   const NextRound = async (festname, eventid) => {
