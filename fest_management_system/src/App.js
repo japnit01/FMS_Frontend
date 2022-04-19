@@ -13,13 +13,22 @@ import Visitor from './Components/Visitor';
 import VisitorState from "./Context/visitor/VisitorState";
 import Dual from "./Components/Dual";
 import Solo from "./Components/Solo";
+import AddFest from "./Components/AddFest";
 import Finish from "./Components/Finish";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
 
   return (
     <>
+    <ThemeProvider theme={darkTheme}>
       <AuthState>
         <FestState>
           <EventState>
@@ -33,20 +42,20 @@ function App() {
                   <Route path="signup" element={<SignUp />} />
                   <Route path="c">
                     <Route index path="myfests" element={<MyFest />} />
+                    <Route path=":festevent" element={<AddFest/>} />
+                    {/* <Route path="editfest" element={<AddFest/>} /> */}
                     <Route path="fest">
                       <Route path=":festname" element={<Event />} />
                       <Route path=":festname/duals/:eventid" element={<Dual />} />
                       <Route path=":festname/solo/:eventid" element={<Solo />} />
                     </Route>
-
-
                   </Route>
+
                   <Route path="u">
                     <Route index path="fests" element={<Visitor />} />
                     <Route path="schedule" element={<Scheduler />} />
                     <Route path="fest/:festname" element={<Event />} />
                   </Route>
-
 
                 </Routes>
               </BrowserRouter>
@@ -54,6 +63,7 @@ function App() {
           </EventState>
         </FestState>
       </AuthState>
+      </ThemeProvider>
     </>
   );
 }

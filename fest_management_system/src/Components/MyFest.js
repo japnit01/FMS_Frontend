@@ -18,7 +18,7 @@ function MyFest() {
   var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
   const context = useContext(festContext);
-  const { FetchFests, DeleteFest, update, setupdate } = context;
+  const { FetchFests, DeleteFest,fest,setFest, update, setupdate } = context;
   const navigate = useNavigate();
   const [fests, setFests] = useState([]);
 
@@ -31,7 +31,7 @@ function MyFest() {
       if (update) {
         FetchFests().then((userfests) => {
           const copyfests = JSON.parse(JSON.stringify(userfests));
-          copyfests.map((fest)=>{
+          copyfests.map((fest) => {
             fest.startdate = new Date(fest.startdate);
             fest.enddate = new Date(fest.enddate);
           })
@@ -43,6 +43,21 @@ function MyFest() {
     }
   }, [update, fests]);
 
+  const handleupdatefest = (fest) =>{
+    const copyfest = JSON.parse(JSON.stringify(fest));
+    setFest({
+      id:copyfest._id,
+      name: copyfest.name,
+      description: copyfest.description,
+      startdate: copyfest.startdate,
+      enddate: copyfest.enddate,
+      state: copyfest.state,
+      city: copyfest.city,
+      organisation: copyfest.organisation,
+    });
+
+    navigate('/c/editfest')
+  }
   return (
     <>
       <div className="myfest">
@@ -68,7 +83,7 @@ function MyFest() {
                       {fest.organisation}
                     </Typography>
                     <Typography variant="body2">
-                      {`${fest.startdate.getDate()} ${mS[fest.startdate.getMonth()-1]} ${(fest.startdate.getFullYear()) % 100} - ${fest.enddate.getDate()} ${mS[fest.enddate.getMonth()-1]} ${(fest.enddate.getFullYear()) % 100}`}
+                      {`${fest.startdate.getDate()} ${mS[fest.startdate.getMonth() - 1]} ${(fest.startdate.getFullYear()) % 100} - ${fest.enddate.getDate()} ${mS[fest.enddate.getMonth() - 1]} ${(fest.enddate.getFullYear()) % 100}`}
                     </Typography>
                     <Typography variant="body2">
                       {`${fest.state},${fest.city}`}
@@ -81,17 +96,21 @@ function MyFest() {
                   <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteFest(fest._id)} size="small">
                     Delete
                   </Button>
-                  <AddFest
+                  {/* <AddFest
                     openbname={"Edit"}
                     formname={"Edit Fest"}
                     formdata={fest}
-                  ></AddFest>
+                  ></AddFest> */}
+                  <Button sx={{ color: '#BB86FC' }} onClick={() => handleupdatefest(fest)} size="small">
+                    Edit
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
-        <AddFest openbname={"Add Fest"} formname={"New Fest !!!"}></AddFest>
+        <Button variant="contained" onClick={() => navigate('/c/createfest')}>Add Fest</Button>
+        {/* <AddFest openbname={"Add Fest"} formname={"New Fest !!!"}></AddFest> */}
       </div>
     </>
   );

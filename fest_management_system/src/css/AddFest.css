@@ -1,6 +1,10 @@
-/* .containertitle{
+.containertitle{
     background-color: #121212;
-    color: white !important;
+    /* color: white !important; */
+}
+
+.addfestinput{
+    margin-bottom: 1%;
 }
 
 .containercontent{
@@ -8,7 +12,12 @@
     color: white
 }
 
-.containerbutton{
+.datefield{
+    margin-top:1%;
+}
+
+.addfestcontainer{
     background-color: #121212;
-    color:white;
-} */
+    height:88.8vh;
+}
+
