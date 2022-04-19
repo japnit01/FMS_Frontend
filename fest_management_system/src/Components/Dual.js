@@ -50,6 +50,7 @@ const Dual = () => {
       round: Round
     };
     NextMatch(festname, eventid, jsonData)
+    console.log('jsonData',jsonData)
     setmatchno(matchno + 1);
   }
 
