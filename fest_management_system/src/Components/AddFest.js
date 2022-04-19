@@ -24,7 +24,6 @@ function AddFest() {
 	const [endDate, setendDate] = useState();
 
 	const handleClickOpenFill = () => {
-		console.log(fest)
 		const sdate = new Date(fest.startdate)
 		const edate = new Date(fest.enddate)
 
@@ -42,7 +41,7 @@ function AddFest() {
 
 	useEffect(() => {
 		  if (update && festevent === "editfest") {
-			//   console.log("here")
+	
 			handleClickOpenFill()
 			return () => (setupdate(false));
 		  }
@@ -135,7 +134,7 @@ function AddFest() {
 
 					<LocalizationProvider dateAdapter={AdapterDateFns}>
 						<DesktopDatePicker
-							label="Responsive"
+							label="Start Date"
 							showTodayButton
 							openTo="year"
 							className="datefield"
@@ -150,7 +149,7 @@ function AddFest() {
 						/>
 
 						<DesktopDatePicker
-							label="Responsive"
+							label="End Date"
 							showTodayButton
 							openTo="year"
 							className="datefield"

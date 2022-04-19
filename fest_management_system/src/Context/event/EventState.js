@@ -4,6 +4,17 @@ import eventContext from "./eventContext";
 const EventState = (props) => {
   const host = "http://localhost:5000";
   const [update, setupdate] = useState(true);
+  const [event, setevent] = useState({
+    id: "",
+    name: "",
+    type: "",
+    startdate: "",
+    startTime: "",
+    endTime: "",
+    description: "",
+    venue: "",
+    fee: ""
+  });
 
   const CreateEvent = async (jsonData, festname) => {
     const festid = festname.split("-")[1];
@@ -84,7 +95,7 @@ const EventState = (props) => {
     return userduals;
   };
 
-  const NextMatch = async (festname, eventid,jsonData) => {
+  const NextMatch = async (festname, eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/nextMatch`;
     const response = await fetch(url, {
@@ -114,7 +125,7 @@ const EventState = (props) => {
     return userduals;
   };
 
-  const FetchCompetitors = async(festname, eventid) => {
+  const FetchCompetitors = async (festname, eventid) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/solo/${festid}/${eventid}/event-status`;
     const response = await fetch(url, {
@@ -129,7 +140,7 @@ const EventState = (props) => {
   };
 
   return (
-    <eventContext.Provider value={{ CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setevent,CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );

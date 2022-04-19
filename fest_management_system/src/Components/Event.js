@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import AddEvent from './AddEvent';
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,7 +15,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 function Event() {
   const context = useContext(eventContext);
-  const { FetchEvents, DeleteEvent, update, setupdate } = context;
+  const { FetchEvents, DeleteEvent,event,setevent, update, setupdate } = context;
 
   const context1 = useContext(visitorContext);
   const { addtoschedule } = context1;
@@ -43,6 +42,22 @@ function Event() {
     }
   }, [update, events]);
 
+  const handleupdatefest = (event) => {
+    const copyevent = JSON.parse(JSON.stringify(event));
+    setevent({
+      id: copyevent._id,
+      name: copyevent.name,
+      description: copyevent.description,
+      startdate: copyevent.startdate,
+      startTime: copyevent.starttime,
+      endTime: copyevent.endtime,
+      venue: copyevent.venue,
+      type: copyevent.type,
+      fee: copyevent.fee,
+    });
+
+    navigate(`/c/fest/${festname}/editevent`)
+  }
 
   return (
     <>
@@ -87,12 +102,9 @@ function Event() {
                       <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteEvent(festname, event._id)} size="small">
                         Delete
                       </Button>
-                      <AddEvent
-                        openbname={"Edit"}
-                        formname={"Edit Event"}
-                        formdata={event}
-                      >
-                      </AddEvent>
+                      <Button sx={{ color: '#BB86FC' }} onClick={() => handleupdatefest(event,festname)} size="small">
+                        Edit
+                      </Button>
                     </>
                   )}
 
@@ -114,7 +126,7 @@ function Event() {
       </Grid>
 
       {typeofuser === 'c' &&
-          <AddEvent openbname={"Add Event"} formname={"New Event !!!"}></AddEvent>
+          <Button variant="contained" onClick={() => navigate(`/c/fest/${festname}/createevent`)}>Add Event</Button>
         }
     </div>
     </>

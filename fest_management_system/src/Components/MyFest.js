@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import '../css/MyFest.css'
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import IconButton from '@mui/material/IconButton';
 
 function MyFest() {
 
@@ -18,7 +21,7 @@ function MyFest() {
   var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
   const context = useContext(festContext);
-  const { FetchFests, DeleteFest,fest,setFest, update, setupdate } = context;
+  const { FetchFests, DeleteFest, fest, setFest, update, setupdate } = context;
   const navigate = useNavigate();
   const [fests, setFests] = useState([]);
 
@@ -43,10 +46,10 @@ function MyFest() {
     }
   }, [update, fests]);
 
-  const handleupdatefest = (fest) =>{
+  const handleupdatefest = (fest) => {
     const copyfest = JSON.parse(JSON.stringify(fest));
     setFest({
-      id:copyfest._id,
+      id: copyfest._id,
       name: copyfest.name,
       description: copyfest.description,
       startdate: copyfest.startdate,
@@ -93,24 +96,19 @@ function MyFest() {
                 </CardActionArea>
 
                 <CardActions>
-                  <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteFest(fest._id)} size="small">
-                    Delete
-                  </Button>
-                  {/* <AddFest
-                    openbname={"Edit"}
-                    formname={"Edit Fest"}
-                    formdata={fest}
-                  ></AddFest> */}
-                  <Button sx={{ color: '#BB86FC' }} onClick={() => handleupdatefest(fest)} size="small">
-                    Edit
-                  </Button>
+                  <IconButton aria-label="delete" onClick={() => DeleteFest(fest._id)}>
+                    <DeleteOutlineIcon sx={{ color: '#BB86FC' }} />
+                  </IconButton>
+                  
+                  <IconButton aria-label="edit" onClick={() => handleupdatefest(fest)} >
+                    <EditOutlinedIcon sx={{ color: '#BB86FC' }} />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
         <Button variant="contained" onClick={() => navigate('/c/createfest')}>Add Fest</Button>
-        {/* <AddFest openbname={"Add Fest"} formname={"New Fest !!!"}></AddFest> */}
       </div>
     </>
   );

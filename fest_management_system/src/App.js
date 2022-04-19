@@ -14,6 +14,7 @@ import VisitorState from "./Context/visitor/VisitorState";
 import Dual from "./Components/Dual";
 import Solo from "./Components/Solo";
 import AddFest from "./Components/AddFest";
+import AddEvent from "./Components/AddEvent";
 import Finish from "./Components/Finish";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -43,9 +44,9 @@ function App() {
                   <Route path="c">
                     <Route index path="myfests" element={<MyFest />} />
                     <Route path=":festevent" element={<AddFest/>} />
-                    {/* <Route path="editfest" element={<AddFest/>} /> */}
                     <Route path="fest">
                       <Route path=":festname" element={<Event />} />
+                      <Route path=":festname/:eventoperation" element={<AddEvent/>} />
                       <Route path=":festname/duals/:eventid" element={<Dual />} />
                       <Route path=":festname/solo/:eventid" element={<Solo />} />
                     </Route>

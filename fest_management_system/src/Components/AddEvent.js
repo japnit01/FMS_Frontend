@@ -1,53 +1,42 @@
-import React, { useState, useContext } from 'react'
-import {Dialog, DialogContent, DialogActions, DialogTitle, TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment} from "@mui/material";
+import React, { useState, useContext, useEffect } from 'react'
+import { TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment, Container } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 import eventContext from '../Context/event/eventContext';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import '../css/AddEvent.css';
+import { LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const AddEvent = (props) => {
+const AddEvent = () => {
   const context = useContext(eventContext);
-  const { CreateEvent, UpdateEvent } = context;
-  const { openbname, formname, formdata } = props;
-  let { festname } = useParams();
+  const { CreateEvent, UpdateEvent, event, setevent, update, setupdate } = context;
+  let { festname, eventoperation } = useParams();
+  const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
   const [startTime, setstartTime] = useState();
   const [endTime, setendTime] = useState();
-  const [event, setevent] = useState({
-    name: "",
-    type: "",
-    startdate: "",
-    startTime: "",
-    endTime: "",
-    description: "",
-    venue: "",
-    fee: ""
-  });
+  const [startDate, setstartDate] = useState();
 
   const onChange = (e) => {
     setevent({ ...event, [e.target.name]: e.target.value });
-    console.log(event)
   }
 
   const handleUpdateEvent = async (selevent) => {
-
     let jsonData = {
       type: event.type,
       name: event.name,
       startTime: startTime,
       endTime: endTime,
       description: event.description,
-      startdate: event.startdate,
+      startdate: startDate,
       venue: event.venue,
       fee: event.fee
     };
 
     UpdateEvent(festname, selevent._id, jsonData);
-    setOpen(false);
+    navigate(`/c/fest/${festname}`)
   };
-
 
   const handleCreateEvent = async () => {
     let jsonData = {
@@ -56,13 +45,13 @@ const AddEvent = (props) => {
       startTime: startTime,
       endTime: endTime,
       description: event.description,
-      startdate: event.startdate,
+      startdate: startDate,
       venue: event.venue,
       fee: event.fee
     };
 
     CreateEvent(jsonData, festname);
-    setOpen(false);
+    navigate(`/c/fest/${festname}`)
   }
 
   const handlestartTime = (newValue) => {
@@ -74,48 +63,30 @@ const AddEvent = (props) => {
   };
 
   const handleClickOpenFill = () => {
-    const sdate = new Date(formdata.startdate)
+    const sdate = new Date(event.startdate)
     let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + (sdate.getDate()) : (sdate.getDate()));
 
-    setevent({
-      name: formdata.name,
-      description: formdata.description,
-      startdate: startdate,
-      startTime: formdata.starttime,
-      endTime: formdata.endtime,
-      venue: formdata.venue,
-      type: formdata.type,
-      fee: formdata.fee,
-    });
-
-    setstartTime(formdata.startTime)
-    setendTime(formdata.endTime)
-
-    setOpen(true);
+    setstartDate(startdate)
+    setstartTime(event.startTime)
+    setendTime(event.endTime)
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  useEffect(() => {
+    setupdate(true)
+  }, []);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    if (update && eventoperation === "editevent") {
+
+      handleClickOpenFill()
+      return () => (setupdate(false));
+    }
+  }, [update]);
 
   return (
     <>
-      {openbname === "Add Event" ? (
-        <Button sx={{ color: '#BB86FC' }} onClick={handleClickOpen} size="small">
-          {openbname}
-        </Button>
-      ) : (
-        <Button sx={{ color: '#BB86FC' }} onClick={handleClickOpenFill} size="small">
-          {openbname}
-        </Button>
-      )}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Event !!!</DialogTitle>
-        <DialogContent>
+      <div className="addeventcontainer">
+        <Container>
           <TextField
             label="Title"
             id="title"
@@ -129,23 +100,23 @@ const AddEvent = (props) => {
           </TextField>
 
           <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-					<InputLabel id="demo-simple-select-filled-label">Type</InputLabel>
-					<Select
-						labelId="demo-simple-select-filled-label"
-            name="type"
-						value={event.type}
-						onChange={onChange}
-					>
-						<MenuItem value="">
-							<em>None</em>
-						</MenuItem>
-						<MenuItem value="Dual">Dual</MenuItem>
-						<MenuItem value="Solo">Solo</MenuItem>
-						<MenuItem value="Concert">Concert</MenuItem>
-					</Select>
+            <InputLabel id="demo-simple-select-filled-label">Type</InputLabel>
+            <Select
+              labelId="demo-simple-select-filled-label"
+              name="type"
+              value={event.type}
+              onChange={onChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="Dual">Dual</MenuItem>
+              <MenuItem value="Solo">Solo</MenuItem>
+              <MenuItem value="Concert">Concert</MenuItem>
+            </Select>
           </FormControl>
 
-          <TextField
+          {/* <TextField
             label="Start Date"
             id="startdate"
             type="date"
@@ -156,9 +127,24 @@ const AddEvent = (props) => {
             margin="dense"
             variant="filled"
             InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-          ></TextField>
+          ></TextField> */}
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* <DesktopDatePicker
+              label="Responsive"
+              showTodayButton
+              openTo="year"
+              className="datefield"
+              views={['year', 'month', 'day']}
+              value={startDate}
+              sx={{ width: "35%" }}
+              name="startdate"
+              onChange={(newValue) => {
+                setstartDate(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            /> */}
+
             <TimePicker
               label="Start Time"
               name="startTime"
@@ -214,25 +200,19 @@ const AddEvent = (props) => {
             variant="filled"
           >
           </TextField>
+        </Container>
+        <Button name="Cancel" onClick={() => { navigate(`/c/fest/${festname}`) }}>Cancel</Button>
 
-        </DialogContent>
-
-        <DialogActions>
-          <Button name="Cancel" onClick={handleClose}></Button>
-          <Button onClick={handleClose} size="small">
-            Cancel
+        {eventoperation === "createevent" ? (
+          <Button onClick={handleCreateEvent} size="small">
+            Create
           </Button>
-          {openbname === "Add Event" ? (
-            <Button onClick={handleCreateEvent} size="small">
-              Create
-            </Button>
-          ) : (
-            <Button onClick={() => handleUpdateEvent(formdata)} size="small">
-              Update
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
+        ) : (
+          <Button onClick={() => handleUpdateEvent()} size="small">
+            Update
+          </Button>
+        )}
+      </div>
     </>
   )
 }
