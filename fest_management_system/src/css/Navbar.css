@@ -1,6 +1,7 @@
 .navbar{
-    /* background-color: #121212 !important; */
-    /* opacity: 0.95; */
+    background-color: transparent !important;
     z-index:10;
-    position: relative !important;
+    position: absolute !important;
+    background-image:none !important;
+    box-shadow: none !important;
 }

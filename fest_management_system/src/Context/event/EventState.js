@@ -4,7 +4,7 @@ import eventContext from "./eventContext";
 const EventState = (props) => {
   const host = "http://localhost:5000";
   const [update, setupdate] = useState(true);
-  const [event, setevent] = useState({
+  const [event, setEvent] = useState({
     id: "",
     name: "",
     type: "",
@@ -140,7 +140,7 @@ const EventState = (props) => {
   };
 
   return (
-    <eventContext.Provider value={{ event,setevent,CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );

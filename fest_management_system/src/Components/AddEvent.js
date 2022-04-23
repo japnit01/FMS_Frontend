@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment, Container } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import TimePicker from '@mui/lab/TimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import eventContext from '../Context/event/eventContext';
 import { useParams, useNavigate } from "react-router-dom";
 import '../css/AddEvent.css';
@@ -10,19 +10,20 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const AddEvent = () => {
   const context = useContext(eventContext);
-  const { CreateEvent, UpdateEvent, event, setevent, update, setupdate } = context;
+  const { CreateEvent, UpdateEvent, event, setEvent, update, setupdate } = context;
   let { festname, eventoperation } = useParams();
   const navigate = useNavigate();
 
-  const [startTime, setstartTime] = useState();
-  const [endTime, setendTime] = useState();
-  const [startDate, setstartDate] = useState();
+  const [startTime, setstartTime] = useState(null);
+  const [endTime, setendTime] = useState(null);
+  const [startDate, setstartDate] = useState(null);
 
   const onChange = (e) => {
-    setevent({ ...event, [e.target.name]: e.target.value });
+    setEvent({ ...event, [e.target.name]: e.target.value });
   }
 
-  const handleUpdateEvent = async (selevent) => {
+  const handleUpdateEvent = async () => {
+    console.log(startDate)
     let jsonData = {
       type: event.type,
       name: event.name,
@@ -34,7 +35,7 @@ const AddEvent = () => {
       fee: event.fee
     };
 
-    UpdateEvent(festname, selevent._id, jsonData);
+    UpdateEvent(festname, event.id, jsonData);
     navigate(`/c/fest/${festname}`)
   };
 
@@ -53,15 +54,7 @@ const AddEvent = () => {
     CreateEvent(jsonData, festname);
     navigate(`/c/fest/${festname}`)
   }
-
-  const handlestartTime = (newValue) => {
-    setstartTime(newValue);
-  };
-
-  const handleendTime = (newValue) => {
-    setendTime(newValue);
-  };
-
+  
   const handleClickOpenFill = () => {
     const sdate = new Date(event.startdate)
     let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth() + 1) : (sdate.getMonth() + 1)) + "-" + (sdate.getDate() < 9 ? "0" + (sdate.getDate()) : (sdate.getDate()));
@@ -77,8 +70,26 @@ const AddEvent = () => {
 
   useEffect(() => {
     if (update && eventoperation === "editevent") {
-
       handleClickOpenFill()
+      return () => (setupdate(false));
+    }
+    else if(update && eventoperation === "createevent") 
+    {
+      setEvent({
+        id: "",
+        name: "",
+        type: "",
+        startdate: "",
+        startTime: "",
+        endTime: "",
+        description: "",
+        venue: "",
+        fee: ""
+			});
+
+      setstartDate(null);
+      setstartTime(null);
+      setendTime(null);
       return () => (setupdate(false));
     }
   }, [update]);
@@ -116,21 +127,9 @@ const AddEvent = () => {
             </Select>
           </FormControl>
 
-          {/* <TextField
-            label="Start Date"
-            id="startdate"
-            type="date"
-            sx={{ width: "35%" }}
-            onChange={onChange}
-            value={event.startdate}
-            name="startdate"
-            margin="dense"
-            variant="filled"
-            InputProps={{ startAdornment: (<InputAdornment position="start"></InputAdornment>) }}
-          ></TextField> */}
-
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            {/* <DesktopDatePicker
+            
+            <DesktopDatePicker
               label="Responsive"
               showTodayButton
               openTo="year"
@@ -143,20 +142,24 @@ const AddEvent = () => {
                 setstartDate(newValue);
               }}
               renderInput={(params) => <TextField {...params} />}
-            /> */}
+            />
 
             <TimePicker
               label="Start Time"
               name="startTime"
               value={startTime}
-              onChange={handlestartTime}
+              onChange={(newValue) => {
+								setstartTime(newValue);
+							}}
               renderInput={(params) => <TextField {...params} />}
             />
 
             <TimePicker
               label="End Time"
               name="endTime"
-              onChange={handleendTime}
+              onChange={(newValue) => {
+								setendTime(newValue);
+							}}
               value={endTime}
               renderInput={(params) => <TextField {...params} />}
             />

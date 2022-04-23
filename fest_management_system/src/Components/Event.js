@@ -14,8 +14,11 @@ import CardMedia from '@mui/material/CardMedia';
 
 
 function Event() {
+  var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
   const context = useContext(eventContext);
-  const { FetchEvents, DeleteEvent,event,setevent, update, setupdate } = context;
+  const { FetchEvents, DeleteEvent,event,setEvent, update, setupdate } = context;
 
   const context1 = useContext(visitorContext);
   const { addtoschedule } = context1;
@@ -35,6 +38,12 @@ function Event() {
       if (update) {
         FetchEvents(festname).then((festevents) => {
           const copyevents = JSON.parse(JSON.stringify(festevents));
+          copyevents.map((event) => {
+            event.startdate = new Date(event.startdate);
+            event.startTime = new Date(event.startTime);
+            event.endTime = new Date(event.endTime);
+            console.log(event.startdate.getMonth())
+          })
           setevents(copyevents);
         });
         return () => (setupdate(false));
@@ -44,13 +53,14 @@ function Event() {
 
   const handleupdatefest = (event) => {
     const copyevent = JSON.parse(JSON.stringify(event));
-    setevent({
+    console.log(event)
+    setEvent({
       id: copyevent._id,
       name: copyevent.name,
       description: copyevent.description,
       startdate: copyevent.startdate,
-      startTime: copyevent.starttime,
-      endTime: copyevent.endtime,
+      startTime: copyevent.startTime,
+      endTime: copyevent.endTime,
       venue: copyevent.venue,
       type: copyevent.type,
       fee: copyevent.fee,
@@ -78,13 +88,7 @@ function Event() {
                     {event.type}
                   </Typography>
                   <Typography variant="body2">
-                    {event.startdate}
-                  </Typography>
-                  <Typography variant="body2">
-                    {event.startTime}
-                  </Typography>
-                  <Typography variant="body2">
-                    {event.endTime}
+                    {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`}
                   </Typography>
                   <Typography variant="body2">
                     {event.venue}

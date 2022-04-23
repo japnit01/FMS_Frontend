@@ -1,22 +1,23 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import universities from './universities'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import Typography from "@mui/material/Typography"
 import Box from '@mui/material/Box';
 import festContext from "../Context/fest/festContext"
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import '../css/AddFest.css';
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 
 function AddFest() {
 	const context = useContext(festContext);
-	const { CreateFest, UpdateFest,fest,setFest, update, setupdate } = context;
-	let { festevent} = useParams();
+	const { CreateFest, UpdateFest, fest, setFest, update, setupdate } = context;
+	let { festevent } = useParams();
 	const navigate = useNavigate();
 
 	const [org, setorg] = useState({ label: 'Select Organisation' });
@@ -28,8 +29,8 @@ function AddFest() {
 		const edate = new Date(fest.enddate)
 
 		let startdate = sdate.getFullYear() + "-" + (sdate.getMonth() < 9 ? "0" + (sdate.getMonth()) : (sdate.getMonth())) + "-" + (sdate.getDate() < 9 ? "0" + sdate.getDate() : sdate.getDate());
-		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth() ) : (edate.getMonth())) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
-		console.log(startdate,enddate)
+		let enddate = edate.getFullYear() + "-" + (edate.getMonth() < 9 ? "0" + (edate.getMonth()) : (edate.getMonth())) + "-" + (edate.getDate() < 9 ? "0" + edate.getDate() : edate.getDate());
+		console.log(startdate, enddate)
 		setorg({ label: fest.organisation });
 		setstartDate(startdate);
 		setendDate(enddate)
@@ -37,16 +38,32 @@ function AddFest() {
 
 	useEffect(() => {
 		setupdate(true)
-	  }, []);
+	}, []);
 
 	useEffect(() => {
-		  if (update && festevent === "editfest") {
-	
+		if (update && festevent === "editfest") {
+
 			handleClickOpenFill()
 			return () => (setupdate(false));
-		  }
-	  }, [update]);
-	
+		}
+		else if (update && festevent === "createfest") {
+			setFest({
+				id: "",
+				name: "",
+				description: "",
+				startdate: "",
+				enddate: "",
+				state: "",
+				city: "",
+				organisation: ""
+			});
+
+		setstartDate(null);
+		setendDate(null);
+		return () => (setupdate(false));
+		}
+	}, [update]);
+
 
 	const handleChange = (e, value) => {
 		if (value)
@@ -88,7 +105,9 @@ function AddFest() {
 	return (
 		<>
 			<div className="addfestcontainer">
-				<Container>
+				<div className="container">
+				<Container maxWidth="sm" sx={{ml:3, pt:"8%",}}>
+					<Typography variant="h4" sx={{color:"white"}}>Create New Fest</Typography>
 					<TextField
 						label="Title"
 						className="addfestinput"
@@ -131,7 +150,7 @@ function AddFest() {
 						autoComplete="off"
 					></TextField>
 
-
+					<div className="datecontainer">
 					<LocalizationProvider dateAdapter={AdapterDateFns}>
 						<DesktopDatePicker
 							label="Start Date"
@@ -155,7 +174,7 @@ function AddFest() {
 							className="datefield"
 							views={['year', 'month', 'day']}
 							value={endDate}
-							sx={{ width: "35%" }}
+							sx={{ width: "35%"}}
 							name="startdate"
 							onChange={(newValue) => {
 								setendDate(newValue);
@@ -163,12 +182,14 @@ function AddFest() {
 							renderInput={(params) => <TextField {...params} />}
 						/>
 					</LocalizationProvider>
-
+					</div>
+					
+					<div className="placecontainer">
 					<TextField
 						label="State"
 						id="state"
 						type="text"
-						sx={{ width: "40%" }}
+						sx={{ width: "47%" }}
 						onChange={onChange}
 						value={fest.state}
 						name="state"
@@ -181,7 +202,7 @@ function AddFest() {
 						label="City"
 						id="city"
 						type="text"
-						sx={{ width: "40%" }}
+						sx={{ width: "47%" }}
 						onChange={onChange}
 						value={fest.city}
 						name="city"
@@ -189,21 +210,26 @@ function AddFest() {
 						variant="filled"
 						autoComplete="off"
 					></TextField>
-				</Container>
+				</div>
 
-				<Button sx={{ color: '#BB86FC' }} onClick={()=>{navigate('/c/myfests')}} size="small">
+				
+				<div className="buttoncontainer">
+				<Button className="cancelbtn"sx={{ color: '#BB86FC' }} onClick={() => { navigate('/c/myfests') }} size="small">
 					Cancel
 				</Button>
 
 				{festevent === "createfest" ? (
-					<Button sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
+					<Button className="submitbtn" sx={{ color: '#BB86FC' }} onClick={handleCreateFest} size="small">
 						Create
 					</Button>
 				) : (
-					<Button sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest()} size="small">
+					<Button className="submitbtn" sx={{ color: '#BB86FC' }} onClick={() => handleUpdateFest()} size="small">
 						Update
 					</Button>
 				)}
+				</div>
+				</Container>
+				</div>
 			</div>
 		</>
 	);
