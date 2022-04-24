@@ -6,7 +6,7 @@ import "../css/Dual.css"
 
 const Dual = () => {
   const context = useContext(eventContext);
-  const { FetchDual, NextMatch, NextRound, update, setupdate } = context;
+  const { FetchDual, NextMatch, NextRound, FinishEvent, update, setupdate } = context;
   const [currentRound, setCurrentRound] = useState([]);
   const [player1, setplayer1] = useState({id:'' ,name:'' ,score:0});
   const [player2, setplayer2] = useState({id:'' ,name:'' ,score:0});
@@ -32,7 +32,7 @@ const Dual = () => {
 
   useEffect(()=>{
     if(matchno >= 0) {
-      console.log("mene kaam kiya")
+      console.log("sarthak ne bhi kaam kiya")
       setplayer1({id:currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score:0});
       setplayer2({id:currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score:0});
       console.log(totalrounds,currentRound.roundNo)
@@ -80,8 +80,23 @@ const Dual = () => {
     setRound(newround.roundNo)
   }
 
-  const Finish = () => {
-    alert("Khatam ho gaya bye bye");
+  const Finish = async() => {
+    // alert("Khatam ho gaya bye bye");
+    let jsonData = {
+      comp1: player1.id,
+      comp2: player2.id,
+      score1: player1.score,
+      score2: player2.score,
+      round: Round
+    };
+    const newround = await FinishEvent(festname,eventid,jsonData);
+    // setCurrentRound(newround);
+    // const defaultind = 0;
+    // console.log("nextRound")
+    // setmatchno(matchno - matchno);
+    // setRound(newround.roundNo)
+    let winners = newround.winners;
+    console.log(winners)
   }
 
   return (
