@@ -143,8 +143,23 @@ const EventState = (props) => {
     return allcompetitors;
   };
 
+  const FinishEvent = async (festname,eventid, jsonData) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+      body: JSON.stringify(jsonData)
+    });
+    const winners = await response.json();
+    return winners;
+  }
+
   return (
-    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
