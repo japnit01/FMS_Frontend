@@ -95,7 +95,7 @@ function Solo() {
     }
   }
 
-  const handleVoting = async () => {
+  const handleVoting = async (e) => {
 
     if (localStorage.getItem("voting")) {
       setDisabled(true);
@@ -104,7 +104,7 @@ function Solo() {
 
     const festid = festname.split("-")[1];
     let url = `${host}/api/events/solo/${festid}/${eventid}/voting`;
-    let jsonData = { selectedCandidates }
+    let jsonData = { selectedCandidates: [e.currentTarget.id.slice(0, -1)] }
 
     const response = await fetch(url, {
       method: 'POST',
