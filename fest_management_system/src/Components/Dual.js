@@ -31,11 +31,12 @@ const Dual = () => {
   }, []);
 
   useEffect(()=>{
-    if(matchno >= 0) {
+    if(update && matchno >= 0) {
       console.log("mene kaam kiya")
       setplayer1({id:currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score:0});
       setplayer2({id:currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score:0});
       console.log(totalrounds,currentRound.roundNo)
+      setupdate(false)
     }
   },[matchno,update])
 
@@ -60,11 +61,11 @@ const Dual = () => {
       round: Round
     };
     NextMatch(festname, eventid, jsonData)
-    // console.log('jsonData',jsonData)
     setmatchno(matchno + 1);
   }
 
   const nextRound = async() =>{ 
+    setupdate(false);
     let jsonData = {
       comp1: player1.id,
       comp2: player2.id,
@@ -74,9 +75,9 @@ const Dual = () => {
     };
     const newround = await NextRound(festname,eventid,jsonData);
     setCurrentRound(newround);
-    // const defaultind = 0;
     console.log("nextRound")
-    setmatchno(matchno - matchno);
+    setmatchno(0);
+    setupdate(true)
     setRound(newround.roundNo)
   }
 

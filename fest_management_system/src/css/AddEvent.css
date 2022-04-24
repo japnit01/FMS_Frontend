@@ -1,9 +1,5 @@
-.addfestinput{
-    margin-bottom: 1%;
-}
-
-.datefield{
-    margin-top:1%;
+.addeventinput{
+    margin-bottom: 2%;
 }
 
 .addeventcontainer{
@@ -17,7 +13,14 @@
 .datecontainer{
     display:flex;
     justify-content: space-between;
+    margin-top: 1%;
+    margin-bottom:1%;
 }
+
+/* .typecontainer{
+    display:flex;
+    justify-content: space-between;     
+} */
 
 .placecontainer{
     display:flex;

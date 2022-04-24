@@ -15,8 +15,18 @@ import { deepOrange } from '@mui/material/colors';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Fab from '@mui/material/Fab'; 
+import Fab from '@mui/material/Fab';
+import "../css/Voting.css";
+import CardHeader from '@mui/material/CardHeader';
+import Collapse from '@mui/material/Collapse';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 const host = 'http://localhost:5000'
+
 
 function Solo() {
 
@@ -24,7 +34,7 @@ function Solo() {
   let { FetchCompetitors, update, setupdate } = context;
   let [competitors, setCompetitors] = useState([]);
   let { festname, eventid } = useParams();
-  let [ cardStyle, setCardStyle ] = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
+  let [cardStyle, setCardStyle] = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
   let [selectedCandidates, setSelectedCandidates] = useState([]);
   let [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
@@ -57,45 +67,45 @@ function Solo() {
 
   const handleSelected = (e) => {
     // console.log('currentTarget: ',e.currentTarget.className)
-    if (e.currentTarget.id.charAt(e.currentTarget.id.length-1) === '1') {
+    if (e.currentTarget.id.charAt(e.currentTarget.id.length - 1) === '1') {
       console.log('vote')
-      console.log('selected: ',selectedCandidates)
-      const index = selectedCandidates.indexOf(e.currentTarget.id.slice(0,-1));
-      
-      if(index === -1) {
+      console.log('selected: ', selectedCandidates)
+      const index = selectedCandidates.indexOf(e.currentTarget.id.slice(0, -1));
+
+      if (index === -1) {
         let temp = selectedCandidates;
-        temp.push(e.currentTarget.id.slice(0,-1));
+        temp.push(e.currentTarget.id.slice(0, -1));
         setSelectedCandidates(temp);
       }
 
-      console.log('selected: ',selectedCandidates)
+      console.log('selected: ', selectedCandidates)
 
       // setCardStyle({ maxWidth: 260, height: 'auto', border: '6px solid green', filter: 'brightness(110%)' });
     } else {
       console.log('clear')
-      const index = selectedCandidates.indexOf(e.currentTarget.id.slice(0,-1));
+      const index = selectedCandidates.indexOf(e.currentTarget.id.slice(0, -1));
       if (index > -1) {
         selectedCandidates.splice(index, 1);
       }
 
-      console.log('selected: ',selectedCandidates)
+      console.log('selected: ', selectedCandidates)
 
       // setCardStyle({ maxWidth: 240, height: 'auto', border: '2px solid black', filter: 'brightness(80%)' });
     }
   }
 
-  const handleVoting = async() => {
+  const handleVoting = async () => {
 
-    if(localStorage.getItem("voting")) {
+    if (localStorage.getItem("voting")) {
       setDisabled(true);
-      return ;
+      return;
     }
 
     const festid = festname.split("-")[1];
     let url = `${host}/api/events/solo/${festid}/${eventid}/voting`;
-    let jsonData = {selectedCandidates}
+    let jsonData = { selectedCandidates }
 
-    const response = await fetch(url, { 
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -106,12 +116,12 @@ function Solo() {
 
     let votedList = await response.json();
 
-    if(votedList.success === false) {
+    if (votedList.success === false) {
       console.log('error voting for too many candidates');
-      return ;
+      return;
     }
 
-    localStorage.setItem('voting',true);
+    localStorage.setItem('voting', true);
 
     console.log(votedList);
     return votedList;
@@ -142,46 +152,30 @@ function Solo() {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
-          {competitors.map((competitor) => (
-            <Grid key={competitor._id} item xs={4}>
-              <Card>
-                {/* {console.log(competitor._id)} */}
-              {/* sx={cardStyle} */}
-                <div>
-                  <Avatar sx={{ bgcolor: deepOrange[500] }} aria-label="recipe">
-                    SA
-                  </Avatar>
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {competitor.name.toUpperCase()}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {competitor.college}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <IconButton aria-label="vote" sx={{color: 'green'}} id={competitor._id + '1'} onClick={handleSelected}>
-                      <CheckIcon />
+      <div className="carouselcontainer">
+        <section>
+          <div className="content">
+            <div className="card">
+              <div class="card-content">
+                <div className="image">
+                  <img src="/profile/img1.jpg" alt="" />
+                </div>
+
+                <div className="name-profession">Lisa</div>
+                <div className="profession">Girl</div>
+                <div className="button">
+                    <IconButton aria-label="vote" sx={{color: 'green'}} id={'1'} onClick={handleSelected}>
+                      <CheckIcon/>
                     </IconButton>
-                    <IconButton aria-label="clear" sx={{color: 'red'}} id={competitor._id + '2'} onClick={handleSelected}>
+                    <IconButton aria-label="clear" sx={{color: 'red'}} id={'2'} onClick={handleSelected}>
                       <ClearIcon />
                     </IconButton>
-                  </CardActions>
                 </div>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-        <div>
-          <Button variant="contained" onClick={handleVoting} disabled={disabled}>Vote</Button>
+              </div>
+            </div>
+            </div>
+        </section>
         </div>
-        <div>
-          <Button variant="contained" >Finish</Button>
-        </div>
-        {/* onClick={() => navigate(`${host}/c/fest/${festname}/${eventid}/finish`)} */}
-      </Container>
     </>
   )
 }
