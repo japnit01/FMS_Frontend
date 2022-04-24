@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f2f2f2;
+    background: #121212;
 }
 
 *{
@@ -12,15 +12,15 @@
     box-sizing: border-box;
 }
 
-section .card .image{
+.card .image{
     height:140px;
     width:140px;
     border-radius:50%;
     padding: 3px;
     background-color:#7d2ae8;
 }
-
-section .card .image img{
+ 
+.card .image img{
     height:100%;
     width:100%;
     object-fit:cover;
@@ -29,11 +29,13 @@ section .card .image img{
 }
 
 .card{
-    background: #fff;
+    background-color:white;
+
     border-radius: 20px;
     position:relative;
     margin: 20px 0;
     width: 280px;
+    margin-bottom:4%;
 }
 
 .card .card-content{
@@ -43,6 +45,7 @@ section .card .image img{
     padding: 30px;
     position: relative;
     z-index: 100;
+
 }
 
 .card::before{
@@ -59,15 +62,45 @@ section .card .image img{
     flex-direction: column;
     align-items: center;
     margin-top:10px;
-    color:#333;
 }
 
 .name-profession .name{
     font-size:20px;
     font-weight:600;
+    color: white;
 }
 
 .name-profession .profession{
     font-size:15px;
     font-weight: 500;
+}
+
+.swiper-wrapper{
+    width:80% !important;
+    margin:0 4.5%;
+}
+
+.mySwiper{
+    width:90% !important;
+    height: 65%;
+    /* background-color: white; */
+}
+
+.swiper-pagination-bullet
+{
+    height:7px !important;
+    width:26px !important;
+    border-radius: 25px !important;
+    background:#7d2ae8 !important;
+}
+
+.swiper-button-next, .swiper-button-prev{
+    opacity: 0.7;
+    color:#7d2ae8;
+    transition: all 0.3s ease
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover{
+    opacity: 1;
+    color:#7d2ae8;
 }

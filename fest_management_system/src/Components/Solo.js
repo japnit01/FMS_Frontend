@@ -20,10 +20,11 @@ import "../css/Voting.css";
 import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation } from "swiper";
 
 const host = 'http://localhost:5000'
 
@@ -153,29 +154,37 @@ function Solo() {
   return (
     <>
       <div className="carouselcontainer">
-        <section>
-          <div className="content">
-            <div className="card">
-              <div class="card-content">
-                <div className="image">
-                  <img src="/profile/img1.jpg" alt="" />
-                </div>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={3}
+          slidesPerGroup={3}
+          loop={true}
+          loopFillGroupWithBlank={true}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {competitors.map((competitor) => (
+            <SwiperSlide key={competitor._id}>
+              <Card className="card">
+                <CardActionArea onClick={()=> handleVoting()}>
+                <CardContent class="card-content">
+                  <div className="image">
+                    <img src="/profile/img1.jpg" alt="" />
+                  </div>
 
-                <div className="name-profession">Lisa</div>
-                <div className="profession">Girl</div>
-                <div className="button">
-                    <IconButton aria-label="vote" sx={{color: 'green'}} id={'1'} onClick={handleSelected}>
-                      <CheckIcon/>
-                    </IconButton>
-                    <IconButton aria-label="clear" sx={{color: 'red'}} id={'2'} onClick={handleSelected}>
-                      <ClearIcon />
-                    </IconButton>
-                </div>
-              </div>
-            </div>
-            </div>
-        </section>
-        </div>
+                  <div className="name-profession">{competitor.name.toUpperCase()}</div>
+                  <div className="profession">{competitor.college}</div>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+              </SwiperSlide>
+            ))}
+      </Swiper>
+    </div>
     </>
   )
 }
