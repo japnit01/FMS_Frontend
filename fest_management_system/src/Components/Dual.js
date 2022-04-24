@@ -21,7 +21,7 @@ const Dual = () => {
         console.log(copydual);
         setCurrentRound(copydual);
         setmatchno(0);
-        setRound(copydual.roundNo + 1)
+        setRound(copydual.roundNo)
       });
       return () => (setupdate(false));
     }
@@ -57,10 +57,17 @@ const Dual = () => {
   }
 
   const nextRound = async() =>{ 
-    const newround = await NextRound(festname,eventid);
+    let jsonData = {
+      comp1: player1.id,
+      comp2: player2.id,
+      score1: player1.score,
+      score2: player2.score,
+      round: Round
+    };
+    const newround = await NextRound(festname,eventid,jsonData);
     setCurrentRound(newround);
     setmatchno(0);
-    setRound(newround.roundNo + 1)
+    setRound(newround.roundNo+1)
   }
 
   return (

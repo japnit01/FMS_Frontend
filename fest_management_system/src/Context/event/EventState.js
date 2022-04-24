@@ -110,15 +110,16 @@ const EventState = (props) => {
     console.log(match);
   };
 
-  const NextRound = async (festname, eventid) => {
+  const NextRound = async (festname, eventid,jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/nextRound`;
     const response = await fetch(url, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),
       },
+      body: JSON.stringify(jsonData),
     });
     let userduals = await response.json();
     console.log(userduals);
