@@ -12,29 +12,37 @@ const Dual = () => {
   const [player2, setplayer2] = useState({id:'' ,name:'' ,score:0});
   const [Round, setRound] = useState(-1);
   const [matchno,setmatchno] = useState(-1);
+  const [totalrounds, settotalrounds] = useState(-1);
   let { festname, eventid } = useParams();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
+      setupdate(true)
       FetchDual(festname, eventid).then((festdual) => {
         const copydual = JSON.parse(JSON.stringify(festdual));
-        console.log(copydual);
+        console.log(copydual.duals.length);
+        totalRounds(copydual.participants);
         setCurrentRound(copydual);
         setmatchno(0);
         setRound(copydual.roundNo)
       });
-      return () => (setupdate(false));
+      return () => (setupdate(true));
     }
   }, []);
 
   useEffect(()=>{
     if(matchno >= 0) {
-
+      console.log("mene kaam kiya")
       setplayer1({id:currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score:0});
       setplayer2({id:currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score:0});
+      console.log(totalrounds,currentRound.roundNo)
     }
-  },[matchno])
+  },[matchno,update])
 
+  const totalRounds = (participants) =>{
+    settotalrounds(Math.floor(Math.log(participants)/Math.log(2)) + 1);
+    // console.log({totalrounds: totalrounds})
+  }
   const onChangeP1 = (e) => {
     setplayer1({ ...player1, [e.target.name]: e.target.value });
   };
@@ -52,7 +60,7 @@ const Dual = () => {
       round: Round
     };
     NextMatch(festname, eventid, jsonData)
-    console.log('jsonData',jsonData)
+    // console.log('jsonData',jsonData)
     setmatchno(matchno + 1);
   }
 
@@ -66,8 +74,14 @@ const Dual = () => {
     };
     const newround = await NextRound(festname,eventid,jsonData);
     setCurrentRound(newround);
-    setmatchno(0);
-    setRound(newround.roundNo+1)
+    // const defaultind = 0;
+    console.log("nextRound")
+    setmatchno(matchno - matchno);
+    setRound(newround.roundNo)
+  }
+
+  const Finish = () => {
+    alert("Khatam ho gaya bye bye");
   }
 
   return (
@@ -103,7 +117,7 @@ const Dual = () => {
       </Grid>
       <div className="dualbuttoncontainer">
       {currentRound.duals &&
-        <Button size="small" sx={{mx:'auto'}} onClick={() => matchno === (currentRound.duals.length - 1) ? nextRound(): nextMatch()}>{matchno === (currentRound.duals.length - 1) ? "Next Round": "Next Match"}</Button>
+        <Button size="small" sx={{mx:'auto'}} onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() :nextRound()): nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" :"Next Round"): "Next Match"}</Button>
       }
       </div>
       </div>

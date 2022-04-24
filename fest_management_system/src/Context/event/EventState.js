@@ -107,7 +107,8 @@ const EventState = (props) => {
       body: JSON.stringify(jsonData),
     });
     let match = await response.json();
-    console.log(match);
+    // console.log(match);
+    // setupdate(true);
   };
 
   const NextRound = async (festname, eventid,jsonData) => {
@@ -122,8 +123,10 @@ const EventState = (props) => {
       body: JSON.stringify(jsonData),
     });
     let userduals = await response.json();
-    console.log(userduals);
+    // console.log(userduals.roundNo,userduals.duals);
+    // setupdate(true)
     return userduals;
+    
   };
 
   const FetchCompetitors = async (festname, eventid) => {
