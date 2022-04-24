@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment, Container } from "@mui/material";
+import {Typography, TextField, InputLabel, MenuItem, Select, FormControl, Button, InputAdornment, Container } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import eventContext from '../Context/event/eventContext';
@@ -7,6 +7,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import '../css/AddEvent.css';
 import { LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 const AddEvent = () => {
   const context = useContext(eventContext);
@@ -97,7 +100,10 @@ const AddEvent = () => {
   return (
     <>
       <div className="addeventcontainer">
-        <Container>
+        <div className="subcontainer">
+        <Container maxWidth="sm" sx={{ml:3,pt:"7%"}}>
+        <Typography variant="h4" sx={{color:"white", pb:"4%"}}>Create New Event</Typography>
+          
           <TextField
             label="Title"
             id="title"
@@ -107,10 +113,11 @@ const AddEvent = () => {
             value={event.name}
             name="name"
             margin="dense"
-            variant="filled">
-          </TextField>
+            variant="filled"
+            autoComplete="off"
+            ></TextField>
 
-          <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl variant="filled" sx={{width:"47%",mt:"1%" }}>
             <InputLabel id="demo-simple-select-filled-label">Type</InputLabel>
             <Select
               labelId="demo-simple-select-filled-label"
@@ -126,6 +133,8 @@ const AddEvent = () => {
               <MenuItem value="Concert">Concert</MenuItem>
             </Select>
           </FormControl>
+
+          <FormControlLabel sx={{ml:'5%'}} control={<Checkbox/>} label="Voting" />
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             
@@ -175,6 +184,7 @@ const AddEvent = () => {
             name="description"
             margin="dense"
             variant="filled"
+            autoComplete="off"
           >
           </TextField>
 
@@ -188,6 +198,7 @@ const AddEvent = () => {
             name="venue"
             margin="dense"
             variant="filled"
+            autoComplete="off"
           >
           </TextField>
 
@@ -201,6 +212,7 @@ const AddEvent = () => {
             name="fee"
             margin="dense"
             variant="filled"
+            autoComplete="off"
           >
           </TextField>
         </Container>
@@ -215,6 +227,7 @@ const AddEvent = () => {
             Update
           </Button>
         )}
+        </div>
       </div>
     </>
   )

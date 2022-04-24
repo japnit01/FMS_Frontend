@@ -1,0 +1,11 @@
+.dualcontainer{
+    background-color: #121212 !important;
+    padding-top:1%;
+    position:relative;
+    min-height:100vh;
+    max-width:100vw;
+}
+
+/* .dualbuttoncontainer{
+    margin: 0 auto;
+} */

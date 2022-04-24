@@ -1,4 +1,43 @@
+.addfestinput{
+    margin-bottom: 1%;
+}
+
+.datefield{
+    margin-top:1%;
+}
+
 .addeventcontainer{
-    background-color: #121212;
-    height:88.8vh;
+  background: linear-gradient(to right, #222425e6, hsla(210,3%,26%,0.8)),url("../../public/addfest/pic1.jpg") no-repeat ; 
+  background-size: cover;
+  background-position:100% 60%;
+  min-height:100vh;
+  padding-bottom: 5%;
+}
+
+.datecontainer{
+    display:flex;
+    justify-content: space-between;
+}
+
+.placecontainer{
+    display:flex;
+    justify-content: space-between;  
+}
+
+.buttoncontainer{
+    display:flex;
+    justify-content: space-between;  
+}
+
+.submitbtn, .cancelbtn{
+    width: 46.5%;
+    height: 8vh;
+    text-transform: unset !important;
+    margin-top:4% !important;
+    border-radius: 90px !important;
+    font-size: 18px !important;
+    font-weight:500 !important;
+    background-color:#BB86FC !important;
+    padding: 1% 0 1% 0;
+    color:#121212 !important;
 }

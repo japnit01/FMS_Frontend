@@ -106,8 +106,8 @@ function AddFest() {
 		<>
 			<div className="addfestcontainer">
 				<div className="container">
-				<Container maxWidth="sm" sx={{ml:3, pt:"8%",}}>
-					<Typography variant="h4" sx={{color:"white"}}>Create New Fest</Typography>
+				<Container maxWidth="sm" sx={{ml:3, pt:"7%",}}>
+					<Typography variant="h4" sx={{color:"white", pb:"4%"}}>Create New Fest</Typography>
 					<TextField
 						label="Title"
 						className="addfestinput"

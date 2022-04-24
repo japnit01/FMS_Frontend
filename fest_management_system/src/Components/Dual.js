@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import eventContext from '../Context/event/eventContext'
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Grid, Button, Typography, TextField } from '@mui/material';
+import "../css/Dual.css"
 
 const Dual = () => {
   const context = useContext(eventContext);
@@ -17,6 +18,7 @@ const Dual = () => {
     if (localStorage.getItem("token")) {
       FetchDual(festname, eventid).then((festdual) => {
         const copydual = JSON.parse(JSON.stringify(festdual));
+        console.log(copydual);
         setCurrentRound(copydual);
         setmatchno(0);
         setRound(copydual.roundNo + 1)
@@ -63,37 +65,41 @@ const Dual = () => {
 
   return (
     <>
-      <Grid container spacing={0} sx={{ marginTop: '10%', mx: '20%' }}>
-        {player1 &&
-          <Grid item xs={4}>
-            <Card sx={{ maxWidth: 275, height: '100%' }}>
+    <div className="dualcontainer">
+      <Typography variant="h3" sx={{color: 'white',pt:"10%", textAlign:'center', fontWeight:'bold'}}>Round {Round}</Typography>
+      <Grid container spacing={0} sx={{pt:"4%" }}>
+        {player1 && 
+          <Grid item xs={6}>
+            <Card sx={{ maxWidth: 275, height: '100%', mx:'auto' }}>
               <CardContent>
-                <Typography variant="h6" >
+                <Typography variant="h6" sx={{textAlign:'center'}} >
                   {player1.name}
                 </Typography>
-                <TextField onChange={onChangeP1} value={player1.score} name="score" label="Score" margin="dense" variant="filled" />
+                <TextField onChange={onChangeP1} value={player1.score} name="score" label="Score" margin="dense" sx={{px:'auto'}} variant="filled" />
               </CardContent>
             </Card>
           </Grid>
         }
 
         {player2 &&
-          <Grid>
-            <Card sx={{ maxWidth: 275, height: '100%' }}>
+          <Grid item xs={6}>
+            <Card sx={{ maxWidth: 275, height: '100%',mx:'auto' }}>
               <CardContent>
-                <Typography variant="h6" >
+                <Typography variant="h6"sx={{textAlign:'center'}}>
                   {player2.name}
                 </Typography>
-                <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" />
+                <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" sx={{px:'auto'}}/>
               </CardContent>
             </Card>
           </Grid>
         }
       </Grid>
-
+      <div className="dualbuttoncontainer">
       {currentRound.duals &&
-        <Button size="small" onClick={() => matchno === (currentRound.duals.length - 1) ? nextRound(): nextMatch()}>{matchno === (currentRound.duals.length - 1) ? "Next Round": "Next Match"}</Button>
+        <Button size="small" sx={{mx:'auto'}} onClick={() => matchno === (currentRound.duals.length - 1) ? nextRound(): nextMatch()}>{matchno === (currentRound.duals.length - 1) ? "Next Round": "Next Match"}</Button>
       }
+      </div>
+      </div>
     </>
   )
 }
