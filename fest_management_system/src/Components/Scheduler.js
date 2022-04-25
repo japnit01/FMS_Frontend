@@ -10,13 +10,15 @@ import { useNavigate } from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Select from 'react-select'
+import '../css/Scheduler.css'
+import { Autocomplete, TextField } from '@mui/material';
 
 function Scheduler() {
     const context = useContext(visitorContext);
     const { fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
-    const [options, setOptions] = useState([{value: '',label: ''}]);
+    const [options, setOptions] = useState({label: '' });
 
     useEffect(() => {
         setupdate(true)
@@ -26,14 +28,15 @@ function Scheduler() {
         if (localStorage.getItem("token")) {
             if (update) {
                 fetchScheduledEvents().then((scheduledevents) => {
-                    const copyevents = JSON.parse(JSON.stringify(scheduledevents));
+                    const {copyfests,copyevents} = JSON.parse(JSON.stringify(scheduledevents));
                     setschedule(copyevents);
-
-                    let filters = [];
-                    schedule.map(({fest,searchedevents}) => {
-                        filters.push({value: fest.name, label: fest.name});
-                    });
-                    setOptions(filters);
+        
+                    // let filters = [];
+                    // schedule.map(({ fest, searchedevents }) => {
+                    //     filters.push({label: fest.name });
+                    // });
+                    // console.log(filters)
+                    // setOptions(filters);
 
                     console.log(copyevents);
                 });
@@ -43,6 +46,9 @@ function Scheduler() {
         }
     }, [update, schedule]);
 
+    useEffect(()=>{
+        // console.log(options)
+    })
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
@@ -50,12 +56,28 @@ function Scheduler() {
     };
 
     return (
-        <>       
-            {/* {schedule.map((fest,searchedevents)=>(
-                <div>{fest}</div>
-            ))} */}
+        <>
+            <div className="schedulecontainer">
+            <div className="search">
+                {schedule.map((record,index)=>
+                    // <Typography sx={{color:'white'}}>{record.fest[0].name}</Typography>,
+                    record.events.map((event,index) =>{
+                        <Typography sx={{color:'white'}}>{event.name}</Typography>
+                    })
+                )}
+            </div>
 
-            <Select options={options} />
+                    {/* <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        options={options}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Fest" />}
+                    /> */}
+                
+
+
+            </div>
         </>
     )
 }

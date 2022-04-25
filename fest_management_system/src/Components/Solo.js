@@ -45,6 +45,7 @@ function Solo() {
       FetchCompetitors(festname, eventid).then((comps) => {
         const copycompetitors = JSON.parse(JSON.stringify(comps));
         setCompetitors(copycompetitors.compList);
+        console.log(copycompetitors)
       });
       return () => (setupdate(false));
     }
@@ -95,8 +96,8 @@ function Solo() {
     }
   }
 
-  const handleVoting = async (e) => {
-
+  const handleVoting = async (compid) => {
+  
     if (localStorage.getItem("voting")) {
       setDisabled(true);
       return;
@@ -104,7 +105,7 @@ function Solo() {
 
     const festid = festname.split("-")[1];
     let url = `${host}/api/events/solo/${festid}/${eventid}/voting`;
-    let jsonData = { selectedCandidates: [e.currentTarget.id.slice(0, -1)] }
+    let jsonData = { selectedCandidates: [compid] }
 
     const response = await fetch(url, {
       method: 'POST',
@@ -167,15 +168,17 @@ function Solo() {
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {competitors.map((competitor) => (
+          {competitors.map((competitor,index) => (
             <SwiperSlide key={competitor._id}>
               <Card className="card">
-                <CardActionArea onClick={()=> handleVoting()}>
-                <CardContent class="card-content">
-                  <div className="image">
-                    <img src="/profile/img1.jpg" alt="" />
-                  </div>
+                <CardActionArea onClick={()=> handleVoting(competitor._id)}>
+                <CardMedia
+                    className="image"
+                    component="img"
+                    image={index%2 === 0 ?"/profile/img1.jpg":"/profile/img2.jpg"}
+                />
 
+                <CardContent className="card-content">
                   <div className="name-profession">{competitor.name.toUpperCase()}</div>
                   <div className="profession">{competitor.college}</div>
                 </CardContent>

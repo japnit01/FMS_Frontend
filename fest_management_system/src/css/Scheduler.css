@@ -1,0 +1,10 @@
+.schedulecontainer{
+    background-color:#121212;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+.search{
+    padding-top:5%;
+    width:35%;
+}

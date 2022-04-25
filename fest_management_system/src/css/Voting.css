@@ -13,28 +13,27 @@
 }
 
 .card .image{
-    height:140px;
-    width:140px;
-    border-radius:50%;
     padding: 3px;
     background-color:#7d2ae8;
 }
  
-.card .image img{
-    height:100%;
-    width:100%;
+.card .image{
+    height:140px;
+    width:140px;
     object-fit:cover;
+    margin: 8% auto 0 auto;
+    
     border-radius: 50%;
+    align-items:center;
     border: 3px solid #fff;
 }
 
 .card{
-    background-color:white;
-
-    border-radius: 20px;
+    border-radius: 20px !important;
     position:relative;
     margin: 20px 0;
     width: 280px;
+    height:80%;
     margin-bottom:4%;
 }
 
@@ -50,7 +49,7 @@
 
 .card::before{
     content:"";
-    height:45%;
+    height:40%;
     width:100%;
     background: #7d2ae8;
     position: absolute;
@@ -62,17 +61,19 @@
     flex-direction: column;
     align-items: center;
     margin-top:10px;
+    padding-bottom: 4%;
 }
 
-.name-profession .name{
+.name-profession{
     font-size:20px;
     font-weight:600;
     color: white;
 }
 
-.name-profession .profession{
+.profession{
     font-size:15px;
     font-weight: 500;
+    color: #f2f2f2
 }
 
 .swiper-wrapper{
@@ -83,7 +84,6 @@
 .mySwiper{
     width:90% !important;
     height: 65%;
-    /* background-color: white; */
 }
 
 .swiper-pagination-bullet
