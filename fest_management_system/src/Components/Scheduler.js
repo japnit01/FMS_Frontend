@@ -28,8 +28,9 @@ function Scheduler() {
         if (localStorage.getItem("token")) {
             if (update) {
                 fetchScheduledEvents().then((scheduledevents) => {
-                    const {copyfests,copyevents} = JSON.parse(JSON.stringify(scheduledevents));
-                    setschedule(copyevents);
+                    console.log('scheduledevents: ',scheduledevents[0])
+                    const {event,fest} = JSON.parse(JSON.stringify(scheduledevents[0]));
+                    setschedule(event);
         
                     // let filters = [];
                     // schedule.map(({ fest, searchedevents }) => {
@@ -38,7 +39,8 @@ function Scheduler() {
                     // console.log(filters)
                     // setOptions(filters);
 
-                    console.log(copyevents);
+                    // console.log('events: ',event);
+                    console.log('schedule: ',schedule)
                 });
                 return () => (setupdate(false));
             }
@@ -58,13 +60,14 @@ function Scheduler() {
     return (
         <>
             <div className="schedulecontainer">
-            <div className="search">
-                {schedule.map((record,index)=>
+            <div className="search" style={{color: 'white'}}>
+                {/* {schedule.map((record,index)=>
                     // <Typography sx={{color:'white'}}>{record.fest[0].name}</Typography>,
                     record.events.map((event,index) =>{
                         <Typography sx={{color:'white'}}>{event.name}</Typography>
                     })
-                )}
+                )} */}
+                {JSON.stringify(schedule)}
             </div>
 
                     {/* <Autocomplete

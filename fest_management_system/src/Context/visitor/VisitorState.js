@@ -27,9 +27,12 @@ const VisitorState = (props) =>{
             token: localStorage.getItem("token"),
           },
         });
-        const {scheduledfests,scheduledevents} = await response.json();
-        console.log(scheduledfests)
-        return scheduledfests,scheduledevents
+        // const {scheduledfests,scheduledevents} = await response.json();
+        const contentjson = await response.json();
+        // console.log(scheduledfests)
+        console.log(contentjson)
+        // return scheduledfests,scheduledevents
+        return contentjson
       };
 
     const addtoschedule = async (festname,eventid,register) =>{
