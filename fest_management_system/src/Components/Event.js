@@ -38,7 +38,7 @@ function Event() {
   const { addtoschedule } = context1;
 
   const navigate = useNavigate();
-  let location = useLocation();
+    let location = useLocation();
   const typeofuser = location.pathname[1];
   let { festname} = useParams();
   const [events, setevents] = useState([]);

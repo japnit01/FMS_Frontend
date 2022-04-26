@@ -30,7 +30,7 @@ const VisitorState = (props) =>{
         // const {scheduledfests,scheduledevents} = await response.json();
         const contentjson = await response.json();
         // console.log(scheduledfests)
-        console.log(contentjson)
+        // console.log(contentjson)
         // return scheduledfests,scheduledevents
         return contentjson
       };
