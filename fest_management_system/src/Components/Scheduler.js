@@ -21,7 +21,7 @@ function Scheduler() {
     const { addtoschedule, fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context1;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
-    const [options, setOptions] = useState({ label: '' });
+    const [options, setOptions] = useState({ value: '', label: '' });
     const [festname, setFestName] = useState("")
     const [currentEvents, setCurrentEvents] = useState([]);
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -43,10 +43,32 @@ function Scheduler() {
 
                     let filters = [];
                     schedule.map(({ fest, event }) => {
+                        console.log('fest: ',fest)
+                        console.log('event: ',event)
                         filters.push({value: fest.name, label: fest.name });
                     });
-                    // console.log(filters)
+                    // console.log('schedule in useefect: ',schedule)
+                    filters = JSON.parse(JSON.stringify(filters))
+                    // console.log('filters: ',filters)
                     setOptions(filters);
+
+                    let allevents = [];
+                    // console.log('schedule: ',schedule)
+                    schedule.map(({fest,event}) => {
+                        // allevents.push({fest,event})
+                        event.forEach((ev) => {
+                            ev.organization = fest.organization
+                        })
+
+                        console.log('event: ',event)
+
+                        allevents = allevents.concat(event);
+                        // console.log(allevents)
+                    })
+
+                    let allevents1 = JSON.parse(JSON.stringify(allevents))
+                    console.log(allevents)
+                    setCurrentEvents(allevents1) 
 
                     // console.log('events: ',event);
                     // console.log('schedule: ', schedule)
@@ -68,27 +90,18 @@ function Scheduler() {
         console.log(e.value)
     }
 
-    useEffect(() => {
-        let allevents = [];
-    schedule.map(({fest,event}) => {
-        // allevents.push({fest,event})
-        event.forEach((ev) => {
-            ev.organization = fest.organization
-        })
-
-        allevents = allevents.concat(event);
-    })
-    console.log(allevents)
-    setCurrentEvents(allevents)
-    },[])
+    // useEffect(() => {
+        
+    // },[])
 
     useEffect(() => {
         schedule.map(({fest,event}) => {
-            event.forEach((ev) => {
-                ev.organization = fest.organization
-            })
 
             if(fest.name === festname) {
+                event.forEach((ev) => 
+                    ev.organisation = fest.organisation
+                )
+                console.log(fest.organisation)
                 setCurrentEvents(event);
             }
         })
@@ -101,69 +114,20 @@ function Scheduler() {
                     <Select options={options} onChange={handleFestChange} />
                 </div>   
 
-                <div className="displayevents">
-                <Grid container rowSpacing={3} spacing={1} sx={{ backgroundColor: 'white', position: 'relative' }}>
+                <div className="displayevents" style={{ color: 'white' }}>
+                {/* <Grid container rowSpacing={3} spacing={1} sx={{ backgroundColor: 'white', position: 'relative' }}>
                 {currentEvents.map((currentevent) => {
                         console.log(currentevent);
                         <Typography sx={{color: 'white'}}>
                             {JSON.stringify(currentevent)}
-                        </Typography>
-                        
-                        // <Card sx={{ minWidth: 275, backgroundColor: 'white' }}>
-                        //     <CardContent>
-                        //         <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
-                        //             {/* {currentevent.name} */} hello
-                        //         </Typography>
-                        //     </CardContent>
-                        //     {/* <CardActions>
-                        //         <Button size="small">Learn More</Button>
-                        //     </CardActions> */}
-                        // </Card>
-                    //     <Grid key={currentevent._id} item xs={4}>
-                    //     <Card id="eventcard" sx={{ maxWidth: 345 }} >
-                    //         <CardActionArea className="eventcardcontent">
-                    //             <CardContent>
-                    //                 <Typography gutterBottom variant="h5">
-                    //                     {currentevent.name}
-                    //                 </Typography>
-                    //                 <Typography variant="body2">
-                    //                     {fest.organisation}
-                    //                 </Typography>
-                    //                 {/* <Typography variant="body2">
-                    //                     {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`}
-                    //                 </Typography> */}
-                    //                 <Typography variant="body2" sx={{color: 'green'}} >
-                    //                     {(currentevent.fee) ? currentevent.fee : "FREE"}
-                    //                 </Typography>
-                    //             </CardContent>
-                    //         </CardActionArea>
-
-                    //         <CardActions>
-                    //             {typeofuser === 'c' &&
-                    //                 (
-                    //                     <>
-                    //                         <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteScheduledEvent(festname, currentevent._id)} size="small">
-                    //                             Delete
-                    //                         </Button>
-                    //                     </>
-                    //                 )}
-
-                    //             {typeofuser === 'u' &&
-                    //                 (
-                    //                     <>
-                    //                         <Button onClick={() => addtoschedule(festname, currentevent._id, false)} size="small">
-                    //                             Schedule
-                    //                         </Button>
-                    //                         <Button onClick={() => addtoschedule(festname, currentevent._id, true)} size="small">
-                    //                             Unregister
-                    //                         </Button>
-                    //                     </>
-                    //                 )}
-                    //         </CardActions>
-                    //     </Card>
-                    // </Grid>
+                        </Typography> */}
+{/*                         
+                       
                 })}
-            </Grid>
+            </Grid> */}
+            {/* {console.log('currentEvents: ',currentEvents)} */}
+                    {/* {console.log(currentEvents)} */}
+                    {JSON.stringify(currentEvents)}
 
                 </div>
 
