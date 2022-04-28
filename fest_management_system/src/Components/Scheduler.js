@@ -37,8 +37,6 @@ function Scheduler() {
         if (localStorage.getItem("token")) {
             if (update) {
                 fetchScheduledEvents().then((scheduledevents) => {
-                    // console.log('scheduledevents: ', scheduledevents)
-                    // const { event, fest } = JSON.parse(JSON.stringify(scheduledevents[0]));
                     setschedule(scheduledevents);
 
                     let filters = [];
@@ -47,31 +45,22 @@ function Scheduler() {
                         console.log('event: ',event)
                         filters.push({value: fest.name, label: fest.name });
                     });
-                    // console.log('schedule in useefect: ',schedule)
-                    filters = JSON.parse(JSON.stringify(filters))
-                    // console.log('filters: ',filters)
                     setOptions(filters);
 
                     let allevents = [];
-                    // console.log('schedule: ',schedule)
                     schedule.map(({fest,event}) => {
-                        // allevents.push({fest,event})
+                        console.log({fest,event})
                         event.forEach((ev) => {
                             ev.organization = fest.organization
                         })
-
-                        console.log('event: ',event)
-
+                
                         allevents = allevents.concat(event);
-                        // console.log(allevents)
                     })
+                
+                    const allevents1 = JSON.parse(JSON.stringify(allevents))
+                    console.log(allevents1)
+                    setCurrentEvents(allevents1)
 
-                    let allevents1 = JSON.parse(JSON.stringify(allevents))
-                    console.log(allevents)
-                    setCurrentEvents(allevents1) 
-
-                    // console.log('events: ',event);
-                    // console.log('schedule: ', schedule)
                 });
                 return () => (setupdate(false));
             }
@@ -90,9 +79,6 @@ function Scheduler() {
         console.log(e.value)
     }
 
-    // useEffect(() => {
-        
-    // },[])
 
     useEffect(() => {
         schedule.map(({fest,event}) => {
@@ -114,20 +100,15 @@ function Scheduler() {
                     <Select options={options} onChange={handleFestChange} />
                 </div>   
 
-                <div className="displayevents" style={{ color: 'white' }}>
-                {/* <Grid container rowSpacing={3} spacing={1} sx={{ backgroundColor: 'white', position: 'relative' }}>
+                <div className="displayevents" style={{color: 'white'}}>
+                {JSON.stringify(currentEvents)}
                 {currentEvents.map((currentevent) => {
-                        console.log(currentevent);
+                        
                         <Typography sx={{color: 'white'}}>
                             {JSON.stringify(currentevent)}
-                        </Typography> */}
-{/*                         
-                       
+                        </Typography>
+                        
                 })}
-            </Grid> */}
-            {/* {console.log('currentEvents: ',currentEvents)} */}
-                    {/* {console.log(currentEvents)} */}
-                    {JSON.stringify(currentEvents)}
 
                 </div>
 
@@ -142,3 +123,6 @@ function Scheduler() {
 }
 
 export default Scheduler
+
+
+
