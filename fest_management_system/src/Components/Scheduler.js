@@ -37,19 +37,28 @@ function Scheduler() {
         if (localStorage.getItem("token")) {
             if (update) {
                 fetchScheduledEvents().then((scheduledevents) => {
-                    // console.log('scheduledevents: ', scheduledevents)
-                    // const { event, fest } = JSON.parse(JSON.stringify(scheduledevents[0]));
                     setschedule(scheduledevents);
 
                     let filters = [];
                     schedule.map(({ fest, event }) => {
                         filters.push({value: fest.name, label: fest.name });
                     });
-                    // console.log(filters)
                     setOptions(filters);
 
-                    // console.log('events: ',event);
-                    // console.log('schedule: ', schedule)
+                    let allevents = [];
+                    schedule.map(({fest,event}) => {
+                        console.log({fest,event})
+                        event.forEach((ev) => {
+                            ev.organization = fest.organization
+                        })
+                
+                        allevents = allevents.concat(event);
+                    })
+                
+                    const allevents1 = JSON.parse(JSON.stringify(allevents))
+                    console.log(allevents1)
+                    setCurrentEvents(allevents1)
+
                 });
                 return () => (setupdate(false));
             }
@@ -68,19 +77,6 @@ function Scheduler() {
         console.log(e.value)
     }
 
-    useEffect(() => {
-        let allevents = [];
-    schedule.map(({fest,event}) => {
-        // allevents.push({fest,event})
-        event.forEach((ev) => {
-            ev.organization = fest.organization
-        })
-
-        allevents = allevents.concat(event);
-    })
-    console.log(allevents)
-    setCurrentEvents(allevents)
-    },[])
 
     useEffect(() => {
         schedule.map(({fest,event}) => {
@@ -101,69 +97,15 @@ function Scheduler() {
                     <Select options={options} onChange={handleFestChange} />
                 </div>   
 
-                <div className="displayevents">
-                <Grid container rowSpacing={3} spacing={1} sx={{ backgroundColor: 'white', position: 'relative' }}>
+                <div className="displayevents" style={{color: 'white'}}>
+                {JSON.stringify(currentEvents)}
                 {currentEvents.map((currentevent) => {
-                        console.log(currentevent);
+                        
                         <Typography sx={{color: 'white'}}>
                             {JSON.stringify(currentevent)}
                         </Typography>
                         
-                        // <Card sx={{ minWidth: 275, backgroundColor: 'white' }}>
-                        //     <CardContent>
-                        //         <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
-                        //             {/* {currentevent.name} */} hello
-                        //         </Typography>
-                        //     </CardContent>
-                        //     {/* <CardActions>
-                        //         <Button size="small">Learn More</Button>
-                        //     </CardActions> */}
-                        // </Card>
-                    //     <Grid key={currentevent._id} item xs={4}>
-                    //     <Card id="eventcard" sx={{ maxWidth: 345 }} >
-                    //         <CardActionArea className="eventcardcontent">
-                    //             <CardContent>
-                    //                 <Typography gutterBottom variant="h5">
-                    //                     {currentevent.name}
-                    //                 </Typography>
-                    //                 <Typography variant="body2">
-                    //                     {fest.organisation}
-                    //                 </Typography>
-                    //                 {/* <Typography variant="body2">
-                    //                     {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`}
-                    //                 </Typography> */}
-                    //                 <Typography variant="body2" sx={{color: 'green'}} >
-                    //                     {(currentevent.fee) ? currentevent.fee : "FREE"}
-                    //                 </Typography>
-                    //             </CardContent>
-                    //         </CardActionArea>
-
-                    //         <CardActions>
-                    //             {typeofuser === 'c' &&
-                    //                 (
-                    //                     <>
-                    //                         <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteScheduledEvent(festname, currentevent._id)} size="small">
-                    //                             Delete
-                    //                         </Button>
-                    //                     </>
-                    //                 )}
-
-                    //             {typeofuser === 'u' &&
-                    //                 (
-                    //                     <>
-                    //                         <Button onClick={() => addtoschedule(festname, currentevent._id, false)} size="small">
-                    //                             Schedule
-                    //                         </Button>
-                    //                         <Button onClick={() => addtoschedule(festname, currentevent._id, true)} size="small">
-                    //                             Unregister
-                    //                         </Button>
-                    //                     </>
-                    //                 )}
-                    //         </CardActions>
-                    //     </Card>
-                    // </Grid>
                 })}
-            </Grid>
 
                 </div>
 
@@ -178,3 +120,6 @@ function Scheduler() {
 }
 
 export default Scheduler
+
+
+
