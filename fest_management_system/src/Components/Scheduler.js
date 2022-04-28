@@ -21,7 +21,7 @@ function Scheduler() {
     const { addtoschedule, fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context1;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
-    const [options, setOptions] = useState({ value: '', label: '' });
+    const [options, setOptions] = useState({ label: '' });
     const [festname, setFestName] = useState("")
     const [currentEvents, setCurrentEvents] = useState([]);
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -41,8 +41,6 @@ function Scheduler() {
 
                     let filters = [];
                     schedule.map(({ fest, event }) => {
-                        console.log('fest: ',fest)
-                        console.log('event: ',event)
                         filters.push({value: fest.name, label: fest.name });
                     });
                     setOptions(filters);
@@ -82,12 +80,11 @@ function Scheduler() {
 
     useEffect(() => {
         schedule.map(({fest,event}) => {
+            event.forEach((ev) => {
+                ev.organization = fest.organization
+            })
 
             if(fest.name === festname) {
-                event.forEach((ev) => 
-                    ev.organisation = fest.organisation
-                )
-                console.log(fest.organisation)
                 setCurrentEvents(event);
             }
         })
@@ -123,6 +120,7 @@ function Scheduler() {
 }
 
 export default Scheduler
+
 
 
 
