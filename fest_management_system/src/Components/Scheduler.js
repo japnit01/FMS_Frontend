@@ -40,23 +40,31 @@ function Scheduler() {
                     setschedule(scheduledevents);
 
                     let filters = [];
+                    // console.log(schedule)
                     schedule.map(({ fest, event }) => {
+                        console.log(fest)
                         filters.push({value: fest.name, label: fest.name });
                     });
-                    setOptions(filters);
+                    // console.log('filters: ',filters)
+                    const filters1 = JSON.parse(JSON.stringify(filters))
+                    setOptions(filters1);
 
                     let allevents = [];
                     schedule.map(({fest,event}) => {
-                        console.log({fest,event})
+                        // console.log({fest,event})
                         event.forEach((ev) => {
-                            ev.organization = fest.organization
+                            ev.fest_id = fest._id
+                            ev.organisation = fest.organisation;
+                            ev.startTime = new Date(ev.startTime);
+                            ev.endTime = new Date(ev.endTime);
+                            ev.startdate = new Date(ev.startdate);
                         })
-                
+                        console.log('event: ',event)
                         allevents = allevents.concat(event);
                     })
                 
                     const allevents1 = JSON.parse(JSON.stringify(allevents))
-                    console.log(allevents1)
+                    // console.log(allevents1)
                     setCurrentEvents(allevents1)
 
                 });
@@ -74,15 +82,18 @@ function Scheduler() {
 
     const handleFestChange = (e) => {
         setFestName(e.value);
-        console.log(e.value)
+        // console.log(e.value)
     }
 
 
     useEffect(() => {
         schedule.map(({fest,event}) => {
             event.forEach((ev) => {
-                ev.organization = fest.organization
+                ev.organisation = fest.organisation
             })
+
+            // console.log('event: ',event)
+            // console.log('fest: ',fest)
 
             if(fest.name === festname) {
                 setCurrentEvents(event);
@@ -98,14 +109,42 @@ function Scheduler() {
                 </div>   
 
                 <div className="displayevents" style={{color: 'white'}}>
-                {JSON.stringify(currentEvents)}
-                {currentEvents.map((currentevent) => {
-                        
-                        <Typography sx={{color: 'white'}}>
-                            {JSON.stringify(currentevent)}
-                        </Typography>
-                        
-                })}
+
+                    <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+                    {currentEvents.map((event) => (
+                    <Grid key={event._id} item xs={4}>
+                        <Card id="eventcard" sx={{ maxWidth: 345 }} >
+                        <CardActionArea className="eventcardcontent"> 
+                            <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                {event.name}
+                            </Typography>
+                            <Typography variant="body2">
+                                {event.organisation}
+                                {/* {console.log(event.organisation)} */}
+                            </Typography>
+                            <Typography variant="body2">
+                                {event.type}
+                            </Typography>
+                            <Typography variant="body2">
+                                {/* {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`} */}
+                            </Typography>
+                            <Typography variant="body2" sx={{color:'green'}} >
+                                {(event.fee) ? event.fee : "FREE"}
+                            </Typography>
+                            </CardContent>
+                            </CardActionArea>
+
+                            <CardActions>
+                                <Button onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} size="small">
+                                    Unregister
+                                </Button>
+                            </CardActions>
+
+                        </Card>
+                    </Grid>
+    ))}
+                </Grid>
 
                 </div>
 

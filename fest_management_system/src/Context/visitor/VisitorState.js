@@ -61,9 +61,9 @@ const VisitorState = (props) =>{
       setupdate(true);
     }
 
-    const DeleteScheduledEvent = async (eventid) => {
+    const DeleteScheduledEvent = async (festid, eventid) => {
 
-      const url = `${host}/api/schedule/deleteFromSchedule/${eventid}`;
+      const url = `${host}/api/schedule/deleteFromSchedule/${festid}/${eventid}`;
       const response = await fetch(url, {
         method: "DELETE",
         headers: {
