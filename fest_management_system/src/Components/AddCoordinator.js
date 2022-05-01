@@ -23,13 +23,9 @@ function AddCoordinator() {
   return (
       <>
     <IconButton onClick={handleClickOpen}> <PersonAddAlt1Icon /> </IconButton>
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} >
     <DialogTitle>Add Coordinators</DialogTitle>
     <DialogContent>
-      <DialogContentText>
-        To subscribe to this website, please enter your email address here. We
-        will send updates occasionally.
-      </DialogContentText>
       <TextField
         autoFocus
         margin="dense"
