@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,10 +7,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle'
 import {IconButton} from '@mui/material';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+// import TagsInput from './TagsInput'
+
+// import ChipInput from 'material-ui-chip-input'
+
 
 function AddCoordinator() {
     const [open, setOpen] = React.useState(false);
-
+    
+    const handleChange = (chips) =>{
+      console.log(chips)
+    }
+    
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -26,17 +33,13 @@ function AddCoordinator() {
     <Dialog open={open} onClose={handleClose} >
     <DialogTitle>Add Coordinators</DialogTitle>
     <DialogContent>
-      <TextField
-        autoFocus
-        margin="dense"
-        id="name"
-        label="Email Address"
-        type="email"
-        fullWidth
-        variant="standard"
-      />
+    {/* <ChipInput
+  defaultValue={['foo', 'bar']}
+  onChange={(chips) => handleChange(chips)}
+/> */}
+
     </DialogContent>
-    <DialogActions>
+    <DialogActions>/
       <Button onClick={handleClose}>Cancel</Button>
       <Button onClick={handleClose}>Add</Button>
     </DialogActions>
