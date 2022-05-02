@@ -14,16 +14,55 @@ import Grid from '@mui/material/Grid';
 import '../css/Scheduler.css'
 import { Autocomplete, TextField } from '@mui/material';
 
+const festNameNotSelected = (events,setCurrentEvents) => { 
+    let allevents = [];
+    events.map(({fest,event}) => {
+        // console.log({fest,event})
+        event.forEach((ev) => {
+            ev.fest_id = fest._id
+            ev.organisation = fest.organisation;
+            ev.startTime = new Date(ev.startTime);
+            ev.endTime = new Date(ev.endTime);
+            ev.startdate = new Date(ev.startdate);
+        })
+        // console.log('event: ',event)
+        allevents = allevents.concat(event);
+    })
 
+    const allevents1 = JSON.parse(JSON.stringify(allevents))
+    // console.log(allevents1)
+    setCurrentEvents(allevents1)
+}
+
+const festNameSelected = (events,setCurrentEvents,festname) => { 
+    events.map(({fest,event}) => {
+        event.forEach((ev) => {
+            ev.fest_id = fest._id
+            ev.organisation = fest.organisation;
+            ev.startTime = new Date(ev.startTime);
+            ev.endTime = new Date(ev.endTime);
+            ev.startdate = new Date(ev.startdate);
+        })
+
+        // console.log('event: ',event)
+        // console.log('fest: ',fest)
+
+        if(fest.name === festname) {
+            setCurrentEvents(event);
+        }
+    })
+}
 
 function Scheduler() {
     const context1 = useContext(visitorContext);
     const { addtoschedule, fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context1;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
+    const [registeredEvents,setRegisteredEvents] = useState([]);
     const [options, setOptions] = useState({ label: '' });
     const [festname, setFestName] = useState("")
     const [currentEvents, setCurrentEvents] = useState([]);
+    const [checkValue, setCheckValue] = useState(false)
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     let location = useLocation();
@@ -36,36 +75,39 @@ function Scheduler() {
     useEffect(() => {
         if (localStorage.getItem("token")) {
             if (update) {
-                fetchScheduledEvents().then((scheduledevents) => {
-                    setschedule(scheduledevents);
+                fetchScheduledEvents().then(({contentjson,registeredEvents}) => {
+                    console.log('contentjson in scheduler frontend: ',contentjson)
+                    setschedule(contentjson);
+                    setRegisteredEvents(registeredEvents);
 
                     let filters = [];
                     // console.log(schedule)
                     schedule.map(({ fest, event }) => {
-                        console.log(fest)
+                        // console.log(fest)
                         filters.push({value: fest.name, label: fest.name });
                     });
                     // console.log('filters: ',filters)
                     const filters1 = JSON.parse(JSON.stringify(filters))
                     setOptions(filters1);
 
-                    let allevents = [];
-                    schedule.map(({fest,event}) => {
-                        // console.log({fest,event})
-                        event.forEach((ev) => {
-                            ev.fest_id = fest._id
-                            ev.organisation = fest.organisation;
-                            ev.startTime = new Date(ev.startTime);
-                            ev.endTime = new Date(ev.endTime);
-                            ev.startdate = new Date(ev.startdate);
-                        })
-                        console.log('event: ',event)
-                        allevents = allevents.concat(event);
-                    })
+                    // let allevents = [];
+                    // schedule.map(({fest,event}) => {
+                    //     // console.log({fest,event})
+                    //     event.forEach((ev) => {
+                    //         ev.fest_id = fest._id
+                    //         ev.organisation = fest.organisation;
+                    //         ev.startTime = new Date(ev.startTime);
+                    //         ev.endTime = new Date(ev.endTime);
+                    //         ev.startdate = new Date(ev.startdate);
+                    //     })
+                    //     // console.log('event: ',event)
+                    //     allevents = allevents.concat(event);
+                    // })
                 
-                    const allevents1 = JSON.parse(JSON.stringify(allevents))
-                    // console.log(allevents1)
-                    setCurrentEvents(allevents1)
+                    // const allevents1 = JSON.parse(JSON.stringify(allevents))
+                    // // console.log(allevents1)
+                    // setCurrentEvents(allevents1)
+                    festNameNotSelected(schedule,setCurrentEvents);
 
                 });
                 return () => (setupdate(false));
@@ -85,28 +127,71 @@ function Scheduler() {
         // console.log(e.value)
     }
 
+    const changeCheckValue = () => { 
+        setCheckValue(!checkValue);
+    }
 
     useEffect(() => {
-        schedule.map(({fest,event}) => {
-            event.forEach((ev) => {
-                ev.organisation = fest.organisation
-            })
-
-            // console.log('event: ',event)
-            // console.log('fest: ',fest)
-
-            if(fest.name === festname) {
-                setCurrentEvents(event);
+        if(checkValue === true) { 
+            console.log(registeredEvents)
+            if(festname === "") { 
+                festNameNotSelected(registeredEvents,setCurrentEvents)
+            } else { 
+                festNameSelected(registeredEvents,setCurrentEvents,festname)
             }
-        })
+        } else { 
+            if(festname === "") { 
+                // setCurrentEvents(schedule)
+                festNameNotSelected(schedule,setCurrentEvents)
+            } else { 
+                festNameSelected(schedule,setCurrentEvents,festname)
+            }
+        }
+    },[checkValue])
+
+
+    useEffect(() => {
+        // schedule.map(({fest,event}) => {
+        //     event.forEach((ev) => {
+        //         ev.fest_id = fest._id
+        //         ev.organisation = fest.organisation;
+        //         ev.startTime = new Date(ev.startTime);
+        //         ev.endTime = new Date(ev.endTime);
+        //         ev.startdate = new Date(ev.startdate);
+        //     })
+
+        //     // console.log('event: ',event)
+        //     // console.log('fest: ',fest)
+
+        //     if(fest.name === festname) {
+        //         setCurrentEvents(event);
+        //     }
+        // })
+        if(checkValue === true) { 
+            festNameSelected(registeredEvents,setCurrentEvents,festname);
+        } else { 
+            festNameSelected(schedule,setCurrentEvents,festname);
+        }
     },[festname])
 
     return (
         <>
             <div className="schedulecontainer">
-                <div className="search">
+                <Grid container spacing={2} >
+                    <Grid item xs={6}>
+                     <Select options={options} sx={{mt: '10%'}} onChange={handleFestChange} />
+                    </Grid>
+                    <Grid item xs={6}>
+                    <label style={{color: 'white'}}>
+                        <input type="checkbox" checked={checkValue} onChange={changeCheckValue}  />
+                        Registered Events
+                        
+                    </label>
+                    </Grid>
+                </Grid>
+                {/* <div className="search">
                     <Select options={options} onChange={handleFestChange} />
-                </div>   
+                </div>    */}
 
                 <div className="displayevents" style={{color: 'white'}}>
 
