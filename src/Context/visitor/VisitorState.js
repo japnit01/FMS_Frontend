@@ -28,11 +28,12 @@ const VisitorState = (props) =>{
           },
         });
         // const {scheduledfests,scheduledevents} = await response.json();
-        const contentjson = await response.json();
+        const {contentjson,registeredEvents} = await response.json();
         // console.log(scheduledfests)
-        // console.log('contentjson in context: ',contentjson)
+        console.log('contentjson in context: ',contentjson)
+        console.log('registeredEvents: ',registeredEvents)
         // return scheduledfests,scheduledevents
-        return contentjson
+        return {contentjson,registeredEvents}
       };
 
     const addtoschedule = async (festname,eventid,register) =>{
