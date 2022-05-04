@@ -11,6 +11,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Select from 'react-select'
 import Grid from '@mui/material/Grid';
+import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
 import '../css/Scheduler.css'
 import { Autocomplete, TextField } from '@mui/material';
 
@@ -221,9 +222,7 @@ function Scheduler() {
                             </CardActionArea>
 
                             <CardActions>
-                                <Button onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} size="small">
-                                    Unregister
-                                </Button>
+                                <AutoDeleteIcon onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} sx={{'&:hover': {cursor: 'pointer'}, mx: 'auto', fontSize: '200%'}} />
                             </CardActions>
 
                         </Card>
