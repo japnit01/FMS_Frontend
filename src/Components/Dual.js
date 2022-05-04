@@ -105,8 +105,7 @@ const Dual = () => {
     <div className="dualcontainer">
       <Typography variant="h3" sx={{color: 'white',pt:"10%", textAlign:'center', fontWeight:'bold'}}>Round {Round}</Typography>
       <Grid container spacing={0} sx={{pt:"4%" }}>
-        {player1 && 
-          <Grid item xs={6}>
+        {(player1 && player2) ? <><Grid item xs={6}>
             <Card sx={{ maxWidth: 275, height: '100%', mx:'auto' }}>
               <CardContent>
                 <Typography variant="h6" sx={{textAlign:'center'}} >
@@ -116,9 +115,6 @@ const Dual = () => {
               </CardContent>
             </Card>
           </Grid>
-        }
-
-        {player2 &&
           <Grid item xs={6}>
             <Card sx={{ maxWidth: 275, height: '100%',mx:'auto' }}>
               <CardContent>
@@ -128,8 +124,13 @@ const Dual = () => {
                 <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" sx={{px:'auto'}}/>
               </CardContent>
             </Card>
-          </Grid>
-        }
+          </Grid></> : <>
+            <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
+            <Typography variant="h6" sx={{color: '#fafafa'}}>
+                  No Dual available at the moment🙁🙁
+              </Typography>
+            </div>
+              </>}
       </Grid>
       <div className="dualbuttoncontainer">
       {currentRound.duals &&

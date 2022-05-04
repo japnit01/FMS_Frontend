@@ -168,7 +168,7 @@ function Solo() {
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {competitors.map((competitor,index) => (
+          {(competitors.length !== 0) ? competitors.map((competitor,index) => (
             <SwiperSlide key={competitor._id}>
               <Card className="card">
                 <CardActionArea onClick={()=> handleVoting(competitor._id)}>
@@ -185,7 +185,13 @@ function Solo() {
               </CardActionArea>
             </Card>
               </SwiperSlide>
-            ))}
+            )) : <>
+            <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
+            <Typography variant="h6" sx={{color: '#fafafa'}}>
+                  No Participants registered in this event till now🙁🙁
+              </Typography>
+            </div>
+              </>}
       </Swiper>
     </div>
     </>

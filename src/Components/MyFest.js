@@ -66,7 +66,7 @@ function MyFest() {
     <>
       <div className="myfest">
         <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative',pt:"4%"}}>
-          {fests.map((fest) => (
+          {(fests.length !== 0) ? fests.map((fest) => (
             <Grid key={fest._id} item xs={4}>
 
               <Card id="festcard" sx={{ maxWidth: 345 }} >
@@ -107,7 +107,13 @@ function MyFest() {
                 </CardActions>
               </Card>
             </Grid>
-          ))}
+          )): <>
+          <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
+          <Typography variant="h6" sx={{color: '#fafafa'}}>
+                No Fests around the corner right now🙁🙁
+            </Typography>
+          </div>
+            </>}
         </Grid>
 
         <SpeedDial

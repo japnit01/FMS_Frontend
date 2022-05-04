@@ -85,7 +85,7 @@ function Event() {
     <>
       <div className="myevent">
         <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
-        {events.map((event) => (
+        {(events.length !== 0) ? events.map((event) => (
           <Grid key={event._id} item xs={4}>
             <Card id="eventcard" sx={{ maxWidth: 345 }} >
               <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${(event.type === 'Dual' ? 'duals' : 'solo')}/${event._id}`)}> 
@@ -138,7 +138,13 @@ function Event() {
               </CardActions>
             </Card>
           </Grid>
-        ))}
+        )) : <>
+        <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
+        <Typography variant="h6" sx={{color: '#fafafa'}}>
+              No Events scheduled at the moment🙁🙁
+          </Typography>
+        </div>
+          </>}
       </Grid>
 
     <SpeedDial
