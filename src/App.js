@@ -35,7 +35,7 @@ function App() {
           <EventState>
             <VisitorState>
               <BrowserRouter>
-                {/* <Navbar /> */}
+                <Navbar />
                 <Routes>
                   <Route path="/" />
                   <Route index element={<Home />} />

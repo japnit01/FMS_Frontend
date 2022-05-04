@@ -26,12 +26,12 @@ function Home() {
           </section>
         </Container>
         
-        <div>
+        {/* <div>
           <Link to="/u/fests">Visitor</Link>
         </div>
         <div>
           <Link to="/u/schedule">Schedule</Link>
-        </div>
+        </div> */}
       </div>
 
     </>

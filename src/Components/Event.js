@@ -14,6 +14,7 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FestivalIcon from '@mui/icons-material/Festival';
+import EventIcon from '@mui/icons-material/Event';
 import AddCoordinator from './AddCoordinator'
 
 
@@ -36,7 +37,7 @@ function Event() {
   const actions = [
     { icon: <FestivalIcon onClick={() => navigate('/c/createfest')}/>, name: 'Add Fest' },
     { icon: <AddCoordinator/>, name: 'Add Coordinator' },
-    {icon: <Button variant="contained" onClick={() => navigate(`/c/fest/${festname}/createevent`)}>Add Event</Button>, name: 'Add Event' },
+    {icon: <EventIcon onClick={() => navigate(`/c/fest/${festname}/createevent`)} />, name: 'Add Event' },
   ];
 
 
