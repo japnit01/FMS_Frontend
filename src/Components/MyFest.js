@@ -110,7 +110,7 @@ function MyFest() {
           )): <>
           <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
           <Typography variant="h6" sx={{color: '#fafafa'}}>
-                No Fests around the corner right now🙁🙁
+                No Fests around the corner right now
             </Typography>
           </div>
             </>}

@@ -141,7 +141,7 @@ function Event() {
         )) : <>
         <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
         <Typography variant="h6" sx={{color: '#fafafa'}}>
-              No Events scheduled at the moment🙁🙁
+              No Events scheduled at the moment
           </Typography>
         </div>
           </>}

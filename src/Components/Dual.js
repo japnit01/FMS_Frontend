@@ -127,7 +127,7 @@ const Dual = () => {
           </Grid></> : <>
             <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
             <Typography variant="h6" sx={{color: '#fafafa'}}>
-                  No Dual available at the moment🙁🙁
+                  No Dual available at the moment
               </Typography>
             </div>
               </>}

@@ -7,9 +7,11 @@ import Button from '@mui/material/Button';
 
 function Home() {
   const navigate = useNavigate();
+
   return (
     <>
       <div className="application">
+        <div className="bg fullscreen1">
         <Container disableGutters maxWidth={false} sx={{ minHeight: '100vh' }}>
           <section className="createfest">
             <div className="backgroundcontainer">
@@ -25,6 +27,22 @@ function Home() {
             </div>
           </section>
         </Container>
+        </div>
+        
+        <div className="bg fullscreen2">
+          <Container disableGutters maxWidth={false} sx={{minHeight: '100vh'}}>
+            <section className="createfest">
+              <div className="backgroundcontainer">
+                <div className="createfesttext2">
+                  <Typography variant="h4" align="center" sx={{ marginTop: '1%', fontWeight: 'bold' }}>
+                    Catch Up with your Favourite Fests now!
+                  </Typography>
+                  <Button variant="contained" className="createfestbutton2" onClick={()=>navigate('/u/myfests')}> View your fests </Button>
+                </div>
+              </div>
+            </section>
+          </Container>
+        </div>
         
         {/* <div>
           <Link to="/u/fests">Visitor</Link>
@@ -32,6 +50,7 @@ function Home() {
         <div>
           <Link to="/u/schedule">Schedule</Link>
         </div> */}
+
       </div>
 
     </>

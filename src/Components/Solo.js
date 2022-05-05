@@ -188,7 +188,7 @@ function Solo() {
             )) : <>
             <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
             <Typography variant="h6" sx={{color: '#fafafa'}}>
-                  No Participants registered in this event till now🙁🙁
+                  No Participants registered in this event till now
               </Typography>
             </div>
               </>}

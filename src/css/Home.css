@@ -1,19 +1,43 @@
 .backgroundcontainer::before{
     content:"";
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    background-image: url("../../public/home/3.jpg");
-    background-position:40% 90%;
-    opacity: 0.50;
+    opacity: 0.60;
 }
 
-.createfesttext{
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    height: 50%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+.fullscreen1 {
+    background-image: url("../../public/home/3.jpg");
+}
+
+.fullscreen2 {
+    background-image: url("../../public/home/festbg.jpg");
+}
+
+.createfesttext {
     position: relative;
     color:white;
     font-family: 'Cerea', sans-serif;
     padding: 10% 15% 10% 15%;
     text-align: center;
+}
+
+.createfesttext2 {
+    color: rgb(177, 71, 230);
+    position: relative;
+    font-family: 'Cerea', sans-serif;
+    padding: 10% 15% 10% 15%;
+    text-align: center;
+    padding-top: 20%
 }
 
 .createfest h1{
@@ -25,7 +49,7 @@
     opacity: 0.70;
 }
 
-.createfestbutton{
+.createfestbutton {
     width: 28%;
     height: 8vh;
     text-transform: unset !important;
@@ -35,6 +59,20 @@
     font-weight:500 !important;
     background-color:#BB86FC !important;
     padding: 1% 0 1% 0;
+}
+
+.createfestbutton2 {
+    background-color:rgba(3, 226, 255, 0.911) !important;
+    color: rgb(233, 233, 233) !important;
+    width: 28%;
+    height: 8vh;
+    text-transform: unset !important;
+    margin-top:4% !important;
+    border-radius: 100px !important;
+    font-size: 18px !important;
+    font-weight:500 !important;
+    padding: 1% 0 1% 0;    
+    opacity: 0.8 !important;
 }
 
 .createfest{
