@@ -21,7 +21,7 @@ function MyFest() {
   const { FetchFests, DeleteFest, fest, setFest, update, setupdate } = context;
   const navigate = useNavigate();
   const [fests, setFests] = useState([]);
-  const [isReadMore, setIsReadMore] = useState(false);
+  // const [isReadMore, setIsReadMore] = useState(false);
 
   const actions = [
     { icon: <FestivalIcon onClick={() => navigate('/c/createfest')}/>, name: 'Add Fest' },
@@ -65,9 +65,9 @@ function MyFest() {
     navigate('/c/editfest')
   }
 
-  const toggleReadMore = () => {
-    setIsReadMore(!isReadMore)
-  }
+  // const toggleReadMore = () => {
+  //   setIsReadMore(!isReadMore)
+  // }
 
 
   return (

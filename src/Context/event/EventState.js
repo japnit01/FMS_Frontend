@@ -2,7 +2,7 @@ import { useState } from "react";
 import eventContext from "./eventContext";
 
 const EventState = (props) => {
-  const host = "https://fest-manage-api.herokuapp.com";
+  const host = "http://localhost:5000";
 
   const [update, setupdate] = useState(true);
   const [event, setEvent] = useState({
@@ -144,7 +144,7 @@ const EventState = (props) => {
     return allcompetitors;
   };
 
-  const FinishEvent = async (festname,eventid, jsonData) => {
+  const FinishDualsEvent = async (festname,eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
     const response = await fetch(url, {
@@ -155,12 +155,44 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData)
     });
+    const currentRoundWinner = await response.json();
+    console.log(currentRoundWinner)
+
+    // await FinishEvent(festname,eventid,"duals");
+    // return winners;
+  }
+
+  const FinishEvent = async(festname,eventid, eventtype) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/results/${eventtype}/${festid}/${eventid}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    });
     const winners = await response.json();
     return winners;
   }
 
+  // const FinishSoloEvent = async (festname,eventid, jsonData) => {
+  //   const festid = festname.split("-")[1];
+  //   const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
+  //   const response = await fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       token: localStorage.getItem("token"),
+  //     },
+  //     body: JSON.stringify(jsonData)
+  //   });
+  //   const winners = await response.json();
+  //   return winners;
+  // }
+
   return (
-    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );

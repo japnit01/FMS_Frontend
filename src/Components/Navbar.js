@@ -19,8 +19,8 @@ function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const host = "https://fest-manage-api.herokuapp.com"//"https://fest-manage-api.herokuapp.com";
-//"https://fest-manage-api.herokuapp.com";
+  const host = "http://localhost:5000"//"http://localhost:5000";
+//"http://localhost:5000";
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
 import eventContext from '../Context/event/eventContext'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, Grid, Button, Typography, TextField } from '@mui/material';
 import "../css/Dual.css"
 
 const Dual = () => {
   const context = useContext(eventContext);
-  const { FetchDual, NextMatch, NextRound, FinishEvent, update, setupdate } = context;
+  const { FetchDual, NextMatch, NextRound, FinishDualsEvent, update, setupdate } = context;
   const [currentRound, setCurrentRound] = useState([]);
   const [player1, setplayer1] = useState({id:'' ,name:'' ,score:0});
   const [player2, setplayer2] = useState({id:'' ,name:'' ,score:0});
@@ -14,6 +14,7 @@ const Dual = () => {
   const [matchno,setmatchno] = useState(-1);
   const [totalrounds, settotalrounds] = useState(-1);
   let { festname, eventid } = useParams();
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -90,14 +91,16 @@ const Dual = () => {
       score2: player2.score,
       round: Round
     };
-    const newround = await FinishEvent(festname,eventid,jsonData);
+    const newround = await FinishDualsEvent(festname,eventid,jsonData);
+
+    navigate(`/c/fest/${festname}/duals/${eventid}/result`);
     // setCurrentRound(newround);
     // const defaultind = 0;
     // console.log("nextRound")
     // setmatchno(matchno - matchno);
     // setRound(newround.roundNo)
-    let winners = newround.winners;
-    console.log(winners)
+    // let winners = newround.winners;
+    // console.log(winners)
   }
 
   return (

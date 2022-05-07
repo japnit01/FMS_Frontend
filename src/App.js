@@ -15,6 +15,7 @@ import Dual from "./Components/Dual";
 import Solo from "./Components/Solo";
 import AddFest from "./Components/AddFest";
 import AddEvent from "./Components/AddEvent";
+import Results from "./Components/Results";
 import Finish from "./Components/Finish";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -37,28 +38,34 @@ function App() {
               <BrowserRouter>
                 <Navbar />
                 <Routes>
-                  <Route path="/" />
-                  <Route index element={<Home />} />
-                  <Route path="login" element={<Login />} />
-                  <Route path="signup" element={<SignUp />} />
-                  <Route path="c">
-                    <Route index path="myfests" element={<MyFest />} />
-                    <Route path=":festevent" element={<AddFest/>} />
-                    <Route path="fest">
-                      <Route path=":festname" element={<Event />} />
-                      <Route path=":festname/:eventoperation" element={<AddEvent/>} />
-                      <Route path=":festname/duals/:eventid" element={<Dual />} />
-                      <Route path=":festname/solo/:eventid" element={<Solo />} />
+                    <Route path="/" />
+                    <Route index element={<Home />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<SignUp />} />
+                    <Route path="c">
+                      <Route index path="myfests" element={<MyFest />} />
+                      <Route path=":festevent" element={<AddFest />} />
+                      <Route path="fest">
+                        <Route path=":festname" element={<Event />} />
+                        <Route path=":festname/:eventoperation" element={<AddEvent />} />
+                        <Route path=":festname/duals">
+                          <Route path=":eventid" element={<Dual />} />
+                          <Route path=":eventid/result" element={<Results />} />
+                        </Route>
+                        <Route path=":festname/solo">
+                          <Route path=":eventid" element={<Solo />} />
+                          <Route path=":eventid/result" element={<Results />} />
+                        </Route>
+                      </Route>
                     </Route>
-                  </Route>
 
-                  <Route path="u">
-                    <Route index path="fests" element={<Visitor />} />
-                    <Route path="schedule" element={<Scheduler />} />
-                    <Route path="fest/:festname" element={<Event />} />
-                  </Route>
+                    <Route path="u">
+                      <Route index path="fests" element={<Visitor />} />
+                      <Route path="schedule" element={<Scheduler />} />
+                      <Route path="fest/:festname" element={<Event />} />
+                    </Route>
 
-                </Routes>
+                  </Routes>
               </BrowserRouter>
             </VisitorState>
           </EventState>

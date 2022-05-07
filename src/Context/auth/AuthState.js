@@ -1,7 +1,7 @@
 import authContext from "./authContext";
 
 const AuthState = (props) => {
-    const host = "https://fest-manage-api.herokuapp.com";
+    const host = "http://localhost:5000";
 
     
     const signupuser = async(jsonData) => {
