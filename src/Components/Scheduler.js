@@ -31,6 +31,7 @@ const festNameNotSelected = (events,setCurrentEvents) => {
     })
 
     const allevents1 = JSON.parse(JSON.stringify(allevents))
+    sortEvents(allevents1);
     // console.log(allevents1)
     setCurrentEvents(allevents1)
 }
@@ -46,13 +47,21 @@ const festNameSelected = (events,setCurrentEvents,festname) => {
         })
 
         if(fest.name === festname) {
+            sortEvents(event);
+            console.log('sorted event: ',event)
             setCurrentEvents(event);
+            return [];
         }
     })
 }
 
 const sortEvents = (events) => { 
-
+    events.sort((a,b) => {
+        let A = JSON.stringify(a.startdate.getYear()) + JSON.stringify((a.startdate.getMonth() >= 10) ? a.startdate.getMonth() : "0" + a.startdate.getMonth()) + JSON.stringify((a.startdate.getDay() >= 10) ? a.startdate.getDay() : "0" + a.startdate.getDay()) + JSON.stringify((a.startTime.getHours() >= 10) ? a.startTime.getHours() : "0" + a.startTime.getHours()) + JSON.stringify((a.startTime.getMinutes() >= 10) ? a.startTime.getMinutes() : "0" + a.startTime.getMinutes()) + JSON.stringify((a.endTime.getHours() >= 10) ? a.endTime.getHours() : "0" + a.endTime.getHours()) + JSON.stringify((a.endTime.getMinutes() >= 10) ? a.endTime.getMinutes() : "0" + a.endTime.getMinutes()) 
+        let B = JSON.stringify(b.startdate.getYear()) + JSON.stringify((b.startdate.getMonth() >= 10) ? b.startdate.getMonth() : "0" + b.startdate.getMonth()) + JSON.stringify((b.startdate.getDay() >= 10) ? b.startdate.getDay() : "0" + b.startdate.getDay()) + JSON.stringify((b.startTime.getHours() >= 10) ? b.startTime.getHours() : "0" + b.startTime.getHours()) + JSON.stringify((b.startTime.getMinutes() >= 10) ? b.startTime.getMinutes() : "0" + b.startTime.getMinutes()) + JSON.stringify((b.endTime.getHours() >= 10) ? b.endTime.getHours() : "0" + b.endTime.getHours()) + JSON.stringify((b.endTime.getMinutes() >= 10) ? b.endTime.getMinutes() : "0" + b.endTime.getMinutes()) 
+        console.log('inside sorting part')
+        return ('' + A).localeCompare(B);
+    })
 }
 
 function Scheduler() {
@@ -85,7 +94,7 @@ function Scheduler() {
                     setRegisteredEvents(registeredEvents);
 
                     let filters = [];
-                    // console.log(schedule)
+                    console.log(schedule)
                     schedule.map(({ fest, event }) => {
                         // console.log(fest)
                         filters.push({value: fest.name, label: fest.name });
