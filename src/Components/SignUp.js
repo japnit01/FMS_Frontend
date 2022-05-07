@@ -39,9 +39,9 @@ function SignUp() {
 
   return (
     <>
-          <Button onClick={handleClickOpen}>Sign Up</Button>
+          <Button sx={{fontWeight:600, color:'#BB86FC'}} onClick={handleClickOpen}>Sign Up</Button>
       <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>SIGN UP</DialogTitle>
+          <DialogTitle sx={{fontWeight:600,fontSize:"4vh"}}>SIGN UP</DialogTitle>
           <DialogContent className="signupdialog">
             <CustomTextField label={"Name"} id={"name"} type={"text"} width={"100%"} changefunc={onChange} value={user.name} name={"name"}></CustomTextField>
             <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} changefunc={onChange} value={user.email} name={"email"}></CustomTextField>

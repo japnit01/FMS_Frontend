@@ -1,8 +1,8 @@
 import authContext from "./authContext";
 
 const AuthState = (props) => {
-    const host = "https://fest-manage-api.herokuapp.com";
-    
+    const host = "http://localhost:5000"; 
+
     const signupuser = async(jsonData) => {
       console.log(jsonData)
       const url = `${host}/api/auth/signup`;
@@ -17,7 +17,8 @@ const AuthState = (props) => {
       
       if (newuser.success) {
         localStorage.setItem("token", newuser.token);
-        // history("/");
+        window.location.reload();
+
       } 
       else {
         alert("Invalid Credentials");
@@ -37,15 +38,35 @@ const AuthState = (props) => {
       
       if (newuser.success) {
         localStorage.setItem("token", newuser.token);
-        // history("/");
+        window.location.reload();
+
       } 
       else {
         alert("Invalid Credentials");
       }
     }
-  
+
+  const logout = async()=>{
+    let url = `${host}/api/auth/logout`;
+
+    let response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const userlogout = await response.json();
+    console.log(userlogout);
+
+    if (userlogout.success) {
+      localStorage.clear();
+      window.location.reload();
+
+    } 
+  }
     return (
-      <authContext.Provider value={{signupuser,loginuser}}>
+      <authContext.Provider value={{signupuser,loginuser,logout}}>
         {props.children}
       </authContext.Provider>
     );

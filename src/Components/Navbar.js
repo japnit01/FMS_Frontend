@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,14 +12,15 @@ import { Link, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import Login from './Login';
 import SignUp from './SignUp';
-import Drawer from '@mui/material/Drawer'
 import '../css/Navbar.css'
+import authContext from "../Context/auth/authContext"
 
 function Navbar() {
+  const context = useContext(authContext);
+  const {logout} = context
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const host = "https://fest-manage-api.herokuapp.com";
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -27,14 +28,6 @@ function Navbar() {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  // const toggleDrawer = (anchor, open) => (event) => {
-  //   if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //     return;
-  //   }
-
-  //   setState({ ...state, [anchor]: open });
-  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -46,25 +39,7 @@ function Navbar() {
   };
 
   const handleLogoutAndClose = async () => {
-    let url = `${host}/api/auth/logout`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const userlogout = await response.json();
-    console.log(userlogout);
-
-    if (userlogout.success) {
-      localStorage.clear();
-      navigate("/");
-    } else {
-      alert("Unable to logout");
-    }
-
+    logout()
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -93,7 +68,7 @@ function Navbar() {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <Link to='/u/schedule'><MenuItem sx={{color:'white', textDecoration: 'none'}}>My Schedule</MenuItem></Link>
       <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-      <MenuItem onClick={handleLogoutAndClose}>Logout</MenuItem>
+      <MenuItem onClick={()=>handleLogoutAndClose()}>Logout</MenuItem>
 
     </Menu>
   );
@@ -129,15 +104,6 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" className="navbar">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
 
           <IconButton onClick={() => navigate("/")}>
             <HomeIcon sx={{ color: "white" }}></HomeIcon>

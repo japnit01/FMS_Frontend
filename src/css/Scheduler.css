@@ -1,8 +1,9 @@
 .schedulecontainer{
     background-color:#121212;
     min-height: 100vh;
-    min-width: 100vw;
+    max-width: 100vw;
     padding-top: 8%;
+    padding-bottom:10%
 }
 
 .displayevents{
