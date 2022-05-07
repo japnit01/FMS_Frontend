@@ -2,7 +2,7 @@ import {useState} from "react";
 import festContext from "./festContext";
 
 const FestState = (props) => {
-  const host = "http://localhost:5000";
+  const host = "https://fest-manage-api.herokuapp.com";
 
   const [update,setupdate] = useState(true);
   const [fest, setFest] = useState({

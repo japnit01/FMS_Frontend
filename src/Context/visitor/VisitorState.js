@@ -3,7 +3,7 @@ import visitorContext from './visitorContext';
 
 const VisitorState = (props) =>{
     // const host = "https://fest-manage-api.herokuapp.com";
-        const host = "http://localhost:5000";
+        const host = "https://fest-manage-api.herokuapp.com";
     const [update,setupdate] = useState(true);
 
     const fetchAllFests = async () => {
