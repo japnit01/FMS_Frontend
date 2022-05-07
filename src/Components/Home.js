@@ -12,7 +12,6 @@ function Home() {
     <>
       <div className="application">
         <div className="bg fullscreen1">
-        <Container disableGutters maxWidth={false} sx={{ minHeight: '100vh' }}>
           <section className="createfest">
             <div className="backgroundcontainer">
               <div className="createfesttext">
@@ -26,31 +25,23 @@ function Home() {
               </div>
             </div>
           </section>
-        </Container>
         </div>
         
-        <div className="bg fullscreen2">
-          <Container disableGutters maxWidth={false} sx={{minHeight: '100vh'}}>
+        <div className="bg1 fullscreen2">
             <section className="createfest">
               <div className="backgroundcontainer">
-                <div className="createfesttext2">
-                  <Typography variant="h4" align="center" sx={{ marginTop: '1%', fontWeight: 'bold' }}>
-                    Catch Up with your Favourite Fests now!
-                  </Typography>
-                  <Button variant="contained" className="createfestbutton2" onClick={()=>navigate('/u/myfests')}> View your fests </Button>
-                </div>
+              <div className="createfesttext2">
+              <Typography variant="h2" sx={{fontWeight:650}} align="left" >
+                  Streamline your Fest 
+                </Typography>
+                <Typography variant="h5" align="left" sx={{ marginTop: '1%' }}>
+                  Making your event more extraordinary
+                </Typography>
+                <Button variant="contained" className="createfestbutton" onClick={()=>navigate('/u/fests')}> Explore Fests</Button>
+              </div>
               </div>
             </section>
-          </Container>
         </div>
-        
-        {/* <div>
-          <Link to="/u/fests">Visitor</Link>
-        </div>
-        <div>
-          <Link to="/u/schedule">Schedule</Link>
-        </div> */}
-
       </div>
 
     </>

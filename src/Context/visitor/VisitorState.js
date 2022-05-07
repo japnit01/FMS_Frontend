@@ -2,8 +2,8 @@ import {useState} from "react";
 import visitorContext from './visitorContext';
 
 const VisitorState = (props) =>{
-    const host = "http://localhost:5000";
-
+    // const host = "https://fest-manage-api.herokuapp.com";
+        const host = "http://localhost:5000";
     const [update,setupdate] = useState(true);
 
     const fetchAllFests = async () => {
@@ -28,12 +28,10 @@ const VisitorState = (props) =>{
             token: localStorage.getItem("token"),
           },
         });
-        // const {scheduledfests,scheduledevents} = await response.json();
         const {contentjson,registeredEvents} = await response.json();
-        // console.log(scheduledfests)
-        console.log('contentjson in context: ',contentjson)
-        console.log('registeredEvents: ',registeredEvents)
-        // return scheduledfests,scheduledevents
+       
+        // console.log('contentjson in context: ',contentjson)
+        // console.log('registeredEvents: ',registeredEvents)
         return {contentjson,registeredEvents}
       };
 
@@ -64,7 +62,7 @@ const VisitorState = (props) =>{
     }
 
     const DeleteScheduledEvent = async (festid, eventid) => {
-
+      console.log(festid,eventid)
       const url = `${host}/api/schedule/deleteFromSchedule/${festid}/${eventid}`;
       const response = await fetch(url, {
         method: "DELETE",

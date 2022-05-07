@@ -3,10 +3,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomButton from './CustomButton';
 import CustomTextField from './CustomTextField';
 import {useNavigate } from "react-router-dom";
 import authContext from '../Context/auth/authContext';
+import Button from "@mui/material/Button";
+import "../css/SignUp.css"
+
 
 function SignUp() {
   const context = useContext(authContext);
@@ -37,10 +39,10 @@ function SignUp() {
 
   return (
     <>
-          <CustomButton name={"Signup"} clickfunc={handleClickOpen}></CustomButton>
+          <Button onClick={handleClickOpen}>Sign Up</Button>
       <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>SIGNUP</DialogTitle>
-          <DialogContent>
+          <DialogTitle>SIGN UP</DialogTitle>
+          <DialogContent className="signupdialog">
             <CustomTextField label={"Name"} id={"name"} type={"text"} width={"100%"} changefunc={onChange} value={user.name} name={"name"}></CustomTextField>
             <CustomTextField label={"Email"} id={"email"} type={"email"} width={"100%"} changefunc={onChange} value={user.email} name={"email"}></CustomTextField>
             <CustomTextField label={"College"} id={"college"} type={"text"} width={"100%"}></CustomTextField>
@@ -49,8 +51,8 @@ function SignUp() {
             <CustomTextField label={"Confirm Password"} id={"confirm-pass"} type={"password"} width={"100%"}></CustomTextField>
           </DialogContent>
           <DialogActions>
-            <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
-            <CustomButton name={"Create Account"} clickfunc={createAccountAndClose}></CustomButton>
+            <Button sx={{ color: '#BB86FC' }} onClick={handleClose}>Cancel</Button>
+            <Button sx={{ color: '#BB86FC' }} onClick={()=>createAccountAndClose()}>Create Account</Button>
           </DialogActions>
       </Dialog>
     </>
