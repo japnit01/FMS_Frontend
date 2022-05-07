@@ -1,6 +1,5 @@
-import React,{useState} from "react";
-import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
-import Badge from "@mui/material/Badge";
+import React,{useState,useContext} from "react";
+import { AppBar, Box, Toolbar, IconButton, Typography,Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -12,15 +11,20 @@ import { Link, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import Login from './Login';
 import SignUp from './SignUp';
-import Drawer from '@mui/material/Drawer'
 import '../css/Navbar.css'
+import authContext from "../Context/auth/authContext"
 
 function Navbar() {
+  const context = useContext(authContext);
+  const {logout} = context
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+<<<<<<< HEAD
   const host = "http://localhost:5000"//"http://localhost:5000";
 //"http://localhost:5000";
+=======
+>>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -28,14 +32,6 @@ function Navbar() {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  // const toggleDrawer = (anchor, open) => (event) => {
-  //   if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //     return;
-  //   }
-
-  //   setState({ ...state, [anchor]: open });
-  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -47,25 +43,7 @@ function Navbar() {
   };
 
   const handleLogoutAndClose = async () => {
-    let url = `${host}/api/auth/logout`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const userlogout = await response.json();
-    console.log(userlogout);
-
-    if (userlogout.success) {
-      localStorage.clear();
-      navigate("/");
-    } else {
-      alert("Unable to logout");
-    }
-
+    logout()
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -94,7 +72,7 @@ function Navbar() {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <Link to='/u/schedule'><MenuItem sx={{color:'white', textDecoration: 'none'}}>My Schedule</MenuItem></Link>
       <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-      <MenuItem onClick={handleLogoutAndClose}>Logout</MenuItem>
+      <MenuItem onClick={()=>handleLogoutAndClose()}>Logout</MenuItem>
 
     </Menu>
   );
@@ -130,29 +108,8 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" className="navbar">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
 
-          <IconButton onClick={() => navigate("/")}>
-            <HomeIcon sx={{ color: "white" }}></HomeIcon>
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Fest-Eazze
-          </Typography>
-
+          <Button disableRipple	 disableElevation onClick={() => navigate("/")} sx={{ color: "white",fontSize:"4vh", fontWeight:500 }}>FMS</Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
 

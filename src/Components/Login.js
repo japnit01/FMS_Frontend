@@ -37,9 +37,9 @@ function Login() {
 
   return (
     <>
-    <Button onClick={handleClickOpen}>Login</Button>
+    <Button sx={{fontWeight:600, color:'#BB86FC'}} onClick={handleClickOpen}>Login</Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>LOGIN</DialogTitle>
+        <DialogTitle sx={{fontWeight:600,fontSize:"4vh"}}>LOGIN</DialogTitle>
         <DialogContent>
           <CustomTextField
             label={"Email"}

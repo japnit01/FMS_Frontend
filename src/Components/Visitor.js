@@ -8,6 +8,8 @@ import { useNavigate, Link } from "react-router-dom";
 import visitorContext from "../Context/visitor/visitorContext"
 import Grid from '@mui/material/Grid';
 import '../css/Scheduler.css'
+import CardMedia from '@mui/material/CardMedia';
+
 
 function Visitor() {
     const context = useContext(visitorContext);
@@ -35,42 +37,49 @@ function Visitor() {
     return (
         <>
             <div className="myfest">
-                <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative',paddingTop:"4%",paddingBottom:"5%" }}>
+                <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative', paddingTop: "4%", paddingBottom: "5%" }}>
                     {fests.map((fest) => (
                         <Grid key={fest._id} item xs={4}>
-                        <Card id="festcard" sx={{ maxWidth: 345 }} >
-                            <CardActionArea className="festcardcontent" onClick={() => navigate(`/u/fest/${fest.name}-${fest._id}`)}>
-                                <CardContent>
-                                    <Typography variant="h5">
-                                        {fest.name}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.organisation}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.description}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.startdate}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.enddate}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.state}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {fest.city}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                            <Card id="festcard" sx={{ maxWidth: 345 }} >
+                                <CardMedia
+                                    className="festcardmedia"
+                                    component="img"
+                                    height="100%"
+                                    image="/festprofile/1.jpg"
+                                    alt="green iguana"
+                                />
+                                <CardActionArea className="festcardcontent" onClick={() => navigate(`/u/fest/${fest.name}-${fest._id}`)}>
+                                    <CardContent>
+                                        <Typography variant="h5">
+                                            {fest.name}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.organisation}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.description}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.startdate}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.enddate}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.state}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {fest.city}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
                         </Grid>
                     ))}
-                    </Grid>
-                    </div>
-                </>
-                )
+                </Grid>
+            </div>
+        </>
+    )
 }
 
-                export default Visitor
+export default Visitor

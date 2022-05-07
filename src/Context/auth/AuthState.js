@@ -1,9 +1,12 @@
 import authContext from "./authContext";
 
 const AuthState = (props) => {
+<<<<<<< HEAD
     const host = "http://localhost:5000";
+=======
+    const host = "http://localhost:5000"; 
+>>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
 
-    
     const signupuser = async(jsonData) => {
       console.log(jsonData)
       const url = `${host}/api/auth/signup`;
@@ -18,7 +21,8 @@ const AuthState = (props) => {
       
       if (newuser.success) {
         localStorage.setItem("token", newuser.token);
-        // history("/");
+        window.location.reload();
+
       } 
       else {
         alert("Invalid Credentials");
@@ -38,15 +42,35 @@ const AuthState = (props) => {
       
       if (newuser.success) {
         localStorage.setItem("token", newuser.token);
-        // history("/");
+        window.location.reload();
+
       } 
       else {
         alert("Invalid Credentials");
       }
     }
-  
+
+  const logout = async()=>{
+    let url = `${host}/api/auth/logout`;
+
+    let response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const userlogout = await response.json();
+    console.log(userlogout);
+
+    if (userlogout.success) {
+      localStorage.clear();
+      window.location.reload();
+
+    } 
+  }
     return (
-      <authContext.Provider value={{signupuser,loginuser}}>
+      <authContext.Provider value={{signupuser,loginuser,logout}}>
         {props.children}
       </authContext.Provider>
     );

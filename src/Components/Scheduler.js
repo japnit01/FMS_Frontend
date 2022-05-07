@@ -6,14 +6,18 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import visitorContext from "../Context/visitor/visitorContext"
 import { useNavigate, useLocation } from "react-router-dom";
-// import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
-import Select from 'react-select'
 import Grid from '@mui/material/Grid';
-import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import '../css/Scheduler.css'
-import {Box,Autocomplete} from '@mui/material';
+import { Box, Autocomplete } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from '@mui/material/IconButton';
+import CardHeader from '@mui/material/CardHeader';
+import Button from '@mui/material/Button';
+ 
 
 const festNameNotSelected = (events, setCurrentEvents) => {
     let allevents = [];
@@ -58,8 +62,11 @@ const festNameSelected = (events, setCurrentEvents, festname) => {
     })
 }
 
-const sortEvents = (events) => { 
-    events.sort((a,b) => {
+const sortEvents = (events) => {
+    events.sort((a, b) => {
+
+        a = new Date(a.startdate)
+        b = new Date(b.startdate)
 
         const st1 = new Date(a.startTime)
         const st2 = new Date(b.startTime)
@@ -67,11 +74,8 @@ const sortEvents = (events) => {
         const et1 = new Date(a.endTime)
         const et2 = new Date(b.endTime)
 
-        a = new Date(a.startdate)
-		b = new Date(b.startdate)
-
-        let A = JSON.stringify(a.getFullYear()) + JSON.stringify((a.getMonth() >= 10) ? a.getMonth() : "0" + a.getMonth()) + JSON.stringify((a.getDay() >= 10) ? a.getDay() : "0" + a.getDay()) + JSON.stringify((st1.getHours() >= 10) ? st1.getHours() : "0" + st1.getHours()) + JSON.stringify((st1.getMinutes() >= 10) ? st1.getMinutes() : "0" + st1.getMinutes()) + JSON.stringify((et1.getHours() >= 10) ? et1.getHours() : "0" + et1.getHours()) + JSON.stringify((et1.getMinutes() >= 10) ? et1.getMinutes() : "0" + et1.getMinutes()) 
-        let B = JSON.stringify(b.getFullYear()) + JSON.stringify((b.getMonth() >= 10) ? b.getMonth() : "0" + b.getMonth()) + JSON.stringify((b.getDay() >= 10) ? b.getDay() : "0" + b.getDay()) + JSON.stringify((st2.getHours() >= 10) ? st2.getHours() : "0" + st2.getHours()) + JSON.stringify((st2.getMinutes() >= 10) ? st2.getMinutes() : "0" + st2.getMinutes()) + JSON.stringify((et2.getHours() >= 10) ? et2.getHours() : "0" + et2.getHours()) + JSON.stringify((et2.getMinutes() >= 10) ? et2.getMinutes() : "0" + et2.getMinutes()) 
+        let A = JSON.stringify(a.getFullYear()) + JSON.stringify((a.getMonth() >= 10) ? a.getMonth() : "0" + a.getMonth()) + JSON.stringify((a.getDay() >= 10) ? a.getDay() : "0" + a.getDay()) + JSON.stringify((st1.getHours() >= 10) ? st1.getHours() : "0" + st1.getHours()) + JSON.stringify((st1.getMinutes() >= 10) ? st1.getMinutes() : "0" + st1.getMinutes()) + JSON.stringify((et1.getHours() >= 10) ? et1.getHours() : "0" + et1.getHours()) + JSON.stringify((et1.getMinutes() >= 10) ? et1.getMinutes() : "0" + et1.getMinutes())
+        let B = JSON.stringify(b.getFullYear()) + JSON.stringify((b.getMonth() >= 10) ? b.getMonth() : "0" + b.getMonth()) + JSON.stringify((b.getDay() >= 10) ? b.getDay() : "0" + b.getDay()) + JSON.stringify((st2.getHours() >= 10) ? st2.getHours() : "0" + st2.getHours()) + JSON.stringify((st2.getMinutes() >= 10) ? st2.getMinutes() : "0" + st2.getMinutes()) + JSON.stringify((et2.getHours() >= 10) ? et2.getHours() : "0" + et2.getHours()) + JSON.stringify((et2.getMinutes() >= 10) ? et2.getMinutes() : "0" + et2.getMinutes())
         console.log('inside sorting part')
         return ('' + A).localeCompare(B);
     })
@@ -106,16 +110,16 @@ function Scheduler() {
 
                     let filters = [];
                     // console.log(schedule)
-                    schedule.map(({fest, event},index) => {
+                    schedule.map(({ fest, event }, index) => {
                         console.log(index)
-                        filters.push({id:index,value: fest.name, label: fest.name });
+                        filters.push({ id: index, value: fest.name, label: fest.name });
                     });
 
                     const filters1 = JSON.parse(JSON.stringify(filters))
                     console.log(filters)
                     setOptions(filters1);
 
-                   festNameNotSelected(schedule, setCurrentEvents);
+                    festNameNotSelected(schedule, setCurrentEvents);
 
                 });
                 return () => (setupdate(false));
@@ -124,15 +128,9 @@ function Scheduler() {
         }
     }, [update, schedule]);
 
-    const [value, setValue] = useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    const handleFestChange = (e,value) => {
+    const handleFestChange = (e, value) => {
         if (value)
-			setFestName({ label: value.label });
+            setFestName({ label: value.label });
     }
 
     const changeCheckValue = () => {
@@ -172,22 +170,25 @@ function Scheduler() {
                 <div className="options">
                     <Autocomplete
                         value={festname}
-						getOptionLabel={(option) => option.label}
-						options={options}
-						onChange={(e, value) => { handleFestChange(e, value) }}
-						sx={{ width: '30%'}}
-						renderOption={(props, option) => (
-							<Box component="li" {...props} key={option.id}>
-								{option.label}
-							</Box>
-						)}
-						renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
-					/>
+                        getOptionLabel={(option) => option.label}
+                        options={options}
+                        onChange={(e, value) => { handleFestChange(e, value) }}
+                        sx={{ width: '30%' }}
+                        renderOption={(props, option) => (
+                            <Box component="li" {...props} key={option.id}>
+                                {option.label}
+                            </Box>
+                        )}
+                        renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+                    />
 
-                    <label style={{ color: 'white',paddingLeft:"5%",verticalAlign: 'middle' }}>
-                        <input type="checkbox" checked={checkValue} onChange={changeCheckValue} />
-                        Registered Events
-                    </label>
+                    <FormControlLabel
+                        sx={{ color: 'white', paddingLeft: "5%", verticalAlign: 'middle' }}
+                        control={
+                            <Checkbox checked={checkValue} onChange={changeCheckValue} />
+                        }
+                        label="Registered Events"
+                    />
                 </div>
 
                 <div className="displayevents" style={{ color: 'white' }}>
@@ -221,7 +222,7 @@ function Scheduler() {
                                     </CardActionArea>
 
                                     <CardActions>
-                                        <AutoDeleteIcon onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} sx={{ '&:hover': { cursor: 'pointer' }, mx: 'auto', fontSize: '200%' }} />
+                                        <Button sx={{color: '#BB86FC' }}>  <DeleteOutlineIcon sx={{ color: '#BB86FC',pr:"2% "}} /> Delete</Button>
                                     </CardActions>
 
                                 </Card>
@@ -230,11 +231,6 @@ function Scheduler() {
                     </Grid>
 
                 </div>
-
-                {/* {typeofuser === 'c' &&
-                <Button variant="contained" onClick={() => navigate(`/c/fest/${festname}/createevent`)}>Add Event</Button>
-            } */}
-
             </div>
 
         </>

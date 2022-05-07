@@ -3,7 +3,10 @@ import eventContext from "./eventContext";
 
 const EventState = (props) => {
   const host = "http://localhost:5000";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
   const [update, setupdate] = useState(true);
   const [event, setEvent] = useState({
     id: "",

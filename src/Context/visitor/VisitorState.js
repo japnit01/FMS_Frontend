@@ -2,7 +2,10 @@ import {useState} from "react";
 import visitorContext from './visitorContext';
 
 const VisitorState = (props) =>{
+<<<<<<< HEAD
     // const host = "http://localhost:5000";
+=======
+>>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
         const host = "http://localhost:5000";
     const [update,setupdate] = useState(true);
 
