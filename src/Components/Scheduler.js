@@ -61,14 +61,14 @@ const festNameSelected = (events, setCurrentEvents, festname) => {
 const sortEvents = (events) => { 
     events.sort((a,b) => {
 
-        a = new Date(a.startdate)
-		b = new Date(b.startdate)
-
         const st1 = new Date(a.startTime)
         const st2 = new Date(b.startTime)
 
         const et1 = new Date(a.endTime)
         const et2 = new Date(b.endTime)
+
+        a = new Date(a.startdate)
+		b = new Date(b.startdate)
 
         let A = JSON.stringify(a.getFullYear()) + JSON.stringify((a.getMonth() >= 10) ? a.getMonth() : "0" + a.getMonth()) + JSON.stringify((a.getDay() >= 10) ? a.getDay() : "0" + a.getDay()) + JSON.stringify((st1.getHours() >= 10) ? st1.getHours() : "0" + st1.getHours()) + JSON.stringify((st1.getMinutes() >= 10) ? st1.getMinutes() : "0" + st1.getMinutes()) + JSON.stringify((et1.getHours() >= 10) ? et1.getHours() : "0" + et1.getHours()) + JSON.stringify((et1.getMinutes() >= 10) ? et1.getMinutes() : "0" + et1.getMinutes()) 
         let B = JSON.stringify(b.getFullYear()) + JSON.stringify((b.getMonth() >= 10) ? b.getMonth() : "0" + b.getMonth()) + JSON.stringify((b.getDay() >= 10) ? b.getDay() : "0" + b.getDay()) + JSON.stringify((st2.getHours() >= 10) ? st2.getHours() : "0" + st2.getHours()) + JSON.stringify((st2.getMinutes() >= 10) ? st2.getMinutes() : "0" + st2.getMinutes()) + JSON.stringify((et2.getHours() >= 10) ? et2.getHours() : "0" + et2.getHours()) + JSON.stringify((et2.getMinutes() >= 10) ? et2.getMinutes() : "0" + et2.getMinutes()) 
@@ -193,6 +193,7 @@ function Scheduler() {
                 <div className="displayevents" style={{ color: 'white' }}>
 
                     <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+                        {console.log('currentEvents: ',currentEvents)}
                         {currentEvents.map((event) => (
                             <Grid key={event._id} item xs={4}>
                                 <Card id="eventcard" sx={{ maxWidth: 345 }} >
@@ -203,13 +204,15 @@ function Scheduler() {
                                             </Typography>
                                             <Typography variant="body2">
                                                 {event.organisation}
-                                                {/* {console.log(event.organisation)} */}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {event.description}
                                             </Typography>
                                             <Typography variant="body2">
                                                 {event.type}
                                             </Typography>
                                             <Typography variant="body2">
-                                                {/* {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`} */}
+                                                { `${(new Date(event.startdate).getDate() >= 10) ? new Date(event.startdate).getDate() : "0" + new Date(event.startdate).getDate()} ${mS[new Date(event.startdate).getMonth()]} ${(new Date(event.startdate).getFullYear()) % 100}, ${(new Date(event.startTime).getHours() >= 10) ? new Date(event.startTime).getHours() : "0" + new Date(event.startTime).getHours()}:${(new Date(event.startTime).getMinutes() >= 10) ? new Date(event.startTime).getMinutes() : "0" + new Date(event.startTime).getMinutes()} - ${(new Date(event.startdate).getDate() >= 10) ? new Date(event.startdate).getDate() : "0" + new Date(event.startdate).getDate()} ${mS[new Date(event.startdate).getMonth()]} ${(new Date(event.startdate).getFullYear()) % 100}, ${(new Date(event.endTime).getHours() >= 10) ? new Date(event.endTime).getHours() : "0" + new Date(event.endTime).getHours()}:${(new Date(event.endTime).getMinutes() >= 10) ? new Date(event.endTime).getMinutes() : "0" + new Date(event.endTime).getMinutes()}`}
                                             </Typography>
                                             <Typography variant="body2" sx={{ color: 'green' }} >
                                                 {(event.fee) ? event.fee : "FREE"}
