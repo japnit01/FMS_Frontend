@@ -3,9 +3,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
 import authContext from "../Context/auth/authContext"
+import Button from "@mui/material/Button";
 
 function Login() {
    const context = useContext(authContext);
@@ -37,7 +37,7 @@ function Login() {
 
   return (
     <>
-    <CustomButton name={"Login"} clickfunc={handleClickOpen}></CustomButton>
+    <Button onClick={handleClickOpen}>Login</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>LOGIN</DialogTitle>
         <DialogContent>
@@ -61,8 +61,8 @@ function Login() {
           ></CustomTextField>
         </DialogContent>
         <DialogActions>
-          <CustomButton name={"Cancel"} clickfunc={handleClose}></CustomButton>
-          <CustomButton name={"Login"} clickfunc={handleLogin}></CustomButton>
+          <Button sx={{ color: '#BB86FC' }} onClick={handleClose}>Cancel</Button>
+          <Button sx={{ color: '#BB86FC' }} onClick={()=>handleLogin()}>Login</Button>
         </DialogActions>
       </Dialog>
     </>

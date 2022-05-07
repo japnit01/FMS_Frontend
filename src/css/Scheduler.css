@@ -2,9 +2,14 @@
     background-color:#121212;
     min-height: 100vh;
     min-width: 100vw;
+    padding-top: 8%;
 }
 
-.search{
-    padding-top:10%;
-    width:35%;
+.displayevents{
+    padding-top:5%;
+}
+
+.options{
+    display:flex;
+    margin-left:3.5%;
 }

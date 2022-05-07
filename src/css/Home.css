@@ -1,6 +1,6 @@
 .backgroundcontainer::before{
     content:"";
-    opacity: 0.60;
+    opacity: 0.10;
 }
 
 body, html {
@@ -10,34 +10,40 @@ body, html {
 
 .bg {
     height: 50%; 
-    background-position: center;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
   }
+  .bg1 {
+    height: 50%; 
+    background-position: 92% 80%;
+    background-repeat: no-repeat;
+    background-size: 35vw 70vh;
 
+  }
 .fullscreen1 {
     background-image: url("../../public/home/3.jpg");
 }
 
 .fullscreen2 {
-    background-image: url("../../public/home/festbg.jpg");
+    background-image: url("../../public/home/second.jpeg");
 }
 
 .createfesttext {
     position: relative;
     color:white;
     font-family: 'Cerea', sans-serif;
-    padding: 10% 15% 10% 15%;
+    padding: 13% 15% 10% 15%;
     text-align: center;
 }
 
 .createfesttext2 {
-    color: rgb(177, 71, 230);
+    color:white;
     position: relative;
     font-family: 'Cerea', sans-serif;
-    padding: 10% 15% 10% 15%;
-    text-align: center;
-    padding-top: 20%
+    padding: 15% 15% 10% 5%;
+    /* text-align: center; */
+  
 }
 
 .createfest h1{
@@ -61,22 +67,8 @@ body, html {
     padding: 1% 0 1% 0;
 }
 
-.createfestbutton2 {
-    background-color:rgba(3, 226, 255, 0.911) !important;
-    color: rgb(233, 233, 233) !important;
-    width: 28%;
-    height: 8vh;
-    text-transform: unset !important;
-    margin-top:4% !important;
-    border-radius: 100px !important;
-    font-size: 18px !important;
-    font-weight:500 !important;
-    padding: 1% 0 1% 0;    
-    opacity: 0.8 !important;
-}
-
 .createfest{
-    height:120vh;
+    height:100vh;
 }
 
 .application{

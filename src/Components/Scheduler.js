@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react'
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import visitorContext from "../Context/visitor/visitorContext"
@@ -13,11 +12,12 @@ import Select from 'react-select'
 import Grid from '@mui/material/Grid';
 import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
 import '../css/Scheduler.css'
-import { Autocomplete, TextField } from '@mui/material';
+import {Box,Autocomplete} from '@mui/material';
+import TextField from '@mui/material/TextField';
 
-const festNameNotSelected = (events,setCurrentEvents) => { 
+const festNameNotSelected = (events, setCurrentEvents) => {
     let allevents = [];
-    events.map(({fest,event}) => {
+    events.map(({ fest, event }) => {
         // console.log({fest,event})
         event.forEach((ev) => {
             ev.fest_id = fest._id
@@ -32,11 +32,12 @@ const festNameNotSelected = (events,setCurrentEvents) => {
 
     const allevents1 = JSON.parse(JSON.stringify(allevents))
     // console.log(allevents1)
+    sortEvents(allevents1)
     setCurrentEvents(allevents1)
 }
 
-const festNameSelected = (events,setCurrentEvents,festname) => { 
-    events.map(({fest,event}) => {
+const festNameSelected = (events, setCurrentEvents, festname) => {
+    events.map(({ fest, event }) => {
         event.forEach((ev) => {
             ev.fest_id = fest._id
             ev.organisation = fest.organisation;
@@ -48,9 +49,29 @@ const festNameSelected = (events,setCurrentEvents,festname) => {
         // console.log('event: ',event)
         // console.log('fest: ',fest)
 
-        if(fest.name === festname) {
+        if (fest.name === festname) {
+            sortEvents(event)
             setCurrentEvents(event);
         }
+    })
+}
+
+const sortEvents = (events) => { 
+    events.sort((a,b) => {
+
+        a = new Date(a.startdate)
+		b = new Date(b.startdate)
+
+        const st1 = new Date(a.startTime)
+        const st2 = new Date(b.startTime)
+
+        const et1 = new Date(a.endTime)
+        const et2 = new Date(b.endTime)
+
+        let A = JSON.stringify(a.getFullYear()) + JSON.stringify((a.getMonth() >= 10) ? a.getMonth() : "0" + a.getMonth()) + JSON.stringify((a.getDay() >= 10) ? a.getDay() : "0" + a.getDay()) + JSON.stringify((st1.getHours() >= 10) ? st1.getHours() : "0" + st1.getHours()) + JSON.stringify((st1.getMinutes() >= 10) ? st1.getMinutes() : "0" + st1.getMinutes()) + JSON.stringify((et1.getHours() >= 10) ? et1.getHours() : "0" + et1.getHours()) + JSON.stringify((et1.getMinutes() >= 10) ? et1.getMinutes() : "0" + et1.getMinutes()) 
+        let B = JSON.stringify(b.getFullYear()) + JSON.stringify((b.getMonth() >= 10) ? b.getMonth() : "0" + b.getMonth()) + JSON.stringify((b.getDay() >= 10) ? b.getDay() : "0" + b.getDay()) + JSON.stringify((st2.getHours() >= 10) ? st2.getHours() : "0" + st2.getHours()) + JSON.stringify((st2.getMinutes() >= 10) ? st2.getMinutes() : "0" + st2.getMinutes()) + JSON.stringify((et2.getHours() >= 10) ? et2.getHours() : "0" + et2.getHours()) + JSON.stringify((et2.getMinutes() >= 10) ? et2.getMinutes() : "0" + et2.getMinutes()) 
+        console.log('inside sorting part')
+        return ('' + A).localeCompare(B);
     })
 }
 
@@ -59,9 +80,9 @@ function Scheduler() {
     const { addtoschedule, fetchScheduledEvents, DeleteScheduledEvent, update, setupdate } = context1;
     const navigate = useNavigate();
     const [schedule, setschedule] = useState([]);
-    const [registeredEvents,setRegisteredEvents] = useState([]);
-    const [options, setOptions] = useState({ label: '' });
-    const [festname, setFestName] = useState("")
+    const [registeredEvents, setRegisteredEvents] = useState([]);
+    const [options, setOptions] = useState([]);
+    const [festname, setFestName] = useState({ label: 'Select Organisation' })
     const [currentEvents, setCurrentEvents] = useState([]);
     const [checkValue, setCheckValue] = useState(false)
     var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -76,39 +97,23 @@ function Scheduler() {
     useEffect(() => {
         if (localStorage.getItem("token")) {
             if (update) {
-                fetchScheduledEvents().then(({contentjson,registeredEvents}) => {
-                    console.log('contentjson in scheduler frontend: ',contentjson)
+                fetchScheduledEvents().then(({ contentjson, registeredEvents }) => {
+                    console.log('contentjson in scheduler frontend: ', contentjson)
                     setschedule(contentjson);
                     setRegisteredEvents(registeredEvents);
 
                     let filters = [];
                     // console.log(schedule)
-                    schedule.map(({ fest, event }) => {
-                        // console.log(fest)
-                        filters.push({value: fest.name, label: fest.name });
+                    schedule.map(({fest, event},index) => {
+                        console.log(index)
+                        filters.push({id:index,value: fest.name, label: fest.name });
                     });
                     // console.log('filters: ',filters)
                     const filters1 = JSON.parse(JSON.stringify(filters))
+                    console.log(filters)
                     setOptions(filters1);
 
-                    // let allevents = [];
-                    // schedule.map(({fest,event}) => {
-                    //     // console.log({fest,event})
-                    //     event.forEach((ev) => {
-                    //         ev.fest_id = fest._id
-                    //         ev.organisation = fest.organisation;
-                    //         ev.startTime = new Date(ev.startTime);
-                    //         ev.endTime = new Date(ev.endTime);
-                    //         ev.startdate = new Date(ev.startdate);
-                    //     })
-                    //     // console.log('event: ',event)
-                    //     allevents = allevents.concat(event);
-                    // })
-                
-                    // const allevents1 = JSON.parse(JSON.stringify(allevents))
-                    // // console.log(allevents1)
-                    // setCurrentEvents(allevents1)
-                    festNameNotSelected(schedule,setCurrentEvents);
+                   festNameNotSelected(schedule, setCurrentEvents);
 
                 });
                 return () => (setupdate(false));
@@ -123,119 +128,108 @@ function Scheduler() {
         setValue(newValue);
     };
 
-    const handleFestChange = (e) => {
-        setFestName(e.value);
-        // console.log(e.value)
+    const handleFestChange = (e,value) => {
+        if (value)
+			setFestName({ label: value.label });
     }
 
-    const changeCheckValue = () => { 
+    const changeCheckValue = () => {
         setCheckValue(!checkValue);
     }
 
     useEffect(() => {
-        if(checkValue === true) { 
-            console.log(registeredEvents)
-            if(festname === "") { 
-                festNameNotSelected(registeredEvents,setCurrentEvents)
-            } else { 
-                festNameSelected(registeredEvents,setCurrentEvents,festname)
+        if (checkValue === true) {
+            // console.log(registeredEvents)
+            if (festname.label === "") {
+                festNameNotSelected(registeredEvents, setCurrentEvents)
+            } else {
+                festNameSelected(registeredEvents, setCurrentEvents, festname.label)
             }
-        } else { 
-            if(festname === "") { 
+        } else {
+            if (festname.label === "") {
                 // setCurrentEvents(schedule)
-                festNameNotSelected(schedule,setCurrentEvents)
-            } else { 
-                festNameSelected(schedule,setCurrentEvents,festname)
+                festNameNotSelected(schedule, setCurrentEvents)
+            } else {
+                festNameSelected(schedule, setCurrentEvents, festname.label)
             }
         }
-    },[checkValue])
+    }, [checkValue])
 
 
     useEffect(() => {
-        // schedule.map(({fest,event}) => {
-        //     event.forEach((ev) => {
-        //         ev.fest_id = fest._id
-        //         ev.organisation = fest.organisation;
-        //         ev.startTime = new Date(ev.startTime);
-        //         ev.endTime = new Date(ev.endTime);
-        //         ev.startdate = new Date(ev.startdate);
-        //     })
-
-        //     // console.log('event: ',event)
-        //     // console.log('fest: ',fest)
-
-        //     if(fest.name === festname) {
-        //         setCurrentEvents(event);
-        //     }
-        // })
-        if(checkValue === true) { 
-            festNameSelected(registeredEvents,setCurrentEvents,festname);
-        } else { 
-            festNameSelected(schedule,setCurrentEvents,festname);
+        if (checkValue === true) {
+            festNameSelected(registeredEvents, setCurrentEvents, festname.label);
+        } else {
+            festNameSelected(schedule, setCurrentEvents, festname.label);
         }
-    },[festname])
+    }, [festname])
 
     return (
         <>
             <div className="schedulecontainer">
-                <Grid container spacing={2} >
-                    <Grid item xs={6}>
-                     <Select options={options} sx={{mt: '10%'}} onChange={handleFestChange} />
-                    </Grid>
-                    <Grid item xs={6}>
-                    <label style={{color: 'white'}}>
-                        <input type="checkbox" checked={checkValue} onChange={changeCheckValue}  />
-                        Registered Events
-                        
-                    </label>
-                    </Grid>
-                </Grid>
-                {/* <div className="search">
-                    <Select options={options} onChange={handleFestChange} />
-                </div>    */}
+                <div className="options">
+                    <Autocomplete
+                        value={festname}
+						getOptionLabel={(option) => option.label}
+						options={options}
+						onChange={(e, value) => { handleFestChange(e, value) }}
+						sx={{ width: '30%'}}
+						renderOption={(props, option) => (
+							<Box component="li" {...props} key={option.id}>
+								{option.label}
+							</Box>
+						)}
+						renderInput={(params) => <TextField {...params} variant="filled" label="Organsation" />}
+					/>
 
-                <div className="displayevents" style={{color: 'white'}}>
+                    <label style={{ color: 'white',paddingLeft:"5%",verticalAlign: 'middle' }}>
+                        <input type="checkbox" checked={checkValue} onChange={changeCheckValue} />
+                        Registered Events
+                    </label>
+                </div>
+
+                <div className="displayevents" style={{ color: 'white' }}>
 
                     <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
-                    {currentEvents.map((event) => (
-                    <Grid key={event._id} item xs={4}>
-                        <Card id="eventcard" sx={{ maxWidth: 345 }} >
-                        <CardActionArea className="eventcardcontent"> 
-                            <CardContent>
-                            <Typography gutterBottom variant="h5">
-                                {event.name}
-                            </Typography>
-                            <Typography variant="body2">
-                                {event.organisation}
-                                {/* {console.log(event.organisation)} */}
-                            </Typography>
-                            <Typography variant="body2">
-                                {event.type}
-                            </Typography>
-                            <Typography variant="body2">
-                                {/* {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`} */}
-                            </Typography>
-                            <Typography variant="body2" sx={{color:'green'}} >
-                                {(event.fee) ? event.fee : "FREE"}
-                            </Typography>
-                            </CardContent>
-                            </CardActionArea>
+                        {currentEvents.map((event) => (
+                            <Grid key={event._id} item xs={4}>
+                                <Card id="eventcard" sx={{ maxWidth: 345 }} >
+                                    <CardActionArea className="eventcardcontent">
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5">
+                                                {event.name}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {event.organisation}
+                                                {/* {console.log(event.organisation)} */}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {event.type}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {/* {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`} */}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ color: 'green' }} >
+                                                {(event.fee) ? event.fee : "FREE"}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
 
-                            <CardActions>
-                                <AutoDeleteIcon onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} sx={{'&:hover': {cursor: 'pointer'}, mx: 'auto', fontSize: '200%'}} />
-                            </CardActions>
+                                    <CardActions>
+                                        <AutoDeleteIcon onClick={() => DeleteScheduledEvent(event.fest_id, event._id)} sx={{ '&:hover': { cursor: 'pointer' }, mx: 'auto', fontSize: '200%' }} />
+                                    </CardActions>
 
-                        </Card>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
-    ))}
-                </Grid>
 
                 </div>
 
-            {/* {typeofuser === 'c' &&
+                {/* {typeofuser === 'c' &&
                 <Button variant="contained" onClick={() => navigate(`/c/fest/${festname}/createevent`)}>Add Event</Button>
             } */}
-           
+
             </div>
 
         </>

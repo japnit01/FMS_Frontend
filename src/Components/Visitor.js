@@ -7,6 +7,7 @@ import { CardActionArea } from '@mui/material';
 import { useNavigate, Link } from "react-router-dom";
 import visitorContext from "../Context/visitor/visitorContext"
 import Grid from '@mui/material/Grid';
+import '../css/Scheduler.css'
 
 function Visitor() {
     const context = useContext(visitorContext);
@@ -34,7 +35,7 @@ function Visitor() {
     return (
         <>
             <div className="myfest">
-                <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+                <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative',paddingTop:"4%",paddingBottom:"5%" }}>
                     {fests.map((fest) => (
                         <Grid key={fest._id} item xs={4}>
                         <Card id="festcard" sx={{ maxWidth: 345 }} >
@@ -68,7 +69,6 @@ function Visitor() {
                     ))}
                     </Grid>
                     </div>
-                    <Button onClick={() => navigate('/u/schedule')} size="small"> Schedule </Button>
                 </>
                 )
 }
