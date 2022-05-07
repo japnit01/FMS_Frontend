@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import visitorContext from "../Context/visitor/visitorContext"
 import { useNavigate, useLocation } from "react-router-dom";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
 import Select from 'react-select'
 import Grid from '@mui/material/Grid';
 import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
@@ -108,7 +108,7 @@ function Scheduler() {
                         console.log(index)
                         filters.push({id:index,value: fest.name, label: fest.name });
                     });
-                    // console.log('filters: ',filters)
+
                     const filters1 = JSON.parse(JSON.stringify(filters))
                     console.log(filters)
                     setOptions(filters1);
