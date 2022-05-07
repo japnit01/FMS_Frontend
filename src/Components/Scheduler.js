@@ -2,18 +2,18 @@ import React, { useEffect, useState, useContext } from 'react'
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import visitorContext from "../Context/visitor/visitorContext"
 import { useNavigate, useLocation } from "react-router-dom";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
 import Select from 'react-select'
 import Grid from '@mui/material/Grid';
 import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
 import '../css/Scheduler.css'
-import { Autocomplete, TextField } from '@mui/material';
+// import { Autocomplete, TextField } from '@mui/material';
 
 const festNameNotSelected = (events,setCurrentEvents) => { 
     let allevents = [];
@@ -45,13 +45,14 @@ const festNameSelected = (events,setCurrentEvents,festname) => {
             ev.startdate = new Date(ev.startdate);
         })
 
-        // console.log('event: ',event)
-        // console.log('fest: ',fest)
-
         if(fest.name === festname) {
             setCurrentEvents(event);
         }
     })
+}
+
+const sortEvents = (events) => { 
+
 }
 
 function Scheduler() {
@@ -78,6 +79,8 @@ function Scheduler() {
             if (update) {
                 fetchScheduledEvents().then(({contentjson,registeredEvents}) => {
                     console.log('contentjson in scheduler frontend: ',contentjson)
+                    sortEvents(contentjson);
+                    sortEvents(registeredEvents);
                     setschedule(contentjson);
                     setRegisteredEvents(registeredEvents);
 
@@ -87,27 +90,10 @@ function Scheduler() {
                         // console.log(fest)
                         filters.push({value: fest.name, label: fest.name });
                     });
-                    // console.log('filters: ',filters)
+
                     const filters1 = JSON.parse(JSON.stringify(filters))
                     setOptions(filters1);
 
-                    // let allevents = [];
-                    // schedule.map(({fest,event}) => {
-                    //     // console.log({fest,event})
-                    //     event.forEach((ev) => {
-                    //         ev.fest_id = fest._id
-                    //         ev.organisation = fest.organisation;
-                    //         ev.startTime = new Date(ev.startTime);
-                    //         ev.endTime = new Date(ev.endTime);
-                    //         ev.startdate = new Date(ev.startdate);
-                    //     })
-                    //     // console.log('event: ',event)
-                    //     allevents = allevents.concat(event);
-                    // })
-                
-                    // const allevents1 = JSON.parse(JSON.stringify(allevents))
-                    // // console.log(allevents1)
-                    // setCurrentEvents(allevents1)
                     festNameNotSelected(schedule,setCurrentEvents);
 
                 });

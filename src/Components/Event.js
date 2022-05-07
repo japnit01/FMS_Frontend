@@ -100,7 +100,7 @@ function Event() {
                     {event.type}
                   </Typography>
                   <Typography variant="body2">
-                    {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`}
+                    {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${(event.startTime.getMinutes() >= 10) ? event.startTime.getMinutes() : "0" + event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${(event.endTime.getMinutes() >= 10) ? event.endTime.getMinutes() : "0" + event.endTime.getMinutes()}`}
                   </Typography>
                   <Typography variant="body2">
                     {event.venue}
