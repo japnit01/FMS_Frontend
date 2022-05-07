@@ -2,7 +2,6 @@ import {useState} from "react";
 import visitorContext from './visitorContext';
 
 const VisitorState = (props) =>{
-    // const host = "https://fest-manage-api.herokuapp.com";
         const host = "http://localhost:5000";
     const [update,setupdate] = useState(true);
 

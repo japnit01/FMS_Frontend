@@ -1,6 +1,5 @@
 import React,{useState,useContext} from "react";
-import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
-import Badge from "@mui/material/Badge";
+import { AppBar, Box, Toolbar, IconButton, Typography,Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -105,19 +104,7 @@ function Navbar() {
       <AppBar position="static" className="navbar">
         <Toolbar>
 
-          <IconButton onClick={() => navigate("/")}>
-            <HomeIcon sx={{ color: "white" }}></HomeIcon>
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Fest-Eazze
-          </Typography>
-
+          <Button disableRipple	 disableElevation onClick={() => navigate("/")} sx={{ color: "white",fontSize:"4vh", fontWeight:500 }}>FMS</Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
 

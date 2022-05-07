@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography"
 import { CardActionArea } from '@mui/material';
 import eventContext from '../Context/event/eventContext'
 import visitorContext from '../Context/visitor/visitorContext'
-import { useNavigate, useParams,useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import '../css/Event.css'
 import Grid from '@mui/material/Grid';
 import SpeedDial from '@mui/material/SpeedDial';
@@ -23,21 +23,21 @@ function Event() {
   var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
   const context = useContext(eventContext);
-  const { FetchEvents, DeleteEvent,event,setEvent, update, setupdate } = context;
+  const { FetchEvents, DeleteEvent, event, setEvent, update, setupdate } = context;
 
   const context1 = useContext(visitorContext);
   const { addtoschedule } = context1;
 
   const navigate = useNavigate();
-    let location = useLocation();
+  let location = useLocation();
   const typeofuser = location.pathname[1];
-  let { festname} = useParams();
+  let { festname } = useParams();
   const [events, setevents] = useState([]);
 
   const actions = [
-    { icon: <FestivalIcon onClick={() => navigate('/c/createfest')}/>, name: 'Add Fest' },
+    { icon: <FestivalIcon onClick={() => navigate('/c/createfest')} />, name: 'Add Fest' },
     // { icon: <AddCoordinator/>, name: 'Add Coordinator' },
-    {icon: <EventIcon onClick={() => navigate(`/c/fest/${festname}/createevent`)} />, name: 'Add Event' },
+    { icon: <EventIcon onClick={() => navigate(`/c/fest/${festname}/createevent`)} />, name: 'Add Event' },
   ];
 
 
@@ -85,82 +85,84 @@ function Event() {
     <>
       <div className="myevent">
         <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
-        {(events.length !== 0) ? events.map((event) => (
-          <Grid key={event._id} item xs={4}>
-            <Card id="eventcard" sx={{ maxWidth: 345 }} >
-              <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${(event.type === 'Dual' ? 'duals' : 'solo')}/${event._id}`)}> 
-                <CardContent>
-                  <Typography gutterBottom variant="h5">
-                    {event.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    {event.description}
-                  </Typography>
-                  <Typography variant="body2">
-                    {event.type}
-                  </Typography>
-                  <Typography variant="body2">
-                    {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${(event.startTime.getMinutes() >= 10) ? event.startTime.getMinutes() : "0" + event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${(event.endTime.getMinutes() >= 10) ? event.endTime.getMinutes() : "0" + event.endTime.getMinutes()}`}
-                  </Typography>
-                  <Typography variant="body2">
-                    {event.venue}
-                  </Typography>
-                  <Typography variant="body2" >
-                    {event.fee}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+          {(events.length !== 0) ? events.map((event) => (
+            <Grid key={event._id} item xs={4}>
+              <Card id="eventcard" sx={{ maxWidth: 345 }} >
+                <CardActionArea className="eventcardcontent" onClick={() => navigate(`${location.pathname}/${(event.type === 'Dual' ? 'duals' : 'solo')}/${event._id}`)}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5">
+                      {event.name}
+                    </Typography>
+                    <Typography variant="body2">
+                      {event.description}
+                    </Typography>
+                    <Typography variant="body2">
+                      {event.type}
+                    </Typography>
+                    <Typography variant="body2">
+                      {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${(event.startTime.getMinutes() >= 10) ? event.startTime.getMinutes() : "0" + event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${(event.endTime.getMinutes() >= 10) ? event.endTime.getMinutes() : "0" + event.endTime.getMinutes()}`}
+                    </Typography>
+                    <Typography variant="body2">
+                      {event.venue}
+                    </Typography>
+                    <Typography variant="body2" >
+                      {event.fee}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
 
-              <CardActions>
-                {typeofuser === 'c' &&
-                  (
-                    <>
-                      <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteEvent(festname, event._id)} size="small">
-                        Delete
-                      </Button>
-                      <Button sx={{ color: '#BB86FC' }} onClick={() => handleupdatefest(event,festname)} size="small">
-                        Edit
-                      </Button>
-                    </>
-                  )}
+                <CardActions>
+                  {typeofuser === 'c' &&
+                    (
+                      <>
+                        <Button sx={{ color: '#BB86FC' }} onClick={() => DeleteEvent(festname, event._id)} size="small">
+                          Delete
+                        </Button>
+                        <Button sx={{ color: '#BB86FC' }} onClick={() => handleupdatefest(event, festname)} size="small">
+                          Edit
+                        </Button>
+                      </>
+                    )}
 
-                {typeofuser === 'u' &&
-                  (
-                    <>
-                      <Button onClick={() => addtoschedule(festname, event._id, false)} size="small">
-                        Schedule
-                      </Button>
-                      <Button onClick={() => addtoschedule(festname, event._id, true)} size="small">
-                        Register
-                      </Button>
-                    </>
-                  )}
-              </CardActions>
-            </Card>
-          </Grid>
-        )) : <>
-        <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
-        <Typography variant="h6" sx={{color: '#fafafa'}}>
-              No Events scheduled at the moment
-          </Typography>
-        </div>
+                  {typeofuser === 'u' &&
+                    (
+                      <>
+                        <Button onClick={() => addtoschedule(festname, event._id, false)} size="small">
+                          Schedule
+                        </Button>
+                        <Button onClick={() => addtoschedule(festname, event._id, true)} size="small">
+                          Register
+                        </Button>
+                      </>
+                    )}
+                </CardActions>
+              </Card>
+            </Grid>
+          )) : <>
+            <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
+              <Typography variant="h6" sx={{ color: '#fafafa' }}>
+                No Events scheduled at the moment
+              </Typography>
+            </div>
           </>}
-      </Grid>
+        </Grid>
 
-    <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: 'fixed', bottom: 16, right: 18 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-          />
-        ))}
-      </SpeedDial>
-    </div>
+        {typeofuser === 'c' &&
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: 'fixed', bottom: 16, right: 18 }}
+            icon={<SpeedDialIcon />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+              />
+            ))}
+          </SpeedDial>
+        }
+      </div>
     </>
   )
 }

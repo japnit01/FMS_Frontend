@@ -19,6 +19,7 @@ function MyFest() {
   const { FetchFests, DeleteFest, fest, setFest, update, setupdate } = context;
   const navigate = useNavigate();
   const [fests, setFests] = useState([]);
+  const [isReadMore, setIsReadMore] = useState(false);
 
   const actions = [
     { icon: <FestivalIcon onClick={() => navigate('/c/createfest')}/>, name: 'Add Fest' },
@@ -61,6 +62,12 @@ function MyFest() {
 
     navigate('/c/editfest')
   }
+
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore)
+  }
+
+
   return (
     <>
       <div className="myfest">
@@ -84,6 +91,13 @@ function MyFest() {
                     </Typography>
                     <Typography variant="body2">
                       {fest.organisation}
+                    </Typography>
+                    <Typography variant="body2">
+                      {fest.description}
+                      {/* {(isReadMore === true) ? fest.description : fest.description.slice(0,15)}
+                      <span className="readmoreorhide">
+                        <Button variant="text" size="small" onClick={toggleReadMore}>{(isReadMore === true) ? "Read less" : "Read more"}</Button>
+                      </span> */}
                     </Typography>
                     <Typography variant="body2">
                       {`${fest.startdate.getDate()} ${mS[fest.startdate.getMonth() - 1]} ${(fest.startdate.getFullYear()) % 100} - ${fest.enddate.getDate()} ${mS[fest.enddate.getMonth() - 1]} ${(fest.enddate.getFullYear()) % 100}`}

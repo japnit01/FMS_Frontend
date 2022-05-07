@@ -35,6 +35,7 @@ const festNameNotSelected = (events, setCurrentEvents) => {
     })
 
     const allevents1 = JSON.parse(JSON.stringify(allevents))
+    sortEvents(allevents1);
     // console.log(allevents1)
     sortEvents(allevents1)
     setCurrentEvents(allevents1)
@@ -56,6 +57,7 @@ const festNameSelected = (events, setCurrentEvents, festname) => {
         if (fest.name === festname) {
             sortEvents(event)
             setCurrentEvents(event);
+            return [];
         }
     })
 }
@@ -192,6 +194,7 @@ function Scheduler() {
                 <div className="displayevents" style={{ color: 'white' }}>
 
                     <Grid container rowSpacing={3} spacing={1} sx={{ position: 'relative' }}>
+                        {console.log('currentEvents: ',currentEvents)}
                         {currentEvents.map((event) => (
                             <Grid key={event._id} item xs={4}>
                                 <Card id="eventcard" sx={{ maxWidth: 345 }} >
@@ -204,10 +207,13 @@ function Scheduler() {
                                                 {event.organisation}
                                             </Typography>
                                             <Typography variant="body2">
+                                                {event.description}
+                                            </Typography>
+                                            <Typography variant="body2">
                                                 {event.type}
                                             </Typography>
                                             <Typography variant="body2">
-                                                {/* {`${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.startTime.getHours()}:${event.startTime.getMinutes()} - ${event.startdate.getDate()} ${mS[event.startdate.getMonth() - 1]} ${(event.startdate.getFullYear()) % 100}, ${event.endTime.getHours()}:${event.endTime.getMinutes()}`} */}
+                                                { `${(new Date(event.startdate).getDate() >= 10) ? new Date(event.startdate).getDate() : "0" + new Date(event.startdate).getDate()} ${mS[new Date(event.startdate).getMonth()]} ${(new Date(event.startdate).getFullYear()) % 100}, ${(new Date(event.startTime).getHours() >= 10) ? new Date(event.startTime).getHours() : "0" + new Date(event.startTime).getHours()}:${(new Date(event.startTime).getMinutes() >= 10) ? new Date(event.startTime).getMinutes() : "0" + new Date(event.startTime).getMinutes()} - ${(new Date(event.startdate).getDate() >= 10) ? new Date(event.startdate).getDate() : "0" + new Date(event.startdate).getDate()} ${mS[new Date(event.startdate).getMonth()]} ${(new Date(event.startdate).getFullYear()) % 100}, ${(new Date(event.endTime).getHours() >= 10) ? new Date(event.endTime).getHours() : "0" + new Date(event.endTime).getHours()}:${(new Date(event.endTime).getMinutes() >= 10) ? new Date(event.endTime).getMinutes() : "0" + new Date(event.endTime).getMinutes()}`}
                                             </Typography>
                                             <Typography variant="body2" sx={{ color: 'green' }} >
                                                 {(event.fee) ? event.fee : "FREE"}
