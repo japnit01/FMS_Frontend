@@ -177,7 +177,9 @@ function Solo() {
             </>}
           </Swiper>
         </div>
-        <Button sx={{ color: 'white' }} onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
+        {/* <div className="solobuttoncontainer">
+        <Button className="solobutton" onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
+        </div> */}
       </div>
     </>
   )

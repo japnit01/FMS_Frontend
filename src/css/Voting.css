@@ -107,3 +107,21 @@
     opacity: 1;
     color:#7d2ae8;
 }
+
+.solobutton{
+    width: 28%;
+    height: 8vh;
+    text-transform: unset !important;
+    margin-top:4% !important;
+    border-radius: 100px !important;
+    font-size: 18px !important;
+    font-weight:600 !important;
+    background-color:#BB86FC !important;
+    padding: 1% 0 1% 0;
+    color:black !important;
+}
+
+.solobuttoncontainer{
+    margin-left: 42%;
+    padding-bottom:10%;
+}
