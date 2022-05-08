@@ -32,23 +32,31 @@ const host = 'http://localhost:5000'
 function Solo() {
 
   let context = useContext(eventContext);
-  let { FetchCompetitors, update, setupdate } = context;
+  let { FetchCompetitors, FinishVoting,CheckResult, update, setupdate } = context;
   let [competitors, setCompetitors] = useState([]);
   let { festname, eventid } = useParams();
   let [cardStyle, setCardStyle] = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
   let [selectedCandidates, setSelectedCandidates] = useState([]);
   let [disabled, setDisabled] = useState(false);
+  const [resultdeclared, setresultdeclared] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      FetchCompetitors(festname, eventid).then((comps) => {
-        const copycompetitors = JSON.parse(JSON.stringify(comps));
-        setCompetitors(copycompetitors.compList);
-        console.log(copycompetitors)
+      CheckResult(festname, eventid).then((declared) => {
+        console.log(declared)
+        setresultdeclared(declared)
+        if (declared === false) {
+          FetchCompetitors(festname, eventid).then((comps) => {
+            const copycompetitors = JSON.parse(JSON.stringify(comps));
+            setCompetitors(copycompetitors.compList);
+            console.log(copycompetitors)
+          });
+        } else {
+          navigate(`/c/fest/${festname}/solo/${eventid}/result`);
+        }
       });
-      return () => (setupdate(false));
-    }
+      }
   }, []);
 
   const breakName = (name) => {
@@ -81,8 +89,6 @@ function Solo() {
       }
 
       console.log('selected: ', selectedCandidates)
-
-      // setCardStyle({ maxWidth: 260, height: 'auto', border: '6px solid green', filter: 'brightness(110%)' });
     } else {
       console.log('clear')
       const index = selectedCandidates.indexOf(e.currentTarget.id.slice(0, -1));
@@ -92,12 +98,11 @@ function Solo() {
 
       console.log('selected: ', selectedCandidates)
 
-      // setCardStyle({ maxWidth: 240, height: 'auto', border: '2px solid black', filter: 'brightness(80%)' });
     }
   }
 
   const handleVoting = async (compid) => {
-  
+
     if (localStorage.getItem("voting")) {
       setDisabled(true);
       return;
@@ -129,75 +134,51 @@ function Solo() {
     return votedList;
   };
 
-  const FinishVoting = ()=>{
-
-  }
-  // let handleFinish = () => {
-  //   const festid = festname.split("-")[1];
-  //   let url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
-
-  //   const response = await fetch(url, { 
-  //     method: 'GET',
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       token: localStorage.getItem("token"),
-  //     }
-  //   });
-
-  //   let winners = await response.json();
-
-  //   if(winners.success === false) {
-  //     console.log('error voting for too many candidates');
-  //     return ;
-  //   }
-
-  //   console.log(winners);
-  //   return winners; 
-  // }
-
   return (
     <>
-      <div className="carouselcontainer">
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={3}
-          slidesPerGroup={3}
-          loop={true}
-          loopFillGroupWithBlank={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper"
-        >
-          {(competitors.length !== 0) ? competitors.map((competitor,index) => (
-            <SwiperSlide key={competitor._id}>
-              <Card className="card">
-                <CardActionArea onClick={()=> handleVoting(competitor._id)}>
-                <CardMedia
-                    className="image"
-                    component="img"
-                    image={index%2 === 0 ?"/profile/img1.jpg":"/profile/img2.jpg"}
-                />
+      <div className="maincontainer">
+        <div className="carouselcontainer">
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={3}
+            slidesPerGroup={3}
+            loop={true}
+            loopFillGroupWithBlank={true}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {(competitors.length !== 0) ? competitors.map((competitor, index) => (
+              <SwiperSlide key={competitor._id}>
+                <Card className="card">
+                  <CardActionArea onClick={() => handleVoting(competitor._id)}>
+                    <CardMedia
+                      className="image"
+                      component="img"
+                      image={index % 2 === 0 ? "/profile/img1.jpg" : "/profile/img2.jpg"}
+                    />
 
-                <CardContent className="card-content">
-                  <div className="name-profession">{competitor.name.toUpperCase()}</div>
-                  <div className="profession">{competitor.college}</div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                    <CardContent className="card-content">
+                      <div className="name-profession">{competitor.name.toUpperCase()}</div>
+                      <div className="profession">{competitor.college}</div>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </SwiperSlide>
             )) : <>
-            <div style={{width: '70%', marginTop: '4%', marginLeft: '6%'}}>
-            <Typography variant="h6" sx={{color: '#fafafa'}}>
+              <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
+                <Typography variant="h6" sx={{ color: '#fafafa' }}>
                   No Participants registered in this event till now
-              </Typography>
-            </div>
-              </>}
-      </Swiper>
-      <Button onClick={()=>FinishVoting()}></Button>
-    </div>
+                </Typography>
+              </div>
+            </>}
+          </Swiper>
+        </div>
+        <Button sx={{ color: 'white' }} onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
+      </div>
     </>
   )
 }

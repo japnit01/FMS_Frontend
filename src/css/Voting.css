@@ -1,9 +1,12 @@
+.maincontainer{
+    background: #121212;
+}
 .carouselcontainer{
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #121212;
+    /* background: #121212; */
 }
 
 *{
