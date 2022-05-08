@@ -6,7 +6,7 @@ import "../css/Dual.css"
 
 const Dual = () => {
   const context = useContext(eventContext);
-  const { FetchDual, NextMatch, NextRound, FinishDualsEvent, update, setupdate } = context;
+  const { FetchDual, NextMatch, NextRound, FinishDualsEvent,CheckResult, update, setupdate } = context;
   const [currentRound, setCurrentRound] = useState([]);
   const [player1, setplayer1] = useState({id:'' ,name:'' ,score:0});
   const [player2, setplayer2] = useState({id:'' ,name:'' ,score:0});
@@ -19,14 +19,21 @@ const Dual = () => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setupdate(true)
-      FetchDual(festname, eventid).then((festdual) => {
-        const copydual = JSON.parse(JSON.stringify(festdual));
-        console.log(copydual.duals.length);
-        totalRounds(copydual.participants);
-        setCurrentRound(copydual);
-        setmatchno(0);
-        setRound(copydual.roundNo)
-      });
+      if(!CheckResult(festname,eventid))
+      {
+        FetchDual(festname, eventid).then((festdual) => {
+          const copydual = JSON.parse(JSON.stringify(festdual));
+          console.log(copydual.duals.length);
+          totalRounds(copydual.participants);
+          setCurrentRound(copydual);
+          setmatchno(0);
+          setRound(copydual.roundNo)
+        });
+    }
+    else
+    { 
+      navigate(`/c/fest/${festname}/duals/${eventid}/result`);
+    }
       return () => (setupdate(true));
     }
   }, []);
@@ -94,13 +101,6 @@ const Dual = () => {
     const newround = await FinishDualsEvent(festname,eventid,jsonData);
 
     navigate(`/c/fest/${festname}/duals/${eventid}/result`);
-    // setCurrentRound(newround);
-    // const defaultind = 0;
-    // console.log("nextRound")
-    // setmatchno(matchno - matchno);
-    // setRound(newround.roundNo)
-    // let winners = newround.winners;
-    // console.log(winners)
   }
 
   return (

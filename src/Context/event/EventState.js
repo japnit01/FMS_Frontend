@@ -175,6 +175,20 @@ const EventState = (props) => {
     return winners;
   }
 
+  const CheckResult = async(festname,eventid) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/results/${festid}/${eventid}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    });
+    const validate = await response.json();
+    return validate.declared
+  }
+
   // const FinishSoloEvent = async (festname,eventid, jsonData) => {
   //   const festid = festname.split("-")[1];
   //   const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
@@ -191,7 +205,7 @@ const EventState = (props) => {
   // }
 
   return (
-    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent, DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent, CheckResult,DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );

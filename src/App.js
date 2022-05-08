@@ -16,7 +16,6 @@ import Solo from "./Components/Solo";
 import AddFest from "./Components/AddFest";
 import AddEvent from "./Components/AddEvent";
 import Results from "./Components/Results";
-import Finish from "./Components/Finish";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -30,14 +29,14 @@ function App() {
 
   return (
     <>
-    <ThemeProvider theme={darkTheme}>
-      <AuthState>
-        <FestState>
-          <EventState>
-            <VisitorState>
-              <BrowserRouter>
-                <Navbar />
-                <Routes>
+      <ThemeProvider theme={darkTheme}>
+        <AuthState>
+          <FestState>
+            <EventState>
+              <VisitorState>
+                <BrowserRouter>
+                  <Navbar />
+                  <Routes>
                     <Route path="/" />
                     <Route index element={<Home />} />
                     <Route path="login" element={<Login />} />
@@ -69,11 +68,11 @@ function App() {
                     </Route>
 
                   </Routes>
-              </BrowserRouter>
-            </VisitorState>
-          </EventState>
-        </FestState>
-      </AuthState>
+                </BrowserRouter>
+              </VisitorState>
+            </EventState>
+          </FestState>
+        </AuthState>
       </ThemeProvider>
     </>
   );

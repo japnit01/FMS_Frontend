@@ -20,9 +20,7 @@ function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const host = "http://localhost:5000"//"http://localhost:5000";
-//"http://localhost:5000";
-
+ 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -66,9 +64,9 @@ function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
       <Link to='/u/schedule'><MenuItem sx={{color:'white', textDecoration: 'none'}}>My Schedule</MenuItem></Link>
-      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>My Account</MenuItem> */}
       <MenuItem onClick={()=>handleLogoutAndClose()}>Logout</MenuItem>
 
     </Menu>
