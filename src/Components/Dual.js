@@ -84,8 +84,8 @@ const Dual = () => {
     setRound(newround.roundNo)
   }
 
-  const Finish = async () => {
-    // alert("Khatam ho gaya bye bye");
+  const Finish = async() => {
+    
     let jsonData = {
       comp1: player1.id,
       comp2: player2.id,
