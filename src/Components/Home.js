@@ -1,5 +1,5 @@
 import React from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/Home.css";
 import Container from '@mui/material/Container';
 import Typography from "@mui/material/Typography";
@@ -16,31 +16,31 @@ function Home() {
             <div className="backgroundcontainer">
               <div className="createfesttext">
                 <Typography variant="h1" align="center" >
-                  Streamline your Fest 
+                  Streamline your Fest
                 </Typography>
                 <Typography variant="h5" align="center" sx={{ marginTop: '1%' }}>
                   Making your event more extraordinary
                 </Typography>
-                <Button variant="contained" className="createfestbutton" onClick={()=>navigate('/c/myfests')}> Start creating your fest </Button>
+                <Button variant="contained" className="createfestbutton" onClick={() => navigate('/c/myfests')}> Start creating your fest </Button>
               </div>
             </div>
           </section>
         </div>
-        
+
         <div className="bg1 fullscreen2">
-            <section className="createfest">
-              <div className="backgroundcontainer">
+          <section className="createfest">
+            <div className="backgroundcontainer">
               <div className="createfesttext2">
-              <Typography variant="h2" sx={{fontWeight:650}} align="left" >
-                  Streamline your Fest 
+                <Typography variant="h3" sx={{ fontWeight: 650 }} align="left" >
+                  Collect moments, not things
                 </Typography>
                 <Typography variant="h5" align="left" sx={{ marginTop: '1%' }}>
-                  Making your event more extraordinary
+                  Schedule Event and Concerts from fest you like
                 </Typography>
-                <Button variant="contained" className="createfestbutton" onClick={()=>navigate('/u/fests')}> Explore Fests</Button>
+                <Button variant="contained" className="createfestbutton" onClick={() => navigate('/u/fests')}> Explore Fests</Button>
               </div>
-              </div>
-            </section>
+            </div>
+          </section>
         </div>
       </div>
 
