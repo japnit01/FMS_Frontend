@@ -44,7 +44,7 @@ const EventState = (props) => {
       },
     });
     const allevents = await response.json();
-    console.log(allevents)
+    // console.log(allevents)
     return allevents;
   };
 
@@ -75,7 +75,7 @@ const EventState = (props) => {
       },
     });
     const deletedfest = await response.json();
-    console.log(deletedfest);
+    // console.log(deletedfest);
     setupdate(true);
   }
 
@@ -155,7 +155,7 @@ const EventState = (props) => {
       body: JSON.stringify(jsonData)
     });
     const currentRoundWinner = await response.json();
-    console.log(currentRoundWinner)
+    // console.log(currentRoundWinner)
 
     // await FinishEvent(festname,eventid,"duals");
     // return winners;

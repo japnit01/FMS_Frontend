@@ -61,12 +61,16 @@ function App() {
                     <Route path="u">
                       <Route index path="fests" element={<Visitor />} />
                       <Route path="schedule" element={<Scheduler />} />
-                      <Route path="fest/:festname" element={<Event />} />
-                      {/* <Route path="duals">
-                        <Route path=":eventid/result" element={<Results />} />
-                      </Route> */}
-                      <Route path="solo">
-                        <Route path=":eventid/result" element={<Results />} />
+                      <Route path="fest">
+                        <Route path=":festname" element={<Event />} />
+                        <Route path=":festname/duals">
+                          <Route path=":eventid" element={<Dual />} />
+                          <Route path="result" element={<Results />} />
+                        </Route>
+                        <Route path=":festname/solo">
+                          <Route path=":eventid" element={<Solo />} />
+                          <Route path="result" element={<Results />} />
+                        </Route>
                       </Route>
                     </Route>
 

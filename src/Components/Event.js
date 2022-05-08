@@ -54,7 +54,7 @@ function Event() {
             event.startdate = new Date(event.startdate);
             event.startTime = new Date(event.startTime);
             event.endTime = new Date(event.endTime);
-            console.log(event.startdate.getMonth())
+            // console.log(event.startdate.getMonth())
           })
           setevents(copyevents);
         });
@@ -65,7 +65,7 @@ function Event() {
 
   const handleupdatefest = (event) => {
     const copyevent = JSON.parse(JSON.stringify(event));
-    console.log(event)
+    // console.log(event)
     setEvent({
       id: copyevent._id,
       name: copyevent.name,
