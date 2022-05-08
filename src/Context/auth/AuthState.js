@@ -1,11 +1,7 @@
 import authContext from "./authContext";
 
 const AuthState = (props) => {
-<<<<<<< HEAD
-    const host = "http://localhost:5000";
-=======
     const host = "http://localhost:5000"; 
->>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
 
     const signupuser = async(jsonData) => {
       console.log(jsonData)

@@ -3,10 +3,6 @@ import festContext from "./festContext";
 
 const FestState = (props) => {
   const host = "http://localhost:5000";
-<<<<<<< HEAD
-
-=======
->>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
   const [update,setupdate] = useState(true);
   const [fest, setFest] = useState({
     id:"",

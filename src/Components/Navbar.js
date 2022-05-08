@@ -20,11 +20,8 @@ function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-<<<<<<< HEAD
   const host = "http://localhost:5000"//"http://localhost:5000";
 //"http://localhost:5000";
-=======
->>>>>>> 89d65fca8f792181eab565f8329a0f8bdaed47b8
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

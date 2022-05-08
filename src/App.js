@@ -62,7 +62,10 @@ function App() {
                     <Route path="u">
                       <Route index path="fests" element={<Visitor />} />
                       <Route path="schedule" element={<Scheduler />} />
-                      <Route path="fest/:festname" element={<Event />} />
+                      <Route path="fest/:festname" element={<Event />} >
+                        <Route path="/duals/:eventid/result" element={<Results />} />
+                        <Route path="/solo/:eventid/result" element={<Results />} />
+                      </Route>
                     </Route>
 
                   </Routes>
