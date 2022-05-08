@@ -17,6 +17,9 @@ function Visitor() {
     const [fests, setFests] = useState([]);
     const navigate = useNavigate();
 
+    var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
     useEffect(() => {
         setupdate(true)
     }, []);
@@ -26,6 +29,10 @@ function Visitor() {
             if (update) {
                 fetchAllFests().then((allfests) => {
                     const copyallfests = JSON.parse(JSON.stringify(allfests));
+                    copyallfests.map((fest) => {
+                        fest.startdate = new Date(fest.startdate);
+                        fest.enddate = new Date(fest.enddate);
+                    })
                     setFests(copyallfests);
                 });
                 return () => (setupdate(false));
@@ -60,16 +67,10 @@ function Visitor() {
                                             {fest.description}
                                         </Typography>
                                         <Typography variant="body2">
-                                            {fest.startdate}
+                                            {`${fest.startdate.getDate()} ${mS[fest.startdate.getMonth() - 1]} ${(fest.startdate.getFullYear()) % 100} - ${fest.enddate.getDate()} ${mS[fest.enddate.getMonth() - 1]} ${(fest.enddate.getFullYear()) % 100}`}
                                         </Typography>
                                         <Typography variant="body2">
-                                            {fest.enddate}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            {fest.state}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            {fest.city}
+                                            {`${fest.state},${fest.city}`}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>

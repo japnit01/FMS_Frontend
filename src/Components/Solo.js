@@ -56,7 +56,6 @@ function Solo() {
           navigate(`/c/fest/${festname}/solo/${eventid}/result`);
         }
       });
-        return () => (setupdate(false));
       }
   }, []);
 
@@ -134,11 +133,6 @@ function Solo() {
     console.log(votedList);
     return votedList;
   };
-
-  // const FinishVoting = ()=>{
-
-  // }
-
 
   return (
     <>

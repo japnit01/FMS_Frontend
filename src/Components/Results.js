@@ -59,9 +59,9 @@ export default function Results() {
     useEffect(() => {
         if (localStorage.getItem("token")) {
         
-            FinishEvent(eventid).then((results) => {
-                console.log(results)
-            });
+            // FinishEvent(eventid).then((results) => {
+            //     console.log(results)
+            // });
         
         }
     }, []);
