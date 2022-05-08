@@ -2,7 +2,7 @@ import { useState } from "react";
 import eventContext from "./eventContext";
 
 const EventState = (props) => {
-  const host = "https://fest-manage-api.herokuapp.com/";
+  const host = "https://fest-manage-api.herokuapp.com";
   const [update, setupdate] = useState(true);
   const [event, setEvent] = useState({
     id: "",
