@@ -150,7 +150,7 @@ const Dual = () => {
             </Grid>
             <div className="dualbuttoncontainer">
               {currentRound.duals &&
-                <Button size="small" sx={{ mx: 'auto' }} onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
+                <Button className="dualbutton" onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
               }
             </div>
           </>
