@@ -62,6 +62,12 @@ function App() {
                       <Route index path="fests" element={<Visitor />} />
                       <Route path="schedule" element={<Scheduler />} />
                       <Route path="fest/:festname" element={<Event />} />
+                      {/* <Route path="duals">
+                        <Route path=":eventid/result" element={<Results />} />
+                      </Route> */}
+                      <Route path="solo">
+                        <Route path=":eventid/result" element={<Results />} />
+                      </Route>
                     </Route>
 
                   </Routes>

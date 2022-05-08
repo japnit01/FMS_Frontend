@@ -129,6 +129,9 @@ function Solo() {
     return votedList;
   };
 
+  const FinishVoting = ()=>{
+
+  }
   // let handleFinish = () => {
   //   const festid = festname.split("-")[1];
   //   let url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
@@ -193,6 +196,7 @@ function Solo() {
             </div>
               </>}
       </Swiper>
+      <Button onClick={()=>FinishVoting()}></Button>
     </div>
     </>
   )
