@@ -18,11 +18,11 @@ const columns = [
 
 function createData(name, rank, population, size) {
     const density = population / size;
-    return { name, rank, population, size, density };
+    return { name, rank};
 }
 
 const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
+    createData('India', 'IN'),
     createData('China', 'CN', 1403500365, 9596961),
     createData('Italy', 'IT', 60483973, 301340),
     createData('United States', 'US', 327167434, 9833520),
@@ -42,8 +42,8 @@ const rows = [
 export default function Results() {
 
     const context = useContext(eventContext);
-    const { FinishEvent, update, setupdate } = context;
-    let { festname, eventid, eventtype } = useParams();
+    const { FinishEvent} = context;
+    let { eventid} = useParams();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -58,11 +58,11 @@ export default function Results() {
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            setupdate(true)
-            FinishEvent(festname, eventid, "duals").then((results) => {
-
+        
+            FinishEvent(eventid).then((results) => {
+                console.log(results)
             });
-            return () => (setupdate(true));
+        
         }
     }, []);
 

@@ -14,6 +14,7 @@ const Dual = () => {
   const [Round, setRound] = useState(-1);
   const [matchno, setmatchno] = useState(-1);
   const [totalrounds, settotalrounds] = useState(-1);
+  const [resultdeclared, setresultdeclared] = useState(true);
   let { festname, eventid } = useParams();
   let navigate = useNavigate();
 
@@ -21,14 +22,25 @@ const Dual = () => {
     if (localStorage.getItem("token")) {
       setupdate(true)
 
-      FetchDual(festname, eventid).then((festdual) => {
-        const copydual = JSON.parse(JSON.stringify(festdual));
-        // console.log(copydual.duals.length);
-        totalRounds(copydual.participants);
-        setCurrentRound(copydual);
-        setmatchno(0);
-        setRound(copydual.roundNo)
-      });
+      CheckResult(festname, eventid).then((declared) => {
+        console.log(declared)
+        setresultdeclared(declared)
+        if (declared === false) {
+          FetchDual(festname, eventid).then((festdual) => {
+            const copydual = JSON.parse(JSON.stringify(festdual));
+            // console.log(copydual.duals.length);
+            totalRounds(copydual.participants);
+            setCurrentRound(copydual);
+            setmatchno(0);
+            setRound(copydual.roundNo)
+          });
+        }
+        else {
+          navigate(`/c/fest/${festname}/duals/${eventid}/result`);
+
+        }
+      })
+
       return () => (setupdate(true));
     }
   }, []);
@@ -84,8 +96,8 @@ const Dual = () => {
     setRound(newround.roundNo)
   }
 
-  const Finish = async() => {
-    
+  const Finish = async () => {
+
     let jsonData = {
       comp1: player1.id,
       comp2: player2.id,
@@ -101,40 +113,49 @@ const Dual = () => {
   return (
     <>
       <div className="dualcontainer">
-        <Typography variant="h3" sx={{ color: 'white', pt: "10%", textAlign: 'center', fontWeight: 'bold' }}>Round {Round}</Typography>
-        <Grid container spacing={0} sx={{ pt: "4%" }}>
-          {(player1 && player2) ? <><Grid item xs={6}>
-            <Card sx={{ maxWidth: 275, height: '100%', mx: 'auto' }}>
-              <CardContent>
-                <Typography variant="h6" sx={{ textAlign: 'center' }} >
-                  {player1.name}
-                </Typography>
-                <TextField onChange={onChangeP1} value={player1.score} name="score" label="Score" margin="dense" sx={{ px: 'auto' }} variant="filled" />
-              </CardContent>
-            </Card>
-          </Grid>
-            <Grid item xs={6}>
-              <Card sx={{ maxWidth: 275, height: '100%', mx: 'auto' }}>
-                <CardContent>
-                  <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                    {player2.name}
-                  </Typography>
-                  <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" sx={{ px: 'auto' }} />
-                </CardContent>
-              </Card>
-            </Grid></> : <>
-            <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
-              <Typography variant="h6" sx={{ color: '#fafafa' }}>
-                No Dual available at the moment
-              </Typography>
+        {!resultdeclared &&
+          (<>
+            {player1.id && player2.id && <Typography variant="h3" sx={{ color: 'white', pt: "10%", textAlign: 'center', fontWeight: 'bold' }}>Round {Round}</Typography>}
+            <Grid container spacing={0} sx={{ pt: "4%" }}>
+              {(player1.id && player2.id) ?
+                <>
+                  <Grid item xs={6}>
+                    <Card sx={{ maxWidth: 275, height: '100%', mx: 'auto' }}>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ textAlign: 'center' }} >
+                          {player1.name}
+                        </Typography>
+                        <TextField onChange={onChangeP1} value={player1.score} name="score" label="Score" margin="dense" sx={{ px: 'auto' }} variant="filled" />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Card sx={{ maxWidth: 275, height: '100%', mx: 'auto' }}>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                          {player2.name}
+                        </Typography>
+                        <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" sx={{ px: 'auto' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </> : 
+                <>
+                  <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
+                    <Typography variant="h6" sx={{ color: '#fafafa' }}>
+                      No Dual available at the moment
+                    </Typography>
+                  </div>
+                </>}
+            </Grid>
+            <div className="dualbuttoncontainer">
+              {currentRound.duals &&
+                <Button size="small" sx={{ mx: 'auto' }} onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
+              }
             </div>
-          </>}
-        </Grid>
-        <div className="dualbuttoncontainer">
-          {currentRound.duals &&
-            <Button size="small" sx={{ mx: 'auto' }} onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
-          }
-        </div>
+          </>
+          )
+        }
       </div>
     </>
   )
