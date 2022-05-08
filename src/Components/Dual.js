@@ -90,7 +90,7 @@ const Dual = () => {
   }
 
   const Finish = async() => {
-    // alert("Khatam ho gaya bye bye");
+    
     let jsonData = {
       comp1: player1.id,
       comp2: player2.id,
