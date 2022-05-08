@@ -155,15 +155,27 @@ const EventState = (props) => {
       body: JSON.stringify(jsonData)
     });
     const currentRoundWinner = await response.json();
-    // console.log(currentRoundWinner)
-
-    // await FinishEvent(festname,eventid,"duals");
-    // return winners;
+    
   }
 
-  const FinishEvent = async(festname,eventid, eventtype) => {
-    const festid = festname.split("-")[1];
-    const url = `${host}/api/events/results/${eventtype}/${festid}/${eventid}`;
+  const FinishEvent = async(eventid) => {
+    const url = `${host}/api/events/results/${eventid}`;
+    console.log(url)
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    });
+    const winners = await response.json();
+    console.log()
+    return winners;
+  }
+
+  const FinishVoting = async(festname,eventid) => {
+    const festid = festname.split("-")[1];    
+    const url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -177,7 +189,7 @@ const EventState = (props) => {
 
   const CheckResult = async(festname,eventid) => {
     const festid = festname.split("-")[1];
-    const url = `${host}/api/events/results/${festid}/${eventid}`;
+    const url = `${host}/api/events/results/${festid}/${eventid}/checkstatus`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -185,9 +197,12 @@ const EventState = (props) => {
         token: localStorage.getItem("token"),
       },
     });
+
     const validate = await response.json();
+    console.log(validate);
     return validate.declared
   }
+
 
   // const FinishSoloEvent = async (festname,eventid, jsonData) => {
   //   const festid = festname.split("-")[1];
@@ -205,7 +220,7 @@ const EventState = (props) => {
   // }
 
   return (
-    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent, CheckResult,DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
+    <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent,FinishVoting, CheckResult,DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
       {props.children}
     </eventContext.Provider>
   );
