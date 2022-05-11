@@ -11,31 +11,46 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import "../css/Results.css"
 
-const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'rank', label: 'Rank',minWidth: 70}
-];
-
-function createData(name, rank, population, size) {
-    const density = population / size;
-    return { name, rank};
-}
-
-const rows = [
-    createData("Japnit Singh","1"),
-    createData("Sarthak","2"),
-    createData("Gurtej Singh","3"),
-    createData("Leroy Keebler","4"),
-    createData("Marion Kris","5"),
-]
+// const rows = [
+//     createData("Japnit Singh","1"),
+//     createData("Sarthak","2"),
+//     createData("Gurtej Singh","3"),
+//     createData("Leroy Keebler","4"),
+//     createData("Marion Kris","5"),
+// ]
 
 export default function Results() {
 
     const context = useContext(eventContext);
-    const { FinishEvent} = context;
-    let { eventid} = useParams();
+    const {FinishEvent,update,setupdate} = context;
+    let {festname,eventid} = useParams();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rows,setrows] = useState([])
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            setupdate(true)
+            FinishEvent(festname,eventid).then((results) => {
+                let copyresult = [];
+                results.result.map((result,index)=>{
+                    copyresult.push({"name":result.name,"rank":index+1})
+                })
+                setrows(copyresult)
+            });
+            return () => (setupdate(false));
+        }
+    }, []);
+
+    const columns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'rank', label: 'Rank',minWidth: 70}
+    ];
+    
+    function createData(name, rank) {
+         console.log({name,rank})
+        return { name, rank};
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -45,17 +60,6 @@ export default function Results() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-        
-            // FinishEvent(eventid).then((results) => {
-            //     console.log(results)
-            // });
-        
-        }
-    }, []);
-
 
     return (
         <>
@@ -82,7 +86,7 @@ export default function Results() {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.rank}>
                                             {columns.map((column) => {
                                                 const value = row[column.id];
                                                 return (
@@ -100,7 +104,7 @@ export default function Results() {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[10, 25]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
