@@ -23,30 +23,26 @@ const Dual = () => {
       setupdate(true)
 
       CheckResult(festname, eventid).then((declared) => {
-        console.log(declared)
         setresultdeclared(declared)
-        if (declared === false) {
+        if(declared)
+        {
           FetchDual(festname, eventid).then((festdual) => {
             const copydual = JSON.parse(JSON.stringify(festdual));
-            // console.log(copydual.duals.length);
             totalRounds(copydual.participants);
             setCurrentRound(copydual);
             setmatchno(0);
             setRound(copydual.roundNo)
           });
         }
-        else {
-          navigate(`/c/fest/${festname}/duals/${eventid}/result`);
-
-        }
-      })
-
-      return () => (setupdate(true));
+      });
+      
+      return () => (setupdate(false));
     }
   }, []);
 
   useEffect(() => {
-    if (update && matchno >= 0) {
+    console.log(currentRound.duals)
+    if (update && currentRound.duals && currentRound.duals.length != 0 && matchno >= 0) {
       console.log("mene kaam kiya")
       setplayer1({ id: currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score: 0 });
       setplayer2({ id: currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score: 0 });
@@ -113,7 +109,8 @@ const Dual = () => {
   return (
     <>
       <div className="dualcontainer">
-        {!resultdeclared &&
+        {resultdeclared == true ?
+          <Results /> :
           (<>
             {player1.id && player2.id && <Typography variant="h3" sx={{ color: 'white', pt: "10%", textAlign: 'center', fontWeight: 'bold' }}>Round {Round}</Typography>}
             <Grid container spacing={0} sx={{ pt: "4%" }}>
@@ -139,7 +136,7 @@ const Dual = () => {
                       </CardContent>
                     </Card>
                   </Grid>
-                </> : 
+                </> :
                 <>
                   <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
                     <Typography variant="h6" sx={{ color: '#fafafa' }}>

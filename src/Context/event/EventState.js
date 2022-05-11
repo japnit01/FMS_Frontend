@@ -20,7 +20,7 @@ const EventState = (props) => {
     const festid = festname.split("-")[1];
 
     const url = `${host}/api/events/${festid}/add-event`;
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,6 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData),
     });
-    const newfest = await response.json();
     setupdate(true);
   };
 
@@ -44,14 +43,13 @@ const EventState = (props) => {
       },
     });
     const allevents = await response.json();
-    // console.log(allevents)
     return allevents;
   };
 
   const UpdateEvent = async (festname, eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/${festid}/update-event/${eventid}`;
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
@@ -59,28 +57,25 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData),
     });
-    const updatedfest = await response.json();
+    // const updatedfest = await response.json();
     setupdate(true);
   };
 
   const DeleteEvent = async (festname, eventid) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/${festid}/delete-event/${eventid}`;
-
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),
       },
     });
-    const deletedfest = await response.json();
-    // console.log(deletedfest);
+
     setupdate(true);
   }
 
   const FetchDual = async (festname, eventid) => {
-    // console.log("here")
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/event-status`;
     const response = await fetch(url, {
@@ -91,14 +86,13 @@ const EventState = (props) => {
       },
     });
     let userduals = await response.json();
-    // console.log(userduals);
     return userduals;
   };
 
   const NextMatch = async (festname, eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/nextMatch`;
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,9 +100,6 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData),
     });
-    let match = await response.json();
-    // console.log(match);
-    // setupdate(true);
   };
 
   const NextRound = async (festname, eventid,jsonData) => {
@@ -123,8 +114,6 @@ const EventState = (props) => {
       body: JSON.stringify(jsonData),
     });
     let userduals = await response.json();
-    // console.log(userduals.roundNo,userduals.duals);
-    // setupdate(true)
     return userduals;
     
   };
@@ -146,7 +135,7 @@ const EventState = (props) => {
   const FinishDualsEvent = async (festname,eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -154,13 +143,13 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData)
     });
-    const currentRoundWinner = await response.json();
+    // const currentRoundWinner = await response.json();
     
   }
 
-  const FinishEvent = async(eventid) => {
-    const url = `${host}/api/events/results/${eventid}`;
-    console.log(url)
+  const FinishEvent = async(festname,eventid) => {
+    const festid = festname.split("-")[1];
+    const url = `${host}/api/events/results/${festid}/${eventid}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -169,22 +158,20 @@ const EventState = (props) => {
       },
     });
     const winners = await response.json();
-    console.log()
     return winners;
   }
 
   const FinishVoting = async(festname,eventid) => {
     const festid = festname.split("-")[1];    
     const url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),
       },
     });
-    const winners = await response.json();
-    return winners;
+    window.location.reload();
   }
 
   const CheckResult = async(festname,eventid) => {
@@ -202,22 +189,6 @@ const EventState = (props) => {
     console.log(validate);
     return validate.declared
   }
-
-
-  // const FinishSoloEvent = async (festname,eventid, jsonData) => {
-  //   const festid = festname.split("-")[1];
-  //   const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
-  //   const response = await fetch(url, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       token: localStorage.getItem("token"),
-  //     },
-  //     body: JSON.stringify(jsonData)
-  //   });
-  //   const winners = await response.json();
-  //   return winners;
-  // }
 
   return (
     <eventContext.Provider value={{ event,setEvent,CreateEvent, FetchEvents, UpdateEvent, FinishEvent, FinishDualsEvent,FinishVoting, CheckResult,DeleteEvent, FetchDual, NextMatch, NextRound, FetchCompetitors, update, setupdate }}>
