@@ -45,6 +45,10 @@ const AddEvent = () => {
       fee: event.fee
     };
 
+    if(event.type === "Solo" && document.getElementById('votecheckbox').checked === true) {
+      jsonData.type = "Solovoting";
+    }
+
     UpdateEvent(festname, event.id, jsonData);
     navigate(`/c/fest/${festname}`)
   };
@@ -60,6 +64,12 @@ const AddEvent = () => {
       venue: event.venue,
       fee: event.fee
     };
+
+    if(event.type === "Solo" && document.getElementById('votecheckbox').checked === true) {
+      jsonData.type = "Solovoting";
+    }
+
+    console.log(jsonData)
 
     CreateEvent(jsonData, festname);
     navigate(`/c/fest/${festname}`)
@@ -143,7 +153,7 @@ const AddEvent = () => {
                 </Select>
               </FormControl>
 
-              {(showVoting === true) ? <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} control={<Checkbox />} label="Voting" /> : null}
+              {(showVoting === true) ? <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} id="votecheckbox" control={<Checkbox />} label="Voting" /> : null}
             </div>
 
             <div className="datecontainer">
