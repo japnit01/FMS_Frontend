@@ -20,9 +20,16 @@ const AddEvent = () => {
   const [startTime, setstartTime] = useState(null);
   const [endTime, setendTime] = useState(null);
   const [startDate, setstartDate] = useState(null);
+  const [showVoting, setShowVoting] = useState(false)
 
   const onChange = (e) => {
     setEvent({ ...event, [e.target.name]: e.target.value });
+
+    if(e.target.value === "Solo") {
+      setShowVoting(true);
+    } else {
+      setShowVoting(false);
+    }
   }
 
   const handleUpdateEvent = async () => {
@@ -136,7 +143,7 @@ const AddEvent = () => {
                 </Select>
               </FormControl>
 
-              <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} control={<Checkbox />} label="Voting" />
+              {(showVoting === true) ? <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} control={<Checkbox />} label="Voting" /> : null}
             </div>
 
             <div className="datecontainer">
