@@ -20,7 +20,7 @@ const AddEvent = () => {
   const [startTime, setstartTime] = useState(null);
   const [endTime, setendTime] = useState(null);
   const [startDate, setstartDate] = useState(null);
-  const [showVoting, setShowVoting] = useState(false)
+  const [showVoting, setShowVoting] = useState(false);
 
   const onChange = (e) => {
     setEvent({ ...event, [e.target.name]: e.target.value });
@@ -69,7 +69,7 @@ const AddEvent = () => {
       jsonData.type = "Solovoting";
     }
 
-    console.log(jsonData)
+
 
     CreateEvent(jsonData, festname);
     navigate(`/c/fest/${festname}`)
