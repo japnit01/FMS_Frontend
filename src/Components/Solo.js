@@ -53,7 +53,7 @@ export default function Solo() {
         <div className="app">
             <div className="resultapp">
             <Paper sx={{ width: '60%', overflow: 'hidden',margin:"auto"}}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                {(rows.length !== 0) ? <><TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -98,7 +98,13 @@ export default function Solo() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                /></> : <>
+                <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
+                  <Typography variant="h6" sx={{ color: 'white' }}>
+                    No Participants registered in this event till now
+                  </Typography>
+                </div>
+              </>}
             </Paper>
             </div>
             </div>
