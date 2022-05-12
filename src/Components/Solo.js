@@ -1,153 +1,107 @@
-import React, { useEffect, useState, useContext } from 'react'
-import eventContext from "../Context/event/eventContext"
-import { useNavigate, useParams } from "react-router-dom";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import Button from '@mui/material/Button';
-import "../css/Voting.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import Results from "./Results";
+import React, { useState, useContext, useEffect } from 'react'
+import eventContext from '../Context/event/eventContext'
+import { useParams } from "react-router-dom";
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import "../css/Results.css"
 
-import { Pagination, Navigation } from "swiper";
+export default function Solo() {
 
-const host = 'http://localhost:5000'
+    const context = useContext(eventContext);
+    const {FetchCompetitors,update,setupdate} = context;
+    let {festname,eventid} = useParams();
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rows,setrows] = useState([])
 
-
-function Solo() {
-
-  let context = useContext(eventContext);
-  let { FetchCompetitors, FinishVoting, CheckResult} = context;
-  let [competitors, setCompetitors] = useState([]);
-  let { festname, eventid } = useParams();
-  let [cardStyle, setCardStyle] = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
-  let [selectedCandidates, setSelectedCandidates] = useState([]);
-  let [disabled, setDisabled] = useState(false);
-  const [resultdeclared, setresultdeclared] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      CheckResult(festname, eventid).then((declared) => {
-        console.log(declared)
-        setresultdeclared(declared)
-        if (declared === false) {
-          FetchCompetitors(festname, eventid).then((comps) => {
-            const copycompetitors = JSON.parse(JSON.stringify(comps));
-            setCompetitors(copycompetitors.compList);
-            console.log(copycompetitors)
-          });
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            setupdate(true)
+            FetchCompetitors(festname, eventid).then((comps) => {
+              const copycompetitors = JSON.parse(JSON.stringify(comps));
+              setrows(copycompetitors.compList);
+              console.log(copycompetitors)
+            });
+            
+            return () => (setupdate(false));
         }
-      });
-    }
-  }, []);
+    }, []);
 
-  const breakName = (name) => {
+    const columns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'college', label: 'Organisation',minWidth: 70}
+    ];
+    
 
-    let index = name.indexOf(" ");
-    let firstName = "";
-    let lastName = "";
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
-    if (index === -1) {
-      firstName = name;
-    } else {
-      firstName = name.slice(0, index);
-      lastName = name.slice(index + 1, name.length);
-    }
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
-    return { firstName, lastName };
-  }
-  
-  const handleVoting = async (compid) => {
-
-    if (localStorage.getItem("voting")) {
-      setDisabled(true);
-      return;
-    }
-
-    const festid = festname.split("-")[1];
-    let url = `${host}/api/events/solo/${festid}/${eventid}/voting`;
-    let jsonData = { selectedCandidates: [compid] }
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
-      body: JSON.stringify(jsonData)
-    });
-
-    let votedList = await response.json();
-
-    if (votedList.success === false) {
-      console.log('error voting for too many candidates');
-      return;
-    }
-
-    localStorage.setItem('voting', true);
-
-    console.log(votedList);
-    return votedList;
-  };
-
-  return (
-    <>
-      {resultdeclared === true ?
-        <Results /> :
-        <div className="maincontainer">
-          <div className="carouselcontainer">
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={3}
-              slidesPerGroup={3}
-              loop={true}
-              loopFillGroupWithBlank={true}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-              className="mySwiper"
-            >
-              {(competitors.length !== 0) ? competitors.map((competitor, index) => (
-                <SwiperSlide key={competitor._id}>
-                  <Card className="card">
-                    <CardActionArea onClick={() => handleVoting(competitor._id)}>
-                      <CardMedia
-                        className="image"
-                        component="img"
-                        image={index % 2 === 0 ? "/profile/img1.jpg" : "/profile/img2.jpg"}
-                      />
-
-                      <CardContent className="card-content">
-                        <div className="name-profession">{competitor.name.toUpperCase()}</div>
-                        <div className="profession">{competitor.college}</div>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </SwiperSlide>
-              )) : <>
-                <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
-                  <Typography variant="h6" sx={{ color: '#fafafa' }}>
-                    No Participants registered in this event till now
-                  </Typography>
-                </div>
-              </>}
-            </Swiper>
-          </div>
-          <div className="solobuttoncontainer">
-            <Button className="solobutton" onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
-          </div>
-        </div>
-      }
-    </>
-  )
+    return (
+        <>
+        <div className="app">
+            <div className="resultapp">
+            <Paper sx={{ width: '60%', overflow: 'hidden',margin:"auto"}}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.rank}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number'
+                                                            ? column.format(value)
+                                                            : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
+            </div>
+            </div>
+        </>
+    )
 }
-
-export default Solo

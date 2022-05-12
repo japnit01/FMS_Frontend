@@ -16,6 +16,7 @@ import Solo from "./Components/Solo";
 import AddFest from "./Components/AddFest";
 import AddEvent from "./Components/AddEvent";
 import Results from "./Components/Results";
+import SoloVoting from "./Components/SoloVoting";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -53,10 +54,9 @@ function App() {
                         </Route>
                         <Route path=":festname/solo">
                           <Route path=":eventid" element={<Solo />} />
-                          <Route path=":eventid/result" element={<Results />} />
                         </Route>
                         <Route path=":festname/solovoting">
-                          {/* <Route path=":eventid" element={<SoloVoting />} /> */}
+                          <Route path=":eventid" element={<SoloVoting />} />
                           <Route path="result" element={<Results />} />
                         </Route>
                       </Route>
@@ -73,10 +73,9 @@ function App() {
                         </Route>
                         <Route path=":festname/solo">
                           <Route path=":eventid" element={<Solo />} />
-                          <Route path="result" element={<Results />} />
                         </Route>
                         <Route path=":festname/solovoting">
-                          {/* <Route path=":eventid" element={<SoloVoting />} /> */}
+                          <Route path=":eventid" element={<SoloVoting />} />
                           <Route path="result" element={<Results />} />
                         </Route>
                       </Route>
