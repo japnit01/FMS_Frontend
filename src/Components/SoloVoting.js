@@ -102,7 +102,7 @@ function Solo() {
         <Results /> :
         <div className="maincontainer">
           <div className="carouselcontainer">
-          {(competitors.length !== 0) ? competitors.map((competitor, index) => (<Swiper
+          <Swiper
               slidesPerView={3}
               spaceBetween={3}
               slidesPerGroup={3}
@@ -115,7 +115,7 @@ function Solo() {
               modules={[Pagination, Navigation]}
               className="mySwiper"
             >
-              
+              {(competitors.length !== 0) ? competitors.map((competitor, index) => (
                 <SwiperSlide key={competitor._id}>
                   <Card className="card">
                     <CardActionArea onClick={() => handleVoting(competitor._id)}>
@@ -131,15 +131,15 @@ function Solo() {
                       </CardContent>
                     </CardActionArea>
                   </Card>
-                </SwiperSlide>
-              
-            </Swiper> )) : <>
+                </SwiperSlide> )) : <>
             <div style={{ width: '70%', marginTop: '2%', marginLeft: '2%' }}>
               <Typography variant="h6" sx={{ color: 'white' }}>
                 No Participants registered in this event till now
               </Typography>
             </div>
           </>}
+              
+            </Swiper>
           </div>
           <div className="solobuttoncontainer">
             <Button className="solobutton" onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
