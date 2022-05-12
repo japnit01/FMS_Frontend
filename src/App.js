@@ -55,6 +55,10 @@ function App() {
                           <Route path=":eventid" element={<Solo />} />
                           <Route path=":eventid/result" element={<Results />} />
                         </Route>
+                        <Route path=":festname/solovoting">
+                          <Route path=":eventid" element={<SoloVoting />} />
+                          <Route path="result" element={<Results />} />
+                        </Route>
                       </Route>
                     </Route>
 
@@ -69,6 +73,10 @@ function App() {
                         </Route>
                         <Route path=":festname/solo">
                           <Route path=":eventid" element={<Solo />} />
+                          <Route path="result" element={<Results />} />
+                        </Route>
+                        <Route path=":festname/solovoting">
+                          <Route path=":eventid" element={<SoloVoting />} />
                           <Route path="result" element={<Results />} />
                         </Route>
                       </Route>

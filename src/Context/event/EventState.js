@@ -163,7 +163,7 @@ const EventState = (props) => {
 
   const FinishVoting = async(festname,eventid) => {
     const festid = festname.split("-")[1];    
-    const url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
+    const url = `${host}/api/events/solovoting/${festid}/${eventid}/finish`;
     await fetch(url, {
       method: "GET",
       headers: {
