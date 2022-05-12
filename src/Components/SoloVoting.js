@@ -134,7 +134,7 @@ function Solo() {
                 </SwiperSlide>
               
             </Swiper> )) : <>
-            <div style={{ width: '70%', marginTop: '4%', marginLeft: '6%' }}>
+            <div style={{ width: '70%', marginTop: '2%', marginLeft: '2%' }}>
               <Typography variant="h6" sx={{ color: 'white' }}>
                 No Participants registered in this event till now
               </Typography>
