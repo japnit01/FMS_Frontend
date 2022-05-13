@@ -21,6 +21,8 @@ const AddEvent = () => {
   const [endTime, setendTime] = useState(null);
   const [startDate, setstartDate] = useState(null);
   const [showVoting, setShowVoting] = useState(false);
+  const [checked, setChecked] = useState(false);
+
 
   const onChange = (e) => {
     setEvent({ ...event, [e.target.name]: e.target.value });
@@ -31,6 +33,10 @@ const AddEvent = () => {
       setShowVoting(false);
     }
   }
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   const handleUpdateEvent = async () => {
     console.log(startDate)
@@ -45,7 +51,7 @@ const AddEvent = () => {
       fee: event.fee
     };
 
-    if(event.type === "Solo" && document.getElementById('votecheckbox').checked === true) {
+    if(event.type === "Solo" && checked === true) {
       jsonData.type = "Solovoting";
     }
 
@@ -65,11 +71,9 @@ const AddEvent = () => {
       fee: event.fee
     };
 
-    if(event.type === "Solo" && document.getElementById('votecheckbox').checked === true) {
+    if(event.type === "Solo" && checked === true) {
       jsonData.type = "Solovoting";
     }
-
-
 
     CreateEvent(jsonData, festname);
     navigate(`/c/fest/${festname}`)
@@ -153,7 +157,7 @@ const AddEvent = () => {
                 </Select>
               </FormControl>
 
-              {(showVoting === true) ? <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} id="votecheckbox" control={<Checkbox />} label="Voting" /> : null}
+              {(showVoting === true) ? <FormControlLabel sx={{ ml: '5%', color: "white",mt:'1.5%' }} id="votecheckbox" onChange={handleChange} control={<Checkbox />} label="Voting" /> : ""}
             </div>
 
             <div className="datecontainer">

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import eventContext from '../Context/event/eventContext'
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate,useLocation } from "react-router-dom";
 import Results from "./Results";
 import { Card, CardContent, Grid, Button, Typography, TextField } from '@mui/material';
 import "../css/Dual.css"
@@ -17,16 +17,22 @@ const Dual = () => {
   const [resultdeclared, setresultdeclared] = useState(true);
   let { festname, eventid } = useParams();
   let navigate = useNavigate();
+  let location = useLocation();
+
+  const typeofuser = location.pathname[1];
+
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setupdate(true)
-
+    
       CheckResult(festname, eventid).then((declared) => {
+        console.log(declared);
         setresultdeclared(declared)
-        if(declared)
+        if(!declared)
         {
+          setupdate(true)
           FetchDual(festname, eventid).then((festdual) => {
+            console.log(festdual)
             const copydual = JSON.parse(JSON.stringify(festdual));
             totalRounds(copydual.participants);
             setCurrentRound(copydual);
@@ -42,7 +48,7 @@ const Dual = () => {
 
   useEffect(() => {
     console.log(currentRound.duals)
-    if (update && currentRound.duals && currentRound.duals.length != 0 && matchno >= 0) {
+    if (currentRound.duals && currentRound.duals.length != 0 && matchno >= 0) {
       console.log("mene kaam kiya")
       setplayer1({ id: currentRound.duals[matchno][0]._id, name: currentRound.duals[matchno][0].name, score: 0 });
       setplayer2({ id: currentRound.duals[matchno][1]._id, name: currentRound.duals[matchno][1].name, score: 0 });
@@ -109,7 +115,7 @@ const Dual = () => {
   return (
     <>
       <div className="dualcontainer">
-        {resultdeclared == true ?
+        {resultdeclared === true ?
           <Results /> :
           (<>
             {player1.id && player2.id && <Typography variant="h3" sx={{ color: 'white', pt: "10%", textAlign: 'center', fontWeight: 'bold' }}>Round {Round}</Typography>}
@@ -122,7 +128,7 @@ const Dual = () => {
                         <Typography variant="h6" sx={{ textAlign: 'center' }} >
                           {player1.name}
                         </Typography>
-                        <TextField onChange={onChangeP1} value={player1.score} name="score" label="Score" margin="dense" sx={{ px: 'auto' }} variant="filled" />
+                        <TextField onChange={onChangeP1} value={player1.score} name="score" type="number" label="Score" margin="dense" variant="filled" sx={{ px: 'auto' }}  />
                       </CardContent>
                     </Card>
                   </Grid>
@@ -132,7 +138,7 @@ const Dual = () => {
                         <Typography variant="h6" sx={{ textAlign: 'center' }}>
                           {player2.name}
                         </Typography>
-                        <TextField onChange={onChangeP2} value={player2.score} name="score" label="Score" margin="dense" variant="filled" sx={{ px: 'auto' }} />
+                        <TextField onChange={onChangeP2} value={player2.score} name="score" type="number"	label="Score" margin="dense" variant="filled" sx={{ px: 'auto' }} />
                       </CardContent>
                     </Card>
                   </Grid>
@@ -145,11 +151,14 @@ const Dual = () => {
                   </div>
                 </>}
             </Grid>
+
+            {typeofuser === 'c' &&
             <div className="dualbuttoncontainer">
               {currentRound.duals &&
                 <Button className="dualbutton" onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
               }
             </div>
+            }
           </>
           )
         }

@@ -135,7 +135,7 @@ const EventState = (props) => {
   const FinishDualsEvent = async (festname,eventid, jsonData) => {
     const festid = festname.split("-")[1];
     const url = `${host}/api/events/duals/${festid}/${eventid}/finish`;
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +143,8 @@ const EventState = (props) => {
       },
       body: JSON.stringify(jsonData)
     });
-    // const currentRoundWinner = await response.json();
+    const currentRoundWinner = await response.json();
+    console.log(currentRoundWinner)
     
   }
 
@@ -158,12 +159,13 @@ const EventState = (props) => {
       },
     });
     const winners = await response.json();
+    console.log(winners)
     return winners;
   }
 
   const FinishVoting = async(festname,eventid) => {
     const festid = festname.split("-")[1];    
-    const url = `${host}/api/events/solovoting/${festid}/${eventid}/finish`;
+    const url = `${host}/api/events/solo/${festid}/${eventid}/finish`;
     await fetch(url, {
       method: "GET",
       headers: {
