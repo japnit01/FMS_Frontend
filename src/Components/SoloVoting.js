@@ -16,7 +16,7 @@ import Results from "./Results";
 
 import { Pagination, Navigation } from "swiper";
 
-const host = 'http://localhost:5000'
+const host = 'https://fest-manage-api.herokuapp.com'
 
 
 function Solo() {
