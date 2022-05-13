@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import eventContext from '../Context/event/eventContext'
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate,useLocation } from "react-router-dom";
 import Results from "./Results";
 import { Card, CardContent, Grid, Button, Typography, TextField } from '@mui/material';
 import "../css/Dual.css"
@@ -17,6 +17,10 @@ const Dual = () => {
   const [resultdeclared, setresultdeclared] = useState(true);
   let { festname, eventid } = useParams();
   let navigate = useNavigate();
+  let location = useLocation();
+
+  const typeofuser = location.pathname[1];
+
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -147,11 +151,14 @@ const Dual = () => {
                   </div>
                 </>}
             </Grid>
+
+            {typeofuser === 'c' &&
             <div className="dualbuttoncontainer">
               {currentRound.duals &&
                 <Button className="dualbutton" onClick={() => matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? Finish() : nextRound()) : nextMatch()}>{matchno === (currentRound.duals.length - 1) ? (totalrounds === currentRound.roundNo ? "Finish" : "Next Round") : "Next Match"}</Button>
               }
             </div>
+            }
           </>
           )
         }

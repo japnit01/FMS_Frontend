@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import eventContext from "../Context/event/eventContext"
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -16,13 +16,13 @@ import Results from "./Results";
 
 import { Pagination, Navigation } from "swiper";
 
-const host = 'https://fest-manage-api.herokuapp.com'
+const host = 'http://localhost:5000'
 
 
 function Solo() {
 
   let context = useContext(eventContext);
-  let { FetchCompetitors, FinishVoting, CheckResult} = context;
+  let { FetchCompetitors, FinishVoting, CheckResult } = context;
   let [competitors, setCompetitors] = useState([]);
   let { festname, eventid } = useParams();
   let [cardStyle, setCardStyle] = useState({ maxWidth: 240, border: '2px solid black', filter: 'brightness(75%)' });
@@ -30,6 +30,10 @@ function Solo() {
   let [disabled, setDisabled] = useState(false);
   const [resultdeclared, setresultdeclared] = useState(true);
   const navigate = useNavigate();
+  let location = useLocation();
+
+  const typeofuser = location.pathname[1];
+
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -62,7 +66,7 @@ function Solo() {
 
     return { firstName, lastName };
   }
-  
+
   const handleVoting = async (compid) => {
 
     if (localStorage.getItem("voting")) {
@@ -102,7 +106,7 @@ function Solo() {
         <Results /> :
         <div className="maincontainer">
           <div className="carouselcontainer">
-          <Swiper
+            <Swiper
               slidesPerView={3}
               spaceBetween={3}
               slidesPerGroup={3}
@@ -131,20 +135,23 @@ function Solo() {
                       </CardContent>
                     </CardActionArea>
                   </Card>
-                </SwiperSlide> )) : <>
-            <div style={{ width: '70%', marginTop: '2%', marginLeft: '2%' }}>
-              <Typography variant="h6" sx={{ color: 'white' }}>
-                No Participants registered in this event till now
-              </Typography>
-            </div>
-          </>}
-              
+                </SwiperSlide>)) : <>
+                <div style={{ width: '70%', marginTop: '2%', marginLeft: '2%' }}>
+                  <Typography variant="h6" sx={{ color: 'white' }}>
+                    No Participants registered in this event till now
+                  </Typography>
+                </div>
+              </>}
+
             </Swiper>
           </div>
-          <div className="solobuttoncontainer">
-            <Button className="solobutton" onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
-          </div>
+          {typeofuser === 'c' &&
+            <div className="solobuttoncontainer">
+              <Button className="solobutton" onClick={() => FinishVoting(festname, eventid)}>Finish</Button>
+            </div>
+          }
         </div>
+
       }
     </>
   )
