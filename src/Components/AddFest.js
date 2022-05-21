@@ -214,7 +214,7 @@ function AddFest() {
 
 				
 				<div className="buttoncontainer">
-				<Button className="cancelbtn"sx={{ color: '#BB86FC' }} onClick={() => { navigate('/c/myfests') }} size="small">
+				<Button className="cancelbtn" sx={{ color: '#BB86FC' }} onClick={() => { navigate('/c/myfests') }} size="small">
 					Cancel
 				</Button>
 
